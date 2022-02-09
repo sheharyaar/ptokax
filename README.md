@@ -1,48 +1,48 @@
-Raspberry Pi 4 Model B Rev 1.1 ( 2 GB )
+Raspberry Pi 4 Model B Rev 1.1 ( 2 GB ) \
 OS : Rasbian 64 Bit
 
 # Installing Ptokax
 
 - Installing Prerequisites : 
 
-```console
+```bash
 # Install g++, zlib, tinyxml
-$ sudo apt install make g++ zlib1g-dev libtinyxml-dev
+sudo apt install make g++ zlib1g-dev libtinyxml-dev
 
 # Install lua 5.2.2
 # Latest lua not installed as scripts are in lua version 5.2.2
-$ sudo apt install liblua5.2-dev
+sudo apt install liblua5.2-dev
 
 # Install mysql - needed for scripts
-
+sudo apt-get install libmysqlclient-dev
 ```
 
 - Download PtokaX source code - 
-`$ wget http://www.PtokaX.org/files/0.5.2.2-nix-src.tgz`
+`wget http://www.PtokaX.org/files/0.5.2.2-nix-src.tgz`
 
 - Extract the archive -
-`$ tar -xf 0.5.2.2-nix-src.tgz`
+`tar -xf 0.5.2.2-nix-src.tgz`
 
 - Import Hit-Hi-Fit-Hai scripts : 
 
-```console
-$ git clone https://github.com/HiT-Hi-FiT-Hai/ptokax-scripts
-$ cp ptokax-scripts/* PtokaX/scripts/ -rf
+```bash
+git clone https://github.com/HiT-Hi-FiT-Hai/ptokax-scripts
+cp ptokax-scripts/* PtokaX/scripts/ -rf
 ```
 
 - Make the program - 
-```console
-$ cd PtokaX
-$ make lua52
+```bash
+cd PtokaX
+make -f makefile-mysql lua52
 ```
 
 - Setup privileges in order to allow ptokax to run on port 411 (default port)
-```console
-$ sudo apt install libcap2-bin
-$ sudo make install
+```bash
+sudo apt install libcap2-bin
+sudo make install
 ```
 
-- Run ptokax using sudo to allow it to bind to port - `$ sudo ./PtokaX`
+- Run ptokax using sudo to allow it to bind to port - `sudo ./PtokaX`
 
 # Changes made to Ptokax 0.5.2.2
 
