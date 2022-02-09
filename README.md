@@ -16,7 +16,7 @@ sudo apt install make g++ zlib1g-dev libtinyxml-dev
 sudo apt install liblua5.2-dev
 
 # Install mysql - needed for scripts
-sudo apt-get install libmysqlclient-dev
+# sudo apt-get install libmysqlclient-dev
 ```
 
 - Download PtokaX source code - 
@@ -28,7 +28,8 @@ sudo apt-get install libmysqlclient-dev
 - Make the program - 
 ```bash
 cd PtokaX
-make -f makefile-mysql lua52
+# make -f makefile-mysql lua52
+make lua52
 ```
 
 - Setup privileges in order to allow ptokax to run on port 411 (default port)
