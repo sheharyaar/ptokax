@@ -18,10 +18,10 @@ sudo apt-get install libmysqlclient-dev
 ```
 
 - Download PtokaX source code - 
-`wget http://www.PtokaX.org/files/0.5.2.2-nix-src.tgz`
+`wget https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz`
 
 - Extract the archive -
-`tar -xf 0.5.2.2-nix-src.tgz`
+`tar -xf ptokax-0.5.2.2-src.tgz`
 
 - Import Hit-Hi-Fit-Hai scripts : 
 
