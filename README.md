@@ -6,17 +6,19 @@ OS : Rasbian 64 Bit
 To install PtokaX on raspberry Pi run the following commands in sequence :
 ```bash
 cd ~
-curl https://github.com/sheharyaar/ptokax/releases/download/latest/setup.sh -L -o ptokax-setup.sh
+curl https://github.com/sheharyaar/ptokax/blob/main/ptokax-setup.sh -L -o ptokax-setup.sh
 chmod +x ptokax-setup.sh
 sudo ./ptokax-setup.sh
 ```
 
-## Importing Hit-Hi-Fit-Hai scripts
-
+To run Ptokax server just run
 ```bash
-cd ~
-git clone https://github.com/HiT-Hi-FiT-Hai/ptokax-scripts
-cp ptokax-scripts/* PtokaX/scripts/ -rf
+./ptokax-start.sh
+```
+
+To stop PtokaX server just run
+```bash
+./ptokax-stop.sh
 ```
 
 # Changes made to Ptokax 0.5.2.2

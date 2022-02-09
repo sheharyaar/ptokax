@@ -1,5 +1,10 @@
 #!/bin/bash
 
+printf "\n\n[log] Downloading start and stop scripts\n\n"
+
+curl https://github.com/sheharyaar/ptokax/blob/main/ptokax-start.sh -L -o ptokax-start.sh
+curl https://github.com/sheharyaar/ptokax/blob/main/ptokax-stop.sh -L -o ptokax-stop.sh
+
 printf "\n\n[log] Installing Prerequisites\n\n"
 
 # Install curl to download source code
@@ -15,9 +20,7 @@ sudo apt install -y liblua5.2-dev
 # Install mysql - needed for scripts
 sudo apt-get install -y default-libmysqlclient-dev
 
-printf "\n\n[log] Prerequisites Installed\n\n"
-
-printf "[log] Downloading and installing PtokaX\n\n"
+printf "\n\n[log] Downloading and installing PtokaX\n\n"
 # Download PtokaX source code
 curl -L https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/ptokax-0.5.2.2-src.tgz
 
@@ -32,7 +35,14 @@ make -f makefile-mysql lua52
 sudo apt install -y libcap2-bin
 sudo make install
 
-printf "\n\n[log] Done installing up PtokaX!\n\n"
+printf "\n\n[log] Setting up PtokaX!\n\n"
 
-printf "[log] Setting up PtokaX!\n\n"
 ./PtokaX -m
+
+printf "\n\n[log] Now importing Hit Hi Fit Hai scripts\n\n"
+
+cd ~
+git clone https://github.com/HiT-Hi-FiT-Hai/ptokax-scripts
+cp ptokax-scripts/* PtokaX/scripts/ -rf
+
+printf "\n\nRun Ptokax server using \"sudo ~/ptokax-start.sh\" \n"
