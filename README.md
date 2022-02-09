@@ -1,11 +1,13 @@
 Raspberry Pi 4 Model B Rev 1.1 ( 2 GB ) \
 OS : Rasbian 64 Bit
 
-# Installing Ptokax
+## Installing Ptokax on Raspberry Pi
 
 - Installing Prerequisites : 
 
 ```bash
+cd ~
+
 # Install g++, zlib, tinyxml
 sudo apt install make g++ zlib1g-dev libtinyxml-dev
 
@@ -23,13 +25,6 @@ sudo apt-get install libmysqlclient-dev
 - Extract the archive -
 `tar -xf ptokax-0.5.2.2-src.tgz`
 
-- Import Hit-Hi-Fit-Hai scripts : 
-
-```bash
-git clone https://github.com/HiT-Hi-FiT-Hai/ptokax-scripts
-cp ptokax-scripts/* PtokaX/scripts/ -rf
-```
-
 - Make the program - 
 ```bash
 cd PtokaX
@@ -41,8 +36,15 @@ make -f makefile-mysql lua52
 sudo apt install libcap2-bin
 sudo make install
 ```
-
 - Run ptokax using sudo to allow it to bind to port - `sudo ./PtokaX`
+
+## Importing Hit-Hi-Fit-Hai scripts
+
+```bash
+cd ~
+git clone https://github.com/HiT-Hi-FiT-Hai/ptokax-scripts
+cp ptokax-scripts/* PtokaX/scripts/ -rf
+```
 
 # Changes made to Ptokax 0.5.2.2
 
