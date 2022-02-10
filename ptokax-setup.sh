@@ -25,7 +25,7 @@ sudo apt install -y make g++ zlib1g-dev libtinyxml-dev
 sudo apt install -y liblua5.2-dev
 
 # Install mysql - needed for scripts
-sudo apt-get install -y default-libmysqlclient-dev
+sudo apt-get install -y default-libmysqlclient-dev lua-sql-mysql
 
 # Go back to home
 cd $home 
