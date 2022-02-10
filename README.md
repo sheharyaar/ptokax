@@ -26,7 +26,19 @@ To configure PtokaX server just run
 ./ptokax-config.sh
 ```
 
-# Changes made to Ptokax HHFH version
+## Running Scripts
+
+Make sure to stop ptokax first and then change settings otherwise default settings are stored.
+
+- Messsage of The Day : Edit `~/PtokaX/cfg/Motd.txt`
+- Change Share Limit : Edit `~/PtokaX/scripts/external/restrict/share.lua` 
+
+```lua
+-- change the 3rd value
+local sAllowedProfiles, iBanTime, iShareLimit, iDivisionFactor = "01236", 6, 0, ( 2^10 )^3
+```
+
+## Changes made to Ptokax HHFH version
 
 - Fixed errors in compilation
 
