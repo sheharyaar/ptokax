@@ -1,12 +1,16 @@
 #!/bin/bash
 
+home=$(echo $HOME)
+
+cd $home
+
 printf "\n\n[log] Downloading start and stop scripts\n\n"
 
-curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-start.sh -L -o ptokax-start.sh
-chmod +x ptokax-start.sh
+curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-start.sh -L -o ./ptokax-start.sh
+chmod +x ./ptokax-start.sh
 
-curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-stop.sh -L -o ptokax-stop.sh
-chmod +x ptokax-stop.sh
+curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-stop.sh -L -o ./ptokax-stop.sh
+chmod +x ./ptokax-stop.sh
 
 printf "\n\n[log] Installing Prerequisites\n\n"
 
@@ -23,12 +27,16 @@ sudo apt install -y liblua5.2-dev
 # Install mysql - needed for scripts
 sudo apt-get install -y default-libmysqlclient-dev
 
+# Go back to home
+cd $home 
+
 printf "\n\n[log] Downloading and installing PtokaX\n\n"
+
 # Download PtokaX source code
-curl -L https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/ptokax-0.5.2.2-src.tgz
+curl -L https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ./ptokax-0.5.2.2-src.tgz
 
 # Extract the archive
-tar -xf ~/ptokax-0.5.2.2-src.tgz
+tar -xf ./ptokax-0.5.2.2-src.tgz
 
 # Make the program
 cd PtokaX/
@@ -44,7 +52,7 @@ printf "\n\n[log] Setting up PtokaX!\n\n"
 
 printf "\n\n[log] Now importing Hit Hi Fit Hai scripts\n\n"
 
-cd ~
+cd $home
 git clone https://github.com/HiT-Hi-FiT-Hai/ptokax-scripts
 cp ptokax-scripts/* PtokaX/scripts/ -rf
 
