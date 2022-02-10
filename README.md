@@ -13,16 +13,19 @@ chmod +x ptokax-setup.sh
 
 To run Ptokax server just run
 ```bash
+cd ~
 ./ptokax-start.sh
 ```
 
 To stop PtokaX server just run
 ```bash
+cd ~
 ./ptokax-stop.sh
 ```
 
 To configure PtokaX server just run
 ```bash
+cd ~
 ./ptokax-config.sh
 ```
 
@@ -34,7 +37,7 @@ Make sure to stop ptokax first and then change settings otherwise default settin
 - Change Share Limit : Edit `~/PtokaX/scripts/external/restrict/share.lua`
 
 ```lua
--- change the 3rd value
+-- change the 3rd value in units of GiB ( 90 means 90 GiB )
 local sAllowedProfiles, iBanTime, iShareLimit, iDivisionFactor = "01236", 6, 0, ( 2^10 )^3
 ```
 and then start/restart the following scripts using the !startscript/!restartscript command _after logging into the DC_ using any client (LinuxDC++ preferred on Linux and DC++ on windows)
