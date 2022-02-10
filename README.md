@@ -21,6 +21,11 @@ To stop PtokaX server just run
 ./ptokax-stop.sh
 ```
 
+To configure PtokaX server just run
+```bash
+./ptokax-config.sh
+```
+
 # Changes made to Ptokax HHFH version
 
 - Fixed errors in compilation
