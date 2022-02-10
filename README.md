@@ -31,11 +31,17 @@ To configure PtokaX server just run
 Make sure to stop ptokax first and then change settings otherwise default settings are stored.
 
 - Messsage of The Day : Edit `~/PtokaX/cfg/Motd.txt`
-- Change Share Limit : Edit `~/PtokaX/scripts/external/restrict/share.lua` 
+- Change Share Limit : Edit `~/PtokaX/scripts/external/restrict/share.lua`
 
 ```lua
 -- change the 3rd value
 local sAllowedProfiles, iBanTime, iShareLimit, iDivisionFactor = "01236", 6, 0, ( 2^10 )^3
+```
+and then start/restart the following scripts using the !startscript/!restartscript command _after logging into the DC_ using any client (LinuxDC++ preferred on Linux and DC++ on windows)
+
+```
+!startscript startup.lua
+!startscript restrictions.lua
 ```
 
 ## Changes made to Ptokax HHFH version
