@@ -2,10 +2,10 @@
 
 printf "\n\n[log] Downloading start and stop scripts\n\n"
 
-curl https://github.com/sheharyaar/ptokax/blob/main/ptokax-start.sh -L -o ptokax-start.sh
+curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-start.sh -L -o ptokax-start.sh
 chmod +x ptokax-start.sh
 
-curl https://github.com/sheharyaar/ptokax/blob/main/ptokax-stop.sh -L -o ptokax-stop.sh
+curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-stop.sh -L -o ptokax-stop.sh
 chmod +x ptokax-stop.sh
 
 printf "\n\n[log] Installing Prerequisites\n\n"
