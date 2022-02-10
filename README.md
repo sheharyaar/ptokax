@@ -8,7 +8,7 @@ To install PtokaX on raspberry Pi run the following commands in sequence :
 cd ~
 curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-setup.sh -L -o ptokax-setup.sh
 chmod +x ptokax-setup.sh
-sudo ./ptokax-setup.sh
+./ptokax-setup.sh
 ```
 
 To run Ptokax server just run
