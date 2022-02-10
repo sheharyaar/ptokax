@@ -12,6 +12,9 @@ chmod +x ./ptokax-start.sh
 curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-stop.sh -L -o ./ptokax-stop.sh
 chmod +x ./ptokax-stop.sh
 
+curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-config.sh -L -o ./ptokax-config.sh
+chmod +x ./ptokax-config.sh
+
 printf "\n\n[log] Installing Prerequisites\n\n"
 
 # Install curl to download source code
