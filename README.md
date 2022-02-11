@@ -31,6 +31,8 @@ cd ~
 
 ## Running Scripts
 
+Repositories with all the PtokaX Scripts : [https://github.com/sheharyaar/ptokax-scripts](https://github.com/sheharyaar/ptokax-scripts)
+
 Make sure to stop ptokax first and then change settings otherwise default settings are stored.
 
 - Messsage of The Day : Edit `~/PtokaX/cfg/Motd.txt`
