@@ -1,0 +1,1823 @@
+PtokaX DC hub software - Ptaczek/Frontline3k/aMutex (c) 2oo2/2oo3
+PtokaX DC hub software - Ptaczek/PPK (c) 2004/2005
+PtokaX DC hub software - PPK (c) 2006/2017
+------------------------------------------------------------------------------
+
+
+-------------------------------------0.5.2.2 11 April 2017-------------------------------------
+Added: Reconnect to database on connection failure or connection lost.
+Fixed: Compile for Windows 10 IoT.
+Fixed: Typo in server manager and resource leak in sqlite on exit (thx Pavel Pimenov for report).
+Fixed: Incorrect long length message when incomplete search command was received (thx Alexey for report).
+Fixed: Search request was sent to users without share (thx Pavel Pimenov for report).
+Fixed: Missing $ValidateDenide when user use nick that is in reserved nicks (thx Alexey for report).
+Fixed: Extra pipe in !checknickban result (thx Alexey for report).
+Fixed: IP and Port check in DC commands. (thx Mank and Rolex for report).
+Fixed: Missing IP check for validity in some hub commands.
+Fixed: Empty password received from user was not checked properly and accepted as new password for reg.
+Fixed: Bandwidth waste, when IPv6 user send search request with IPv4 address.
+Fixed: Possible crash on hublist registration (thx Pavel Pimenov for report).
+Fixed: Bind to single IP caused bind to all addresses when IPv6 address was empty.
+Fixed: Typo in scripting interface. MaxSlotsLimt -> MaxSlotsLimit (thx Cęńoßy†ę for report).
+Changed: Log script errors is enabled by default for PtokaX versions without GUI.
+
+
+-------------------------------------0.5.2.1 3 September 2015-------------------------------------
+Added: Support to build with Lua 5.3 on Debian (Ubuntu, Mint, Dyson...) to makefile (make without param).
+Added: Disable registration to hublist, when hub address is local/private IP.
+Changed: Build with Lua 5.1 on Debian (Ubuntu, Mint, Dyson...) now have lua51 param (make lua51).
+Fixed: Crash when redirect on permanent ban is enabled and permban redirect address is empty and main redirect addres is empty.
+Fixed: Possible crash or memory corruption on settings messages with possibility to use settings value(s) in them.
+Fixed: String 'unlimited' was not translated in some settings messages.
+Fixed: Crash when timer was removed in OnTimer Lua function (thx Cęńoßy†ę for report).
+
+
+-------------------------------------0.5.2.0 16 August 2015-------------------------------------
+Added: Support to compile PtokaX on FreeBSD with Lua 5.3.
+Added: Support to compile PtokaX on Solaris, Fedora, OpenBSD, NetBSD and Mac OS X.
+Added: Command line menu with configuration and add registered user options to PtokaX service and non-Windows version (-m cmd param).
+Fixed: Few minor issues in Lua api.
+Fixed: Compile on FreeBSD 10.1, Haiku, Solaris and illumos.
+Fixed: Missing checks for $, |, space and length for many settings strings.
+Fixed: Ban message on some places was truncated to 255 bytes instead of 511.
+Changed: Timer handling on Unixes.
+Changed: Settings, Reserved Nicks and Scripts settings files from xml to simple text format.
+Changed: Profiles and bans files from xml to binary format.
+Improved: Performance for strings sent to UDP Debug.
+
+
+-------------------------------------0.5.1.0 30 June 2015-------------------------------------
+Added: Support for PostgreSQL database to store info about users.
+Added: Chat command !getipinfo to get info about ip(s) from Database.
+Added: Support for CTM2HUB.
+Added: Little time delay before $Lock is sent by hub. That way hub don't sending $Lock if new connection is CTM DDOS (idea from original NeoModus Direct Connect Hub 1.0.25).
+Added: -p command line param for pid file.
+Added: Support for SQLite database to store info about users.
+Added: Support for MySQL/MariaDB database to store info about users.
+Fixed: Missing settings and profiles identificator tables with Lua 5.1.
+Fixed: Few bad possitions of gui items in settings window (thx keep_clear for report).
+Changed: Chat command !getinfo to get info about offline user(s) from Database.
+Updated: Lua 5.3 to 5.3.1.
+
+
+----------------------------------------0.5.0.3 20 February 2015-----------------------------
+Added: install part to makefile including setcap allowing PtokaX to listen on ports below 1024 without running as privileged user (require capabilities support, libcap2-bin in debian).
+Added: hublist.te-home.net and dc.gwhublist.com to default hublist register addresses.
+Added: init script for *nix.
+Added: Port validity checking in commands to disallow exploit that can be used to ddos in dc++ core.
+Added: Tables with definitions for SetMan booleans, numbers and strings identificators.
+Added: Table with definitions for ProfMan permissions identificators.
+Fixed: User profile is set after correct password is received to disable possible exploit in scripts (thx Alexey for report).
+Fixed: Missing hub bot key after nick change when opchat have same nick.
+Fixed: Possible crash on closing some gui windows (thx Alex82 for report).
+Fixed: Directory/file permissions on *nix.
+Fixed: Partial IP was shown as wrong when IPv6 user without IPv4 connection sent IPv4 address in command (thx Mank for report).
+Fixed: Possible crash when new throw exception on memory failure.
+Fixed: Few possible issues found by PVS studio (thx Pavel Pimenov for report).
+Fixed: Memory access outside array in script editor window on load/save (thx Pavel Pimenov for report).
+Fixed: User who was allowed to kick can ban and tempban user without permissions for ban and tempban (thx Alexey for report).
+Fixed: Range ban and range temp ban command was not working for IPv6 addresses longer than 15 characters (thx Alexey for report).
+Fixed: Few possible memory leaks when memory allocation fail.
+Fixed: On !rangeban command when range was already banned was sent wrong second message (thx Alexey for report).
+Fixed: Active search character counting for ipv6 request when ip is very short.
+Other: Some minor performance improvements.
+
+
+----------------------------------------0.5.0.2 13 April 2014-----------------------------
+Added: Makefile recursion to automatically compile skein and tinyxml on unix os.
+Fixed: When xml file fail to load then it is reported and not silently replaced with default (thx dmvn for report).
+Fixed: Missing $MyINFO for bot in some cases (thx Alexey and alex82 for report).
+Fixed: Not working change password in some cases (thx zog for report).
+Fixed: Crash on bans loading in some cases.
+Fixed: Max users logins in gui range (thx alex82 for report).
+Fixed: NoBadCharsInNick language string has obsolete chars (thx Alexey for report).
+Fixed: !tempban with offline user and wrong time value was returning !nicktempban message (thx sphinx for report).
+Fixed: Change password for registered user from Lua (thx alex82 for report).
+Fixed: When hub description was removed then after restart was changed to default one (thx alex82 for report).
+Fixed: Missing $OpList and/or $UserIP in some cases (thx alex82 for report).
+Fixed: Few compiler warning in ubuntu.
+Changed: os.exit in Lua now correctly shutdown PtokaX.
+
+
+----------------------------------------0.5.0.1 11 December 2013-----------------------------
+Added: White space characters (ascii chars below 32) are not allowed in nicks anymore.
+Added: Option to store passwords for registered users as hashes.
+Added: Registered users autosave after every 100 regs changes and every 15 minutes when regs change.
+Added: AddTimer(iTimerInterval, fFunction) to Lua api.
+Added: ProfMan.RemoveProfile in Lua api now accept profile number as param.
+Added: Error message on script error now contains traceback, when available.
+Fixed: IpToCountry for IPv4 ignored first and last ip in country range (thx Alexey and alex82 for report).
+Fixed: Crash in windows version when script send some global data as reaction to chat without blocking it (thx Alexey for report).
+Fixed: Wrong chat lines order when multiple messages was received in one loop and script send global data reply for one of them.
+Fixed: On hub bot nick change old bot was not removed from userlist (thx Alexey for report).
+Fixed: Few other issues related to hub bot nick and info changes.
+Fixed: Issues related to OpChat bot nick and info changes.
+Fixed: 64bit windoze build was limited to only 2 GB of memory.
+Fixed: Lua float/integer types for better performance with Lua 5.3.
+Fixed: Issues with signals on unix (thx dmvn for report).
+Fixed: Broken text input boxes in settings window in some cases.
+Fixed: Never ending loop on reading of registered users file longer than 128 kB (thx dmvn for report).
+
+
+----------------------------------------0.5.0.0 23 December 2012-----------------------------
+Added: Core.SetUserInfo call to Lua api.
+Added: IDs 28 - 42 for Core.GetUserValue Lua api call (see Lua API docs).
+Added: IPv6 support to sockets.
+Added: IPv6 support to bans and range bans.
+Added: IPv6 country database support.
+Added: IPv6 client to client connections support.
+Added: IPv6 search support.
+Added: IP64 and IPv4 protocol extensions support.
+Added: Check for IPv4 connection for user connected to hub by IPv6.
+Added: IPv4 client connection support for users connected to hub by IPv6 when IPv4 connection check success.
+Added: IPv4 search support for users connected to hub by IPv6 when IPv4 connection check success.
+Added: Setting for manual IPv4 and IPv6 addresses.
+Added: Both IP addresses to !getinfo command for users with IPv6 and IPv4 connection available.
+Added: Both IP addresses to !myip command for users with IPv6 and IPv4 connection available.
+Added: Core.GetHubIPs to Lua API.
+Added: tUser.tIPs to Lua API.
+Added: Missing end line dots on some hub commands reply (thx Alexey for report).
+Added: RegUser hub command. OP need to provide online nick and profile. Hub will ask user for password and after password is entered then user is added to registered users.
+Added: IP in $Search and $ConnectToMe commands is replaced with correct one when user send wrong IP.
+Added: Smart searching for IPv6 users with IPv4 support.
+Added: IP2Country now work for 6to4 and Teredo connections.
+Added: IP2Country.Reload to Lua api.
+Added: RegMan.AddReg now support second syntax RegMan.AddReg(sNick, nProfileNumber). That way user is asked for password and registered after he send it.
+Added: Users connected with IPv6 using 6to4 or teredo tunneling have automatically IPv4 active connection available without need to support any protocol extension.
+Added: Targets to makefile.
+Added: Lua 5.2.x support.
+Changed: Country database for IPv4 from ip-to-country to IpToCountry (http://software77.net/geo-ip/).
+Changed: Not allowed chars in nick to only space, pipe and dollar. Only those protocol disallow. Issues with other chars is client work.
+Changed: Max simultaneous logins value from 500 to 1000.
+Changed: UserDisconnected is now called when user is disconnected by script in User/Reg/OpConnected.
+Changed: Max send buffer size on small hubs from 128 kB to 256 kB.
+Changed: Disabled keep slow client online for clients with zpipe support.
+Changed: Memory allocation failures checking. When memory allocation fail then user who caused that is disconnected and hub not crash.
+Changed: Line ending to \n on windoze.
+Changed: Registered users are now stored in binary file instead of xml.
+Changed: !ban and !tempban now working for offline nicks and create nickban for them.
+Fixed: TmrMan.RemoveTimer Lua api call in windoze version (thx Cęńoßy+ę for report).
+Fixed: MOTD was not updated after change in gui (thx mappy for report).
+Fixed: Few settings was not updated after change in gui.
+Fixed: Buggy chat input line after using some settings pages (thx The-Master for report).
+Fixed: All strict aliasing issues with GCC 02 and higher optimization level compile.
+Fixed: Core.GetUsersCount can in rare cases have different user count than number of users returned by Core.GetOnlineUsers.
+Fixed: Crash on script error loging in some cases.
+Fixed: Memory leak in users and bans ip hashtables.
+Fixed: Bug in gui initialisation causing rare termination on startup.
+Fixed: Incorrect translation of "full" in ban commands (thx Alexey for report).
+Fixed: Shutdown with ctrl+c on non-windows OS (thx Alexey for report).
+Fixed: Crash in Lua 5.1 on invalid conversion specifier in os.date (fix from Lua 5.2).
+Fixed: Buggy search length checking for active and passive users (thx Alexey for report).
+Fixed: Compile with Clang compiler on Linux.
+Fixed: Message returned on !clrrangetempbans (thx Alexey for report).
+Fixed: Rare case when short myinfo was sent to ops when they should get long myinfo.
+Fixed: Error message on script syntax checking when PtokaX api call is outside function.
+Fixed: Doubleclick in gui on script now open script editor only when it is not on checkbox.
+Fixed: !nickban and !nicktempban allowed to ban user with higher profile when he was offline.
+Fixed: Reply to chat from Lua script was sent before that chat (ie from talkbot).
+Fixed: Missing GB translation in !getinfo command (thx Alexey for report).
+Fixed: Compile errors on Haiku OS.
+Removed: All info related to old ip-to-country database.
+Removed: Obsolete client tags.
+Removed: Obsolete setting to accept unknown tag.
+Rewritten: Global data queues for better IPv6 support.
+Updated: makefile to work with buggy gold linker.
+Updated: zlib to 1.2.7.
+Updated: Lua 5.1 to 5.1.5.
+
+
+----------------------------------------0.4.2.0 11 September 2011-----------------------------
+Added: Missing PtokaX icon to 64bit service binary.
+Added: Project files for visual studio 2010.
+Added: Crash log generation to new gui windows version.
+Added: Core.GetUserValue(tUser, 27) return user MAC Address when it is possible.
+Added: Enabled Data Execution Prevention for 32bit windoze version when system support that. 
+Added: Line numbers to script editor.
+Added: Column sorting to registered users list in registered users window.
+Added: Filter to registered users window.
+Added: Column sorting to ban list in bans window.
+Added: Filter to bans window.
+Added: Build numbering.
+Added: Column sorting to range ban list in range bans window.
+Added: Filter to range bans window.
+Added: DPI awareness.
+Added: Resizeable splitter to Users/Chat and Scripts pages.
+Added: Core.BuildNumber returning PtokaX build number to Lua api.
+Added: Saving of window sizes, column sizes, checkbox states and splitter positions in gui.
+Added: Command line command /generatexmllanguage to generate english language example.
+Fixed: Compile with Lua 5.2.0 (beta)
+Fixed: Missing user input length checking in some commands (thx Rahim for report).
+Fixed: Multiple class member variables not initialized in the constructor.
+Fixed: Multiple memory leaks when realloc fails.
+Fixed: Multiple obsolete usleep functions replaced with nanosleep.
+Fixed: Multiple redundant check for NULL before free/delete.
+Fixed: Multiple memory leaks when ip-to-country loading fails.
+Fixed: Memory leak when script try to reg bot with nick that already exist.
+Fixed: Memory leak when text file creating fails.
+Fixed: Integer overflow for temp ban expiring after 03:14:07, January 19, 2038 in 32bit version or 23:59:59, December 31, 3000 in 64bit version (thx Saymon for report).
+Changed: Windows GUI, from GUI created with Borland VCL to WinAPI GUI.
+Changed: Some min/max setting values.
+Changed: Times and dates are now shown in system locale format.
+Changed: GUI layout to correctly use system font and DPI settings.
+Changed: On windoze memory allocator for Lua is not part of Lua lib anymore, it is now part of PtokaX.
+Changed: Default redirect setting and redirect address. Redirect address point to PtokaX alpha test hub.
+Improved: Update checking. Now using HTTP 1.1, update file is simple text file instead of xml.
+Removed: Setting for send userip to user on login, it is send always when client corretly indicate UserIP2 in supports.
+Removed: Setting to popup scripts window on script error, it is obsolete with new GUI.
+Rewritten: Resolve code from deprecated gethostbyname to getaddrinfo.
+Updated: TinyXML to 2.6.2
+Updated: Zlib to 1.2.5.
+Patched: Lua with official patch from http://permalink.gmane.org/gmane.comp.lang.lua.general/76868
+
+
+----------------------------------------0.4.1.2 9.Jan.2010-----------------------------------
+Added: http://board.ptokax.ch/index.php/topic,7477.0.html with default disabled.
+Added: Crash log generation to 64bit windows version.
+Added: Detection of Windows 7, Windows 2008 R2 and improved Windows XP x64 detection.
+Added: ProfMan.Save() to lua interface.
+Added: Missing setlocale.
+Fixed: Numbers instead of boolean in some lua values.
+Fixed: Crash in 64bit windows version.
+Fixed: Wrongly disallowed $ in password, protocol allow it.
+Fixed: Compilation on Nexenta.
+Removed: Auto save of regs after add/change/del Reg.
+
+
+----------------------------------------0.4.1.1 21.Jun.2008-----------------------------------
+Fixed: High cpu usage when udp port bind failed (thx §hĺdýlĺdý™ for report).
+Fixed: Missing password checking for not allowed pipe char, removed checking for other chars.
+Fixed: Missing nick checking for not allowed chars in !addreguser command.
+Fixed: Freeze on year or longer tempban in win versions (thx dmvn for report).
+
+
+----------------------------------------0.4.1.0 1.Jun.2008------------------------------------
+Added: Core.ResumeAccepts() to resume listening thread(s) when they are suspended.
+Added: 2 level limit of received kB of data from user per time.
+Added: Second deflood level for most old defloods.
+Added: 2 level ConnectToMe and RevConectToMe deflood.
+Added: 2 level search reply deflood.
+Added: Main chat, private message and search intervals.
+Added: Profile permissions for no CTM/RCTM/SR defloods.
+Added: Profile permissions for no received kB of data deflood from user.
+Added: Profile permissions for no Chat/PM/Search intervals.
+Added: Command length limits for MyINFO/CTM/RCTM/SR.
+Added: Hub name to PtokaX window caption.
+Added: Max connected users limit from same IP + profile permission for that.
+Added: Core.GetUsers returning online users with given IP.
+Added: Minimum reconnect time + profile permission for that.
+Added: Profile rename to gui.
+Added: ScriptMan.GetScript() to lua interface.
+Added: IP-to-Country support.
+Added: sCountryCode to user table in lua.
+Added: IP2Country to lua with functions to get country code and country name.
+Added: Country code to string returned by !getinfo command.
+Added: ScriptMan.Refresh() to lua interface.
+Added: Option to log script errors.
+Added: -c command line parameter to service/nix version to set config directory.
+Added: -d command line parameter to nix version to run as daemon.
+Added: When PtokaX is terminated on nix by signal then it is saved to log.
+Added: Script memory usage to !getscripts.
+Added: Few working hublist register addresses.
+Fixed: Initial temp ban year in gui was always 2007 instead of actual year.
+Fixed: Crash in gui version on ScriptMan.MoveUp and ScriptMan.MoveDown when script use them in OnStartup and scripts window is opened (thx Z˙gđ†† and Twisted-devil for report).
+Fixed: Never ending loop caused by multiple script processing when using MoveDown (thx Z˙gđ†† for report).
+Fixed: Lua was able to change language to not existant one (thx CrazyGuy for report).
+Fixed: Crash on exit when default hub-security nick was used (thx ']['yphoon for report).
+Fixed: Crash on loading xml file with comments (thx Rag3Rac3r for report).
+Fixed: Some ScriptMan functions not working in OnStartup (thx CrazyGuy for report).
+Changed: Core.SuspendAccepts can be now used without value to suspend listening thread(s).
+Changed: When user send incorrect ip in CTM/Search is now disconnected.
+Changed: Chat commands to ban ip now cause disconnect of all users with that ip address.
+Changed: UDP port now can be disabled by set it to 0 and it is disabled by default.
+Changed: Default profile permissions.
+Improved: Message when user send incorrect ip in CTM/Search now contains ip from command, user ip.
+Rewritten: Deflood internals, less code, maybe better performance, fixed multiple bugs in old deflood.
+Rewritten: Threads and critical sections from borland components to clean winapi.
+Rewritten: Nick hashtables (for userlist, reglist, nickbanlist) for better performance.
+Rewritten: Last few borland components in core replaced with winapi calls.
+Rewritten: Receiving of data to UDP port, moved from main thread to new thread.
+Removed: Reading of old ini and dat config files.
+New version: Version for windows without gui running from console or as windows service.
+New version: Version for posix compatible os (tested on Linux x86, Linux x86-64, freeBSD x86).
+New version: x86-64 version for windows without gui running from console or as windows service.
+
+
+----------------------------------------0.4.0.0 24.Feb.2008------------------------------------
+Added: Setting manager, complete replacement for old setting system.
+Added: Posibility to change 99.9% of settings without hub restart.
+Added: Open in external editor to script menu (request by bastya_elvtars).
+Added: Core.Shutdown() for clean hub shutdown (request by KofolaMaster).
+Added: Core.GetBots() to get al bots registered by scripts (request by CrazyGuy).
+Added: SetMan.Save(), RegMan.Save(), BanMan.Save().
+Added: ScriptMan metatable with GetScripts, MoveUp/Down, Start/Stop/Restart script to lua.
+Added: Script delete to script menu (request by (uk)jay).
+Added: MoveUp and MoveDown to ProfMan in lua (request by Rag3Rac3r).
+Added: Option to popup scripts frame on script error.
+Added: Support for _BAN_ and _BAN_time in kick messages to add custom perm and temp ban after kick.
+Added: Add, change and remove for (range)bans to gui.
+Added: User count to welcome message (request by ptaczek).
+Fixed: Small bug in tempban, causing delete of permbans on same ip (thx the_pest for report).
+Fixed: Crash on rangeunban with bad parameters (thx amenay for report).
+Fixed: Crash in same pm deflood (thx nikita800 for report).
+Fixed: Duplicite ban message on nicktempban (thx fane for report).
+Fixed: Accepting language, script or text file with wrong file extension.
+Fixed: Bugs in registered user profile changing related to OP/OpChat permissions (thx plop for report).
+Fixed: Crash on set all/clear all profile permissions in some cases (thx hanger 13 for report).
+Fixed: Bugs in server thread causing memory corruption in some cases.
+Fixed: Missing profile change when registered user was removed from gui and was online (thx CrazyGuy for report).
+Fixed: Crashes on loading corrupted xml files.
+Changed: Setting were removed from main frame and new setting frame for them was created.
+Changed: Few small things in gui, many internal changes in code.
+Changed: Component for debug log creating.
+Changed: Update check complete rewritten to use winsock instead of indy component.
+Changed: Lua interface, complete rewrite.
+Changed: Profile moving is now possible when hub is running.
+Changed: Tray icon tooltip message, now contains hubname.
+Removed: Few things was lost on settings rewrite (chat log, nick rule, webserver...).
+Removed: Possibility to use |, space and white chars in profile names (thx Hungarista for report).
+Upgraded: Lua to 5.1.3.
+
+
+--------------------------------0.3.6.0 12.May.2007----------------------------
+Added: Missing $HubIsFull DC command (bug found by Hungarista).
+Added: Possibility to make language translations.
+Added: Mising $Close Direct Connect command + arrival to lua + permission for profiles.
+Added: Debug output to debug.log when memory allocations failed, or some other things fail.
+Added: Confirmation dialog for redirect all users from gui with line for redirect address (request by amenay).
+Fixed: Update check no more block hub startup when new version is available (thx Typhoon for report).
+Fixed: Crashing on some hub commands when you try to use them on yourself (thx CrazyGuy for report).
+Fixed: Memory corrupting on registering to udp-debug.
+Fixed: Memory corrupting on big hubs when opchat is enabled.
+Fixed: Memory corrupting when script tryed to use user:something and user is no more online.
+Fixed: Max private message length limit checking (thx CrazyGuy/Fane for report).
+Fixed: Buffer overflow on some bad Direct Connect commands.
+Fixed: Crash on !drop command when user is not online.
+Fixed: Memory corrupting by "keep slow clients online".
+Fixed: Few memory leaks in banlist when similar ban already exist.
+Fixed: Memory leak caused by lua bot in reserved nicks.
+Fixed: Long delay on userlist refresh when hub don't have other data to send.
+Fixed: Bug in $GetNickList deflood (thx nikita800 for report).
+Fixed: Wrong profiles (causing crashes) for online users when profile is deleted and it is not last profile.
+Fixed: Wrong profiles (causing crashes when user login) in registered users list when profile is deleted and it is not last profile.
+Fixed: Not working banip when ip have tempban (thx proud for report).
+Fixed: 100 % cpu usage when one of secondary ports is already in use (thx Headbengertje for report).
+Fixed: crash on divide by zero in lua (thx Rincewind for report).
+Changed: Profile manager partially rewritten, splited to core and gui.
+Improved: "keep slow clients online" to lower data loses.
+Improved: Search requests caching...
+
+
+--------------------------------0.3.5.2 1.Nov.2006----------------------------
+Added: GetDisableMOTD, SetDisableMOTD to lua interface (request by Snooze).
+Added: GetMOTD, SetMOTD, GetSendMOTDinPM, SetSendMOTDinPM to lua interface.
+Added: ChangeRegUser to lua.
+Added: Save setting button to gui.
+Added: SuspendAccepts(iTime) to lua for suspending listening sockets when hub is attacked.
+Added: iLoginTime to userobject in lua.
+Added: Option for reporting suspicious tags.
+Added: Advanced password protection (thx plop for idea).
+Added: SendToOpChat to luainterface.
+Added: Option to accept tag from unknown client as valid when have all needed parts.
+Added: Option to check ip in connect and search commands.
+Added: Permission for profile to not check IP.
+Fixed: Few bugs related to reserved nicks (thx -RICK- for report).
+Fixed: Memory usage caused with deflood, when data no longer needed.
+Fixed: $Multi Direct Connect Commands to be DC++ compatible.
+Fixed: More bugs related to kick and ban from gui.
+Fixed: Missing kick message when op kick user from inbuild client kick.
+Fixed: Sending userip to user before userlist, now is corectly after (thx CrazyGuy for report).
+Changed: Memory allocations, for lower memory usage.
+Changed: Hublist registering, complete new code.
+Changed: Result for !getinfo command + added login time.
+Improved: Protocol commands parsing, faster and better catching corupted commands.
+Removed: Possibility of AddRegUser in lua to overwrite existing reg.
+
+
+--------------------------------0.3.5.1 15.Jul.2006----------------------------
+Added: Limit of Private Messages received by one user per minute.
+Fixed: Crash in deflood (thx -RICK- for report and testing).
+Changed: Private Messages processing, for better deflooding.
+
+
+--------------------------------0.3.5.0 24.Jun.2006----------------------------
+Added: ZPipe (and ZPipe0) support -> data compression using zlib (with saved data counter).
+Added: GetAutoRegister to lua (request by Hungarista).
+Added: Max users logins per 10 seconds settings to gui and Lua.
+Added: UDPSRArrival to lua.
+Added: Max limit (16) for script bots to disallow fake users.
+Added: GetDefaultTempBanTime() and SetDefaultTempBanTime() to lua (request by UwV).
+Fixed: Not working "no main chat deflood" and "no private message deflood" for multiline messages (thx ']['yphoon™ for report).
+Fixed: Bug in changing registered nick in gui (thx GeceBekcisi and ruler for report).
+Fixed: Not working address for hublist register with port (thx Pothead for report).
+Fixed: Saving to system.log (thx plop for report).
+Fixed: Buggy GetTempBannedItemTime (thx ']['yphoon™ for report).
+Fixed: Bug in addreguser hub command and addreguser in lua (thx GeceBekcisi for report).
+Fixed: Bug in nick hashing (thx [SK]2qq2q for report).
+Fixed: Buffer overflow on !massmsg (thx netcelli for report).
+Fixed: Buffer overflow on !opmassmsg.
+Fixed: Not working frmHub:SetBanMsgAddMsg (thx Hungarista for report).
+Fixed: Missing status messages if send status to OPs is enabled and user is not OP.
+Fixed: Crash on bad $SR returned to UDP.
+Fixed: Uptime counter.
+Fixed: Problem with '\0' character in incoming data.
+Fixed: "Lag" on !me hub command when text files are disabled (big thanks to NTF-Archive for testing).
+Changed: Complete rewrite of data queues.
+Changed: Send full myinfo to OPs is now to allowed profiles.
+Updated: Lua to 5.1.1 ...
+Removed: Absolete Maxlogins setting.
+
+
+--------------------------------0.3.4.0 24.Dec.2005----------------------------
+Added: Goofy++ to default client tags (request by Carraya).
+Added: Better and faster banlist.
+Added: !getbans, !getpermbans, !gettempbans.
+Added: !clrtempbans, !clrpermbans.
+Added: !tempbanip <ip> <time> <reason>, !nicktempban <nick> <time> <reason>.
+Added: !fullban <nick> <reason>, !fullbanip <ip> <reason>.
+Added: !fulltempban <nick> <time> <reason>, !fulltempbanip <ip> <time> <reason>.
+Added: !rangeban <fromip> <toip> <reason>, !fullrangeban <froimip> <toip> <reason>.
+Added: !rangetempban <fromip> <toip> <time> <reason>, !fullrangetempban <fromip> <toip> <time> <reason>
+Added: !rangeunban <fromip> <toip>, !rangetempunban <fromip> <toip>.
+Added: !getrangebans, !getrangepermbans, !getrangetempbans, !clrrangepermbans, !clrrangetempbans.
+Added: !checknickban <nick>, !checkipban <ip>, !checkrangeban <fromip> <toip>.
+Added: Profile permissions needed for new banlist related commands, check profilemanager !
+Added: user:Ban(sReason, sBy, bFull), user:NickBan(sReason, sBy), user:TempBan(iTime, sReason, sBy, bFull) to lua.
+Added: Global Ban(IP, sReason, sBy, bFull), NickBan(Nick, sReason, sBy), TempBan(IP, iTime, sReason, sBy, bFull) to lua.
+Added: Reason from kick message is stored as reason for tempban after kick.
+Added: NickTempBan(Nick, iTime, sReason, sBy) and user:NickTempBan(iTime, sReason, sBy) to lua.
+Added: GetTempRangeBans() and GetPermRangeBans() to lua.
+Added: RangeUnban(FromIP, ToIP), RangePermUnban(FromIP, ToIP) and RangeTempUnban(FromIP, ToIP) to lua.
+Added: ClearRangeBans(), ClearRangeTempBans() and ClearRangePermBans() to lua.
+Added: RangeBan(FromIP, ToIP, sReason, sBy, bFull) and RangeTempBan(FromIP, ToIP, iTime, sReason, sBy, bFull) to lua.
+Added: Options for ban message.
+Added: bHasSuspiciousTag to user object in lua.
+Added: GetMaxPsvSrchRpl and SetMaxPsvSrchRpl to lua (request by plop).
+Added: GetBanMsgShowIP, SetBanMsgShowIP, GetBanMsgShowRange, SetBanMsgShowRange to lua.
+Added: GetBanMsgShowNick, SetBanMsgShowNick, GetBanMsgShowReason, SetBanMsgShowReason to lua.
+Added: GetBanMsgShowWho, SetBanMsgShowWho, GetBanMsgAddMsg, SetBanMsgAddMsg to lua.
+Added: PWDC++ to default client tags.
+Added: Option to disable hub address resolve to allow hub start if connection is down.
+Added: Option to disallow hublist pinger hub check.
+Added: Search length limits, and option per profile to disable it.
+Added: Option for action for brute force password protection.
+Fixed: Crash on script error (thx madman for report).
+Fixed: Missing kick message if status messages off (thx proud for report).
+Fixed: Crash on out of memory.
+Fixed: Crashing in lua on user:something after user leave hub.
+Fixed: Mega-Big-Bug in myinfo changes dealying.
+Fixed: Bugs related to "Enable scripting" checkbox (thx Star for report).
+Fixed: Bug in lua and hubcommand to del reg user (thx GeceBekcisi for report).
+Fixed: Missing tempban on kick from gui (thx DjSpider for report).
+Fixed: Not kicking if no reason specified on kick from gui (thx DjSpider for report).
+Fixed: Few bugs related to script bots.
+Fixed: Crash in profilemanager if no profile selected and remove is pressed (thx NightLitch for report).
+Fixed: Few crashes in lua if hub not running (thx Northwind for report).
+Fixed: Crash on dblclick on script files (thx GeceBekcisi for report).
+Fixed: Scripts state saving on exit (thx GeceBekcisi for report).
+Fixed: Bug in nickban allowing to ban user with higher profile (thx •§kT®•™ for report).
+Fixed: Buffer overflow caused by sending of long data from lua. Added limits, check Scripting-Interface.txt !
+Changed: Name of error.log to system.log, old name confusing users.
+Changed: Memory management in data procesing for better performance (thx BigMuscle for hint).
+Changed: Sendbuffer handling for lower memory usage.
+Changed: GetTempBannedItemTime(IP)  now return remaining time in seconds instead of minutes...
+Changed: tempban lua object now have time in seconds instead of minutes...
+Changed: !nickban, !banip and !drop now have optional reason.
+Changed: Profile permission related with banlist, check profilemanager !
+Changed: Ban messages to use all features of new banlist.
+Changed: Because I've found hub running PtokaX with 4000+ users (Athlon 64 3000+ with <20 % cpu usage) changed max user limit from 5000 to 8000.
+Changed: Gui for new banlist.
+Changed: Nick length check is now processed only for unregistered users.
+Removed: !getbanlist, !gettemopbanlist, !clrtempban, !clrpermban
+
+
+--------------------------------0.3.3.21 1.Aug.2005----------------------------
+Fixed: Crash on try to load not exist script (thx Kavu for report).
+Fixed: Maybe random freezing...
+Changed: Main loop to fix some connections reset by server.
+
+
+--------------------------------0.3.3.2 31.Jul.2005----------------------------
+Fixed: SetHubName now change hubname on-the-fly (thx bastya_elvtars for report).
+Fixed: Data sent to user from NewUserConnected/OpConnected now PtokaX send after MOTD.
+Fixed: Renaming of registered user to already existing nick (thx GeceBekcisi for report).
+Fixed: Loading of reglist with more same nick (thx GeceBekcisi for report).
+Fixed: Crash on try to add user with profile lower than 0 (thx AmsterdamBulldogs for report).
+Fixed: Not working returning value from NewUser/OpConnected (thx Mogli for report).
+Fixed: Crash caused by buffer overflow on long NickList.
+Fixed: Crash caused by buffer overflow on long OpList.
+Fixed: Crash on converting old ReservedNicks.dat to new xml format (thx paka for report).
+Fixed: Minimize on startup now working.
+Fixed: Crashing in registered users hash manager.
+Fixed: About text box no more allow deleting or typing text (thx NeiSep for report).
+Fixed: Crash on !startscript hub command with buggy script (thx Star for report).
+Fixed: Crash on !restartscript hub command with buggy script (thx Star for report).
+Fixed: Bug with whitechars before DC messages (thx Santa-Claus for playing with telnet).
+Fixed: SetHubName from lua no more allow $ and | (thx Dag for report).
+Fixed: Bug in same pm messages deflood (thx Alexandros for report).
+Added: Cls buttons to Script Editor (request by Star).
+Added: Button to reload text files.
+Added: getscripts hub command (request by Star).
+Added: SetChatTrace and SetCmdTrace to lua (request by the_pest).
+Added: DefloodWarn for userobject to allow additional deflooding with warning from script.
+Added: Save of banlist/reglist/settings/MOTD on windows shutdown (request by Star).
+Added: iDefloodWarns to userobject in lua.
+Added: all gets/sets for inbuild PtokaX deFlood to lua.
+Added: Missing functions to on/off registered only hub to lua (request by Hawk).
+Added: Max share settings and needed functions for it to lua.
+Added: Max/Min nick length check and all needed functions for get/set to lua.
+Added: Option to add user mode before description (request by GeceBekcisi).
+Added: UserIP2 support.
+Added: Checkbox per profile for sending all users ip.
+Added: Checkbox to enable sending of ip to user on login.
+Added: Popup menu with load/save on script (request by bluebear).
+Added: GetProfilePermissions() to lua (request by plop.
+Changed: Keep slow clients online improved to fix problem with data lost if user is not really slow .. for example on login to big hub.
+Changed: Lua is now in separate .dll, this allow creating of .dll for loading in scripts (big thx to bluebear for help).
+Changed: Load/Save initial folder for scripts is on PtokaX startup set to actual script folder (request by bluebear).
+Changed: Connection deflood for better performance.
+Improved: Gui, added back now maybe bug free XP like style for Windows XP users.
+
+
+--------------------------------0.3.3.1 10.June.2005----------------------------
+Fixed: Crash on !restart (thx dkt and madman for report).
+Fixed: Bug in registered users manager (thx TïMê†råVêlléR for report and reglist for testing).
+Fixed: Missing opchat on !op and !addreguser (thx [AT]conejodelmal for report).
+Fixed: Memory leaks on closing PtokaX.
+Added: BW Traffic Report in xB/s to stats and gui (request by Friz and GeceBekcisi).
+Added: Missing .px. PtokaX identification to end for hub description send by $HubINFO.
+Added: Checkbox to profile manager to enable OpChat per profiles.
+Added: Double click on scriptname open script in editor (request by Alexandros).
+Added: getHubVersion() (request by plop).
+Changed: Few small optimisations.
+Changed: GetPtokaXLocation() now return in path / (like c:/PtokaX/) instead of \ (request by plop and bastya_elvtars).
+Changed: Old update check. Now check small xml file on PtokaX homepage.
+
+
+--------------------------------0.3.3.0 build 17.09 29.May.2005----------------------------
+Fixed: Few bugs in GUI (thx Stravides and Star for reports).
+Fixed: Crash on !restartscript (thx madman for report).
+Fixed: addreguser bug on adding user with OP status (thx Optimus for report).
+Fixed: Bugs in hashed reglist manager (thx [AT]conejodelmal and Bud for reports).
+Fixed: MOTD sending to pm (thx [H€LL§]§corpion™ for report).
+Fixed: Crash caused by timer using SendToAll in lua (thx -RICK- for report).
+Fixed: Crash on stop server (thx -RICK- for report).
+
+
+--------------------------------0.3.3.0 build 17.08 18.May.2005----------------------------
+Fixed: Crash on try to save script to read-only file (thx [NL]Pur for report).
+Fixed: Webserver start/stop and enable/disable of webserver port textbox.
+Fixed: Gui order for TAB, and few other small fixes in gui.
+Fixed: Another buffer overflow (thx madman for report).
+Changed: SendToOps in lua now accept only data (request by Corayzon).
+
+
+--------------------------------0.3.3.0 build 17.07 15.May.2005----------------------------
+Fixed: Crashes caused by changed profile manager.
+
+
+--------------------------------0.3.3.0 build 17.06 15.May.2005----------------------------
+Added: "Enter hub if IP banned" option for profiles (request by NightLitch).
+Added: Time to lua script errors (request by kepp).
+Fixed: Saving of "Stop script on error" (thx Fangs404 for report).
+Fixed: Crash on corrupted reglist [saved user profile not exist] (thx SY1MON for report).
+Fixed: Crash on long private message (thx uffetjur for report).
+Fixed: Maybe fixed crash in brute-force password protection (thx [AT]conejodelmal for report).
+Fixed: Posibility to have empty password for registered users (thx Montelongo85 for report).
+Fixed: Divizion by zero crash in getting cpu usage (thx Dj02 for report).
+Fixed: Bug with sharesize in botinfo (thx Friz for report).
+Chaged: Extended profile manager, now have 256 permissions bits.
+
+
+--------------------------------0.3.3.0 build 17.05 10.May.2005----------------------------
+Fixed: Crash on registered user nick change (thx Friz & wegfaced for bug reports).
+Fixed: Bug in new reglist, case-sensitive first nick char (thx hutchenky for report).
+Fixed: Bugs in !startscript and !restartscript.
+
+
+--------------------------------0.3.3.0 build 17.04 09.May.2005----------------------------
+Fixed: Crash on accepting new user (thx dkt for report).
+Fixed: Banip hub command (thx to all who report this bug).
+Fixed: Bad pass disconnect with disabled "Ban for 3x bad pass" (thx Friz for report).
+Fixed: TimeBan in lua (thx Ratcom_Typhoon for report).
+Fixed: Missing check for script started by !startscript hub command.
+Fixed: Divizion by zero crash in getting cpu usage (thx Dj02 for report).
+Fixed: OpChat bot email saving (thx Psycho_Chihuahua for report).
+Fixed: Bug in single character nicknames (thx pcmaster00 for report).
+Fixed: Crash on SendBuffer overflow with enabled keep slow clients online (big thx Ivo Janssen for report).
+Added: Reporting of 3x bad pass.
+Added: Max hubs message now accept %d for replace with max hubs number from settings.
+Added: Slot/hub ratio message now accept two %d to replace with slot/hubs ratio from settings (first %d is slots!).
+Added: Min/max slots message now accept two %d to replace with min and max slots from settings (first %d is min slots!).
+Added: Minshare message now accept %s to replace with minshare (number and share units) from settings.
+Changed: Some memory handling, to fix crash in ntdll.
+Changed: Hub stop, to fix some crash on stop.
+Changed: Finished new hashed reglist and integrated in PtokaX core.
+Optimizations: In Lua interface and send/receive buffers.
+
+
+--------------------------------0.3.3.0 build 17.03 24.Apr.2005----------------------------
+Fixed: Crash on bad AddRegUser from lua (thx NightLitch for report).
+Fixed: !tempunban command (thx UwV for report).
+Fixed: Division by zero in Lua crash.
+Changed: !stat hub commands working as !stats too.
+
+
+--------------------------------0.3.3.0 build 17.02 22.Apr.2005----------------------------
+Added: frmHub:GetPrefixes() to lua (request by Skrollster).
+Added: frmHub:GetRegisteredUsers() to lua (request by bastya_elvtars).
+Added: frmHub:GetTempBanList() to lua (request by bastya_elvtars).
+Added: frmHub:GetPermBanList() to lua (request by bastya_elvtars).
+Added: frmHub:GetOnlineOperators() to lua.
+Added: frmHub:GetOnlineNonOperators() to lua (request by NighLitch).
+Added: frmHub:GetOperators() to lua (request by NighLitch).
+Added: frmHub:GetNonOperators() to lua (request by NighLitch).
+Added: frmHub:RestartScripts() to lua.
+Added: startscipt hub command.
+Added: stopscript hub command.
+Added: restartscript hub command.
+Added: Option to disable user for 3x bad password.
+Added: ClearPermBan() to lua (request by Ratcom_Typhoon).
+Added: frmHub:SetPrefixes(newprefixes) to lua (request by Ratcom_Typhoon).
+Added: Info what is user profile if is registered to !getinfo reply.
+Added: Option to listen only on given hub address, multiple network interfaces fix.
+Fixed: !op now always give to user Operator profile and not profile on index 1 (thx Jemte for report).
+Fixed: !op user bug allowing to kick, ban etc. user with higher profile (thx Jemte for report).
+Fixed: Bug in email text box not allowing to add chars used for hub commands prefix (thx Skrollster for report).
+Fixed: Crash in lua AddRegUser with unexisting profile (thx NightLitch for report).
+Fixed: !nickban with given spaces in nick bug (thx Jemte for report).
+Fixed: Enbaling of autoregister to hublist if hub running (thx ruspant for report).
+Fixed: Crash in onerror lua function (thx TïMê†råVêlléR for report).
+Changed: Good pinger is allowed to check full hub.
+Changed: Uptime timer, maybe is now faster.
+Changed: Addreguser and delreguser (hubcommand and lua) change user profile on-the-fly. On reg it add key too.
+Changed: GetOnlineUsers() now accept profile number to get onli online users with given profile (request by kepp).
+Changed: !gettempbanlist now show remaining time in minutes for tempban (request by NightLitch).
+Changed: All DC commands processing...
+Changed: Hub chat commands processing...
+Changed: Very much code to improve performance...
+Changed: Reglist to improve performance...
+Removed: Try to register hub on hublist on startup, first try to register is now after 15 minutes (thx ruspant for report).
+
+
+--------------------------------0.3.3.0 build 16.09 28.Mar.2005----------------------------
+Added: New pinger detection.
+Added: BotINFO/HubINFO support.
+Added: BotINFOArrival(User, Data) to lua.
+Fixed: Problems with pinger from hublist.org (thx Gadget for help).
+Fixed: Posibility to have more same hub command prefixes.
+Fixed: If MOTD is empty hub no more trying to send it (thx Meka Meka for report).
+Changed: Gui settings for hub bot and opchat, if is not registered on hub all fields are open for changes (thx Skrollster for idea).
+
+
+--------------------------------0.3.3.0 build 16.08 27.Mar.2005----------------------------
+Fixed: Missing encoding in .xml files causing problem with loading files with special chars.
+
+
+--------------------------------0.3.3.0 build 16.07 27.Mar.2005----------------------------
+Added: Up/Down for script to change order for scripts run (request by plop).
+Added: frmHuh:GetOnlineRegUsers() returning table with online registed users (request by Optimus).
+Added: Up/Down for profiles, to changes profile order from highest to lowest.
+Added: bConnected to lua for user object (request by Skrollster).
+Added: GetTimer() and GetTimerInterval to lua (request by plop).
+Added: GetTempBannedItemTime(IP) to lua (request by NightLitch).
+Added: Possibility to set multiple hub commands prefix.
+Fixed: Missing redirect message on lua redirect (thx Optimus for report).
+Fixed: Problems with User Connected/Disconnected or Op Connected/Disconnected in some states (thx UwV for report).
+Fixed: Saving of getnicklist deflood action (thx HW1 for report).
+Fixed: Tab order for TAB gui elements switching (thx Herodes for report).
+Fixed: NewUserConnected and OpConnected, if return 1 next scripts not proces it... same as in arrivals (thx NightLitch for report).
+Fixed: Not saving few deflood settings (thx Jorgo for report).
+Fixed: !op hub command working only first time bug (thx Meka Meka for report).
+Fixed: Missing getnicklist lua arrival for clients supporting QuickList (thx The_Fox for report).
+Fixed: Bugs in SetOpChat and SetHubBot (thx Skrollster for report).
+Fixed: More Gui fixes (thx Skrollster for report).
+Fixed: Few small memory leaks...
+Fixed: Small bug in QuickList support cause disconnect if client send $GetNickList before $MyINFO (thx Carraya for report).
+Fixed: Case-Sensitivity in reserved nicks bug.
+Changed: User is no more disconnected if try to kick or redirect and is not allowed to do.
+Changed: Tables returned by GetOnlineUsers, GetUsersByProfile and GetProfiles no more contains 0 element (thx Skrollster for report).
+Changed: User disconnect for better sending of remaining data.
+Changed: Lua scripts settings save/load, now is saved in .xml file instead of ini and script order is saved anc corectly loaded.
+Changed: frmHub:GetMinShare() now return minshare in bytes ! (request by Skrollster).
+Changed: Hub Bot and OpChat have now checkbox for enabling/disabling enabled on hub run.
+Changed: Profiles saving, now is saved in .xml file. Automatic convertion from old .dat included.
+Changed: Rest of .dat files converted to .xml files. Automatic conversion from old files included.
+Changed: Port setting, primary port is needed for hub run (1 port), secondary ports (ex. 4861;8579;12589 = 3 ports) are optional.
+Changed: Mass Message sent from hub GUI is now send from hub bot if is enabled.
+Removed: Old and not working pinger detection by IP for hublist pinger.
+Removed: Check if banitem already exist on permban loading, banlist is too slow for this (thx Motivations for report).
+Updated: Some badwith optimizations...
+
+
+--------------------------------0.3.3.0 build 16.06 13.Mar.2005----------------------------
+Added: Added posibility to regbot without OP status (request by the_pest).
+Added: Better scripted bot handling, now is available to set description, email (see new RegBot lua function). Hub make myinfo and send it on login to users as do it for integrated bots.
+Added: Length limit for bots is now 64 chars.
+Added: Posibility to add Description and Email for hub bot and OPchat.
+Added: To lua all things needed to get and set Descriptiong and Email for hub bot and OPchat.
+Added: To lua interface GetUserProfile(Nick) (request by NightLitch and The_Fox).
+Added: Option to disable sending kick messages to OPs if is kick message filtering enabled.
+Added: GetActualUsersPeak and GetMaxUsersPeak (request by NightLitch).
+Fixed: All Gets in Lua returning on/off state now return 1 if on and nil if off (thx bastya_elvtars for report).
+Fixed: Pm max lines settings is now really disabled if is set to 0 (thx the_pest for report).
+Fixed: Bad chars ( $|<>:?*"/\) in botnames no more allowed (thx Josh_J for report).
+Fixed: Most GUI fixes, all text boxses now have checking to disallow bad chars from texts. Text boxses for numbers now accept only numbers.
+Fixed: All bots registered by script is removed on script stop.
+Fixed: No more allowed to change hub/opchat bot nick to nick used by online user. No more allowed to create bot with nick used by online user.
+Fixed: Deleting of numeric values in gui, no more crashes if box is empty and lua want number (thx The_Fox for report).
+Fixed: Some problems with some things and restrictions working only for 4 top profiles.
+Fixed: Fixed bugs in "Memory used by scripts" tab.
+Fixed: Bug in QuickList supports causing sending of $Hello nick| for logging unregistered user.
+Fixed: Bug in bRegistered in userobject on login (thx Skrollster for report).
+Fixed: Crash on try to remove not exist profile from lua. (thx Skrollster for report).
+Fixed: Saving of same multiline deflood settings (thx Mickey for report).
+Fixed: Some hub commands missing responses if status to OPs is disabled (thx Hawk for report).
+Changed: Lua scripts now starts with hub start and stop with hub stop. Not as before script starts with PtokaX and stop with PtokaX. This fix most crash with start/stop hub (thx betatesters for testing and bugreports).
+Changed: Max size of send buffer, is try to fix disconnect on login on hubs with > 3000 users.
+Changed: Some thing on user login, for better handling user logins on big hubs.
+Changed: GetUsersCount() in lua now return hub user count, same value as Users: in gui.
+Changed: GetOnlineUsers() return table with all logged user objects (thx The_Fox for testing script).
+Removed: Protection to removing 4 default profiles.
+
+
+--------------------------------0.3.3.0 build 16.05 06.Mar.2005----------------------------
+Fixed: temp ban setting on deflood page (thx Skrollster for report).
+Fixed: problem with no users able to login if maxlogins are below 10 (thx Skrollster for report).
+Fixed: problems with new connections deflood (thx Skrollster for report).
+Changed: old web URL in about to new (thx the_pest for report).
+Added: back user peak for actual session.
+Fixed: crash on client sending Quicklist in supports, but not supporting it (thx Friz for report).
+Added: frmHub:GetHubIp() and frmHub:GetHubUdpPort() to lua interface(request by NightLitch).
+Added: deflood for same multiline chat/pm messages (thx Mickey for idea).
+Fixed: crash on saving RegisteredUsers.dat (thx Mickey for report).
+Fixed: potential crash on saving PermBan.dat file.
+Added: GetUserPassword(Nick) to lua (request by NightLitch).
+Fixed: QuickList support, here is not allowed refresh userlist -> try to refresh = disconnect !!! (thx Meka-Meka for report).
+Fixed: chat/pm message lenght checking, now is really only message lenght (thx Madman for report).
+Fixed: crash on PtokaX startup (and maybe close) caused by scripts.
+Fixed: SetHubTopic in lua (thx bastya_elvtars for report).
+Fixed: GetHubTopic in lua, now if is topic empty is returned nil (thx bastya_elvtars for report).
+Fixed: other Gets in lua returning string, instead of empty string is returned nil.
+Added: GetUpTime to lua, return hub uptime in seconds (request by bastya_elvtars).
+Added: isNickRegged(nick) to lua (request by NightLitch).
+Fixed: some crazy crashes, if hub not running (thx [CZ]PopUd for report).
+Fixed: OP deflooded for chat spamming if use OP commands.
+Fixed: !op chat command, temp OP is no more allowed to add another temp OP.
+Fixed: GetHubBot(), now return corectly if hub bot is on/off (thx Pothead for report).
+Added: !opmassmsg hub command.
+Added: Redirect(Address, Reason) to user object in lua (request by plop).
+Fixed: gui on advanced page, "Delay changes" is now corectly disabled on "Don't send" checked.
+
+
+--------------------------------0.3.3.0 build 16.04 27.Feb.2005----------------------------
+Added: chat and pm messages line limits (thx Mickey for idea).
+Changed: MOTD sending, now is send before userlist after scripts send own welcome data (thx Mickey for report).
+Fixed: small badwith waste on getnicklist.
+
+
+--------------------------------0.3.3.0 build 16.03 26.Feb.2005----------------------------
+Fixed: some integer values for user object in lua (thx plop for report).
+Fixed: oplist sending before myinfo on OP login (thx Mickey for report).
+Fixed: some badwith waste with sending $OpList and $Quit.
+
+
+--------------------------------0.3.3.0 build 16.02 25.Feb.2005----------------------------
+Fixed: bug in OPchat.
+Fixed: "report to OPs" checkbox saving on deflood page (thx Optimus for report).
+Few optimizations in OPchat.
+Few minor fixes.
+Fixed: hub start if primary TCP port is used (thx Madman for report).
+Added: !massmsg <text> hub command.
+Added: nodeflood options for profiles.
+
+
+--------------------------------0.3.3.0 build 16.01 21.Feb.2005----------------------------
+Fixed: bug with missing client in getinfo on user without description and tag.
+
+
+-----------------------------------------20.2.2005-----------------------------------------
+Fixes: in luainterface to return nil instead of 0 (thx Optimus for report).
+Fixed: crash on bad tag reporting (thx the_pest for report).
+Fixed: opchat if is not enabled.
+Small fix in hubs getting from tag.
+Fixed: connection deflood settings (thx Ratcom_Typhoon for report).
+Added: same searchs deflood.
+Added: user peak saving (thx Ratcom_Typhoon for idea).
+Added: option to disable status messages sending to OPs.
+Fixed: bad tag reporting, now is reported after lua process user myinfo (or newuser / op connected).
+Some gui changes (thx Skrollster for suggestions).
+Fixed: problems with profiles saving (thx Optimus for report).
+Removed: Hub-Security alias (and all lua thing for alias), hub bot is here for this.
+Added: to lua GetHubBotIsAlias(), SetHubBotIsAlias.
+Added: to lua GetHubSecAliasName() (return Hub-Security if bot is not alias).
+Changed: deflood page and add more options (thx Skrollster for suggestion and testing).
+Fixed: dropping of users on big (>1000 users) hub startup (big thx to Skrollster for testing).
+Fixed: iNormalHubs, iNormalHubs and iOpHubs return nil if old description tag is used (thx Optimus for report).
+Fixes: optimalizations and code cleanup in some data sending.
+
+
+-----------------------------------------9.2.2005-----------------------------------------
+Fixed: saving of tempban redirect (thx Skrollster for report).
+Fixed: missing > on end of description if no valid tag found (thx the_pest for bugreport).
+Fixed: temp bans for reg user (thx Raziel-CZ for report).
+Added: option to send status messages (filtered kick, user redirects...) to OPs in PM.
+Added: better hub/slot ratio settings and updated lua inteface for this.
+Added: iNormalHubs, iRegHubs and iOpHubs to user object in lua (idea by Optimus).
+Added: auto kick users with H:0/0/0.
+Fixed: Hub-Security alias changing (thx Optimus for report).
+Fixed: crashing on chatting from hub gui.
+Removed: luasocket from Ptokax (luasocket 2.0 beta 3 not work compiled in PtokaX).
+Changed: now all status messages are broadcasted to all OPs.
+Added: corrupted description Tag is reported to all OPs.
+Fixed: crash on not exist user profile (thx FrizHub for report).
+Fixed: SendToAll (thx Ratcom_Typhoon for report).
+Added: option to send textfiles in PM.
+Added: option to send MOTD in PM.
+Added: optional passive search replies limiting.
+Added: optional myinfo delaying... only last myinfo send by user in this time is broadcasted.
+Fixed: twice myinfo sending in some cases.
+Fixed: compatibility with Direct Connect 1.
+Added: frmHub:GetHubPort() to lua scripting (thx Optimus for idea).
+Added: hub commands and textfiles command is now accepted by hub bot on pm, with reply to pm.
+Added: deflood settings.
+Added: option to report disconnected flooders to OPs.
+Added: option to reply to chat hub commands in PM.
+Added: Zion++ tag to known client tags.
+Fixed: problems with IP bans (thx Skrollster for report).
+Added: option to disable MOTD (thx NightLitch for idea).
+Added: missing topic and getbanlist checkboxes to profile manager.
+Added: connection flood to hub port reporting.
+Fixed: user have key icon in profiles, now user with key is OP and no more care if have enabled kick and redirect.
+Fixed: some problems with PM from hub bot / hub security.
+Added: deflood settings for same main chat / pm messages.
+Fixed: potential crash on corrupted $MyINFO.
+Fixed: registered user is now banned by nick and by IP (thx NightLitch for bugreport).
+
+
+-----------------------------------------12.1.2005-----------------------------------------
+Fixed: GetOnlineUsers (thx NightLitch for report).
+Added: global Ban(IP) (idea by NightLitch).
+Added: global TempBan(IP) (idea by NightLitch).
+Added: global TimeBan(IP, Minutes) (idea by NightLitch).
+Added: global NickBan(Nick).
+Added: sTag for user object (idea by NightLitch).
+Added: GetTempBannedItemIP(Nick) (idea by NightLitch).
+Added: GetTempBannedItemName(IP).
+Added: passwd hub command, allow registered users to change own password.
+Fixed: crash on script with bug in function OnError (thx NightLitch for report).
+Added: own data arrival for any Direct Connect protocol command, chat and unknown commands (see scripting doc).
+Added: bActive for user object in script.
+Fixed: problem with lua scripts modifying chat and chat in console on hub. (thx plop for report).
+Updated: banning, registered user on shared IP is allowed to log in if don't have banned nick, but only IP.
+Changed: EXTENDEDPROTOCOL support, PtokaX now don't need $Key from EXTENDEDPROTOCOL supporting clients.
+Changed: sending $OpList, now is with new logged op send only $OpList newOPnick$$| and not full oplist (ok nothing perfect, old Neo-Modus Direct Connect client report bug to vandel with this and not show key).
+Changed: opchat bot sending, now is visible only to OPs.
+Changed: $Version is now not needed for login.
+Fixed: (maybe) problems with antiflood on long uptime (thx plop for report).
+Added: LDC++ tag to default supported tags.
+Fixed: memory leak with enabled tags only to OPs (thx Skrollster for running test hub where i find it).
+Added: R2++ tag to default supported tags.
+Fixed: redirect problems from OP, and redirect all.
+Fixed: more problems with (not)sending TAGs and user login (thx Skrollster for bug report).
+Fixed: twice oplist sending if client send myinfo before getnicklist.
+Fixed: some problems with NoHello clients not accepting BOTs without myinfo :(
+Fixed: problems with hub bot and opchat with same nick.
+Changed: user login, maybe finally fix of crashing (thx Skrollster for bug report).
+Fixed: 49.7 days uptime bug (thx plop for testing and report).
+Fixed: missing redirect messages.
+Added: user count to hub full message.
+Fixed: badwith wasting if more users connect in same second (thx Skrollster for report).
+Fixed: crash on long reg user nick/pass by adding limit max 64 chars (thx pur for report).
+Added: limits for most gui text boxes to 256 chars to avoid crashing on very long messages (thx pur for report).
+Added: redirect for Registered Only hub, with all needed for changing from lua (GetRegOnlyRedirect, SetRegOnlyRedirect, GetRegOnlyRedirAddr, SetRegOnlyRedirAddr).
+Added: option to minimize on startup (idea by bastya_elvtars).
+Added: cpu time to stats.
+Added: better mem usage to stats.
+Added: virtual mem usage to stats.
+Fixed: banning for 3x bad pass (thx Raziel-CZ for report).
+Added: chat messages count to stats.
+Fixed: bans for reg users.
+Added: option to filter kick messages from chat.
+Added: sDescription, sConnection and sEmail to user object in Lua interface.
+Added: more thing from myinfo available for strip.
+Added: small badwith optimization on active search.
+
+
+-------------------------------------------------------------------------------------------
+Added: myip hub command.
+Fixed: script saved as off to .ini on error, now is only off on hub and next restart script try to load this script. (thx NightLitch for report).
+Added: TempBan and Ban redirects.
+Added: frmHub:GetTempBanRedirect() frmHub:SetTempBanRedirect() frmHub:GetTempBanRedirAddr() frmHub:SetTempBanRedirAddr().
+Added: frmHub:GetBanRedirect() frmHub:SetBanRedirect() frmHub:GetBanRedirAddr() frmHub:SetBanRedirAddr().
+Added: frmHub:GetOpChat() frmHub:GetHubBot() frmHub:SetOpChat() frmHub:SetHubBot().
+Added: TempUnban(ip).
+Added: gettempbanlist hub command.
+Added: frmHub:GetPtokaXLocation() -> return path to PtokaX dir.
+Added: frmHub:SetOpChatName frmHub:SetHubBotName frmHub:GetHubAlias frmHub:SetHubAlias frmHub:GetHubAliasName frmHub:SetHubAliasName.
+Added: tag tokens for user object bHasTag sClient sClientVersion sMode iHubs iSlots iBlimit iLlimit.
+Fixed: bug in QuickList support and disconnecting "ghosts" (thx [CZ]PopUd for report).
+Added: missing loadlib to Lua interface (thx plop for report).
+Fixed: luasocket and mime (thx plop for report).
+
+
+-------------------------------------------------------------------------------------------
+Changed: NewUserConnected and OpConnected lua function to be able to stop user adding to hub (no more badwith waste).
+Changed: no more send empty OpList.
+Fixed: problem with description tag and cheating users with < in email.
+Optimized: few things on user login.
+Fixed: problem with another hub flooder (sending unknown commands before full login, now is disconnected if command is not handled by script).
+Removed: "never used" Quicklist checkbox.
+Added: option to send user mode in MyINFO, usefull if tags not send to all (not compatible with all client, known problems with DC2 and DC:PRO).
+Added: setting for UDP hub port.
+Added: QuickList support.
+Fixed: $LogedIn command is now corectly send only to OPs.
+Updated: Lua to 5.0.2 version (thx NightLitch for help with lua 5 scripts).
+Updated: LuaSocket to 2.0 beta 2 version.
+Added: Lua 5.0.2 compatible script errors handling and reporting.
+Added: option to stop script on error.
+Added: frmHub:GetHubAddress().
+Added: frmHub:GetHubTopic().
+Added: frmHub:SetHubTopic(string).
+Added: iShareSize for user object in script.
+Added: GetBannedItemIp(Nick).
+Added: GetBannedItemName(IP).
+Fixed: Backspace in Share Check not working "bug" (thx Optimus for report).
+Fixed: !gag for scripts not working (thx plop for report).
+Added: bRegistered for user object in script (request by bastya_elvtars).
+Added: DataArrival for $UserIP (mode normal, blockable) and $Supports (mode full, non-blockable).
+Changes: in sending DataArrival to script, first hub check command for corruption. (idea after plop crash hub with script on $To command).
+Added: frmHub:Restart() (idea by plop).
+
+
+-------------------------------------------------------------------------------------------
+Added: options to send Description Tag to all, only to OPs, not send.
+Added: OnError(ErrorMsg) function for scripts, to handle script errors.
+
+
+-------------------------------------------------------------------------------------------
+Replaced: all static Hub-Security messages with hub-security alias (if enabled).
+Replaced: strings in ban message with chars, replaced double strlen with one (same change for others messages in serviceloop).
+Code clean up in serviceloop -> // TODO 5 -oPTA -ccode cleaning: Co s timhletim PePKu?.
+Set as done (from 15.26) -> // DONE 1 -oPPK -cbug: Check length of MyInfo! Uz to je? [pta].
+Changed: hub commands, if not commands is send to all as chat message.
+Replaced: strings in welcome message (This hub is running...) with chars.
+Added: StrongDC++ tag to defaults know tags.
+Added: my new string to english.lan.
+Changed: chat message using !me is not added to queue but send as normal chat.
+Fixed: checking of nick in myinfo to avoid possibility to have "clones" in userlist.
+Fixed: crash on loooong !me message, added limit checking max 950 chars.
+Fixed: posibility to chat as another user.
+Replaced nick in pm message checking with better and faster code.
+Fixed: possibility to fake nick in $SR.
+Fixed: possibility to fake nick in $RCTM.
+Small: code changes in $GetINFO and added mynick checking.
+Fixed: possibility to fake nick in passive $Search.
+Replaced: <Hub> message in serverthread to use hub security alias (if enabled).
+Added: < and > as illegal characters in nick.
+Added: "kill your own ghost" feature for registered users ;o)
+Disabled: Posibillity for yourself connections in $CTM $MCTM $RCTM.
+Added: connections antiflood.
+Added: !tempban !tempunban commands.
+Added: time formating for tempbans, no more only minutes ;)
+Fixed: problem with - shares. -> $MyINFO $ALL bcjumper <DC V:2.02,M:A,H:1/1/0,S:6,O:3>$ $Cable$$-1964116992$|.
+Fixed: crash on corrupted TempBan.dat loading (thx yepyepyep4711 for report).
+Fixed: corrupted PermBan.dat loading.
+Changed: $UserIP, user get only own IP if not OP.
+
+
+-------------------------------------------------------------------------------------------
+Fixed: !gag not work if user use !me.
+Fixed: !gaging user with higher profile.
+Fixed: !ban user with higher profile.
+Fixed: !nickban user with higher profile.
+Fixed: !drop user with higher profile.
+Added: customizable tag file with default DC++, DC, oDC, DCGUI, QuickDC, DC:PRO support.
+Fixed: !getinfo share size show for no tag users.
+Added: EXTENDEDPROTOCOL supports.
+Added: NoGetINFO Support.
+Added: Sent and Received to !stats.
+Modified: Search Antiflood.
+Added: MyINFO Antiflood.
+Added: GetNickList Antiflood.
+Added: Chat Antiflood.
+Fixed: bug with client sending MyINFO before GetNickList on login.... if not OP not send second same MyINFO.
+Added: UserCommand support, it accesed from script with curUser.bUserCommand.
+Added: looooooooooooong MyINFO protection.
+Added: NoHello support.
+Fixed: empty $ValidateNick | (thx to [NL]_Purmerend_3 for report).
+Fixed: Stop to Start button change with language change (thx to [NL]_Purmerend_3 for report).
+
+
+--------------------------------0.330 build 15.30 [transition build]--------------------------------
+Added: Scriptable setting of maximum simultaneous logins between 1 and 500 (default 75).
+	frmHub:GetMaxLogins()
+	frmHub:SetMaxLogins( integer ) [1500]
+
+Changed: frmHub:SetMaxUsers maximum is now 5000.
+
+
+--------------------------------0.330 build 15.29 [transition build]--------------------------------
+Added: Scripting functions for checkers redirects. See the list below.
+Fixed: double sending MyINFO for operators with CZDC++ and other clients sending MyINFO before GetNickList.
+
+New Scripting functions:
+    MinShare check:
+	frmHub:GetShareRedirAddr()
+	frmHub:SetShareRedirAddr( string )
+	frmHub:GetShareRedirect()
+	frmHub:SetShareRedirect( integer )
+    MinMax slots check:
+	frmHub:GetSlotsRedirAddr()
+	frmHub:SetSlotsRedirAddr( string )
+	frmHub:GetSlotsRedirect()
+	frmHub:SetSlotsRedirect( integer )
+    SlotRatio check:
+	frmHub:GetRatioRedirAddr()
+	frmHub:SetRatioRedirAddr( string )
+	frmHub:GetRatioRedirect()
+	frmHub:SetRatioRedirect( integer )
+    MaxHubs check:
+	frmHub:GetMaxHubsRedirAddr()
+	frmHub:SetMaxHubsRedirAddr( string )
+	frmHub:GetMaxHubsRedirect()
+	frmHub:SetMaxHubsRedirect( integer )
+    NoTag check:
+	frmHub:GetNoTagRedirAddr()
+	frmHub:SetNoTagRedirAddr( string )
+	frmHub:GetNoTagOption()
+	frmHub:SetNoTagOption ( integer ) [1Accept,2Reject,3Redirect]
+    NickRule check:
+	frmHub:GetNickRuleRedirAddr()
+	frmHub:SetNickRuleRedirAddr( string )
+	frmHub:GetNickRuleRedirect()
+	frmHub:SetNickRuleRedirect( integer )
+
+
+--------------------------------0.330 build 15.28 [transition build]--------------------------------
+Fixed: user disconnects after !reloadtxt and after any unknown command.
+Fixed: memory leak in data resection routines which has caused further access violations (tnx Glader).
+
+
+--------------------------------0.330 build 15.27 [transition build]--------------------------------
+Added: Global redirect address used for empty redirects on checkers page.
+	(Enable redirect for a checker and leave the redirect address field empty to use the main redirect address from Network settings).
+Fixed: Second port edit box accessibility after hubstop.
+
+
+--------------------------------0.330 build 15.26 [transition build]--------------------------------
+Added: Chat and Commands tracing is included in hub settings.
+Added: On/Off state of individual script is now stored in scripts.ini in the scripts directory.
+Added: EXTENDEDPROTOCOL support (PPK).
+Added: NoGetINFO support (PPK).
+Added: support for various DC tags via ClientTags.dat file. (PPK) TODO: documentation!
+Added: Secondary hub port.
+Fixed: stealth bug in Botregistration function.
+Fixed: bug when GAGed user was able to write to mainchat via !me (PPK).
+Fixed: user lower profile can't ban/nickban/gag/drop an user with higher profile /for default profiles only/ (PPK/ptaczek).
+Changed: !getinfo now shows user's sharesize regardless of DC tag presence (PPK).
+Changed: Profile manager uses list of checkboxes instead of individual set of checkboxes. Future permissions expansion will be more easy.
+
+--------------------------------0.330 build 15.25--------------------------------
+Fixed script restarting bug.
+
+
+--------------------------------0.330 build 15.24--------------------------------
+Changed: experimental memory management.
+
+NOTE: This build has no special superatomic features additions or changes.
+The only thing that has changed a lot is the memory management for various
+parts of the core. As such it's a very experimental, so be carefull.
+Also note that the memory counter in status box is showing ONLY the memory
+allocated by the native Borland allocator so do not rely on that value so much ;)
+
+
+--------------------------------0.330 build 15.22--------------------------------
+Memory allocations touched again...
+
+
+--------------------------------0.330 build 15.20--------------------------------
+Completely replaced memory allocators.
+
+
+--------------------------------0.330 build 15.19--------------------------------
+Replaced realloc() function.
+
+
+--------------------------------0.330 build 15.18--------------------------------
+Added: Hub Topic (!topic command).
+Fixed: some memory allocation/access issues.
+Tweaked accept routines for higher performance.
+Fixed: (hopefully) dreamland registration.
+
+
+--------------------------------0.330 build 15.12--------------------------------
+Fixed: silly malfunction of Kick.
+Rewriten user's Close() method. I hope it will be finally ok.
+MOTD is now being sent without the <MOTD> prefix. Write your own right into the text.
+Support for textfiles.
+Added: !reloadtxt commad (included also in profile manager).
+Several security fixes.
+Added: new rights to the profile manager.
+Script errors are now shown with full stack traceback and line numbers.
+Added connection overload protection. No more than 50 simultaneous logins.
+
+
+--------------------------------0.330 build 15.11--------------------------------
+Experimental dealying on user Close().
+
+
+--------------------------------0.330 build 15.10--------------------------------
+Fixed: passive searching ;)
+
+
+--------------------------------0.330 build 15.9--------------------------------
+Fixed: Search problems.
+Fixed: few bugs in DC tag parsing routine.
+
+
+--------------------------------0.330 build 15.8--------------------------------
+Fixed: bug in LUA caused by recursive calls.
+Few bandwidth optimizations.
+Preparation for QuickList implemetation.
+GUI is back in old style, scrollbars were sometimes invisible.
+Scripts are listed right after appz start.
+Rewriten user's Close() method again.
+Few touches of client object to take better care about memory.
+A little modified !stat.
+!restarscripts restarts scripts, not hub ;)
+
+
+--------------------------------0.330 build 15.6--------------------------------
+Fixed: users counter, sorry guys...it's really stupid ;)
+
+
+--------------------------------0.330 build 15.5--------------------------------
+A little changed look'n'feel.
+Static global buffers rewriten to adaptive dynamic buffers.
+Fixed: one bug in hash class (maybe there is another one...).
+50% of idividual script control done (still needs a lot of work so do not report bugs about it plz).
+Added mainchat logging [Advanced].
+Changes in Close() method of client object.
+By default .log files are stored into logs directory (except PtokaxDebug.log).
+Fixed: Scripting checkbox state is FINALLY stored in the ini file ;)
+
+
+--------------------------------0.330 build 15.2--------------------------------
+Fixed: small bug in $GetINFO parsing routine.
+Hopefully fixed problems with hashing.
+Fixed the script editor file listing.
+Added CPU usage monitor (the same from 0.326.b38, type !stat in mainchat).
+Reenabled memory monitor.
+
+
+--------------------------------0.330 build 15--------------------------------
+Fixed: $OpForceMove crash with empty redir.address (thanx TiM).
+Fixed: TempBan function if the default tempBan time is not filled (thanx Mephiska).
+Fixed: UserList update (thanx Bolamix).
+Fixed: chatting from inside the application (thanx ptaczek ;D).
+Modified: lua code for better handling of individual scripts (will be fully added in build 16).
+Added: variable command prefix option (idea Shipis).
+First start and stop the application, then you can modify it in ptokax.ini "CmdPrefix" under [System] section.
+Note that settings are loaded ONLY at application start.
+
+
+--------------------------------0.330 build 14--------------------------------
+Fixed: critical buffer overflow bug in !getbanlist.
+Fixed: critical bug in GlobalQ class, no more data losses (PPK again!).
+Fixed: buttons placement while resizing the PtokaX window.
+Fixed: hub_load progress bar updating.
+Added: UserList autoupdate.
+Added: few remote controls in LUA frmHub
+      SetMinSlots(n)
+      GetMinSlots()
+      SetMaxSlots(n)
+      GetMaxSlots()
+      SetSlotRatio(n)
+      GetSlotRatio()
+      SetMaxHubs(n)
+      GetMaxHubs()
+      -- (redirects in next build(s) )
+Updated: About section.
+Code cleaning.
+
+
+--------------------------------0.330 build 13--------------------------------
+MassMsg works properly.
+Counters in statusbar work properly.
+Gui userlist refresh only on click to lower the cpu load a little bit.
+Fixed: small bugs in data sending routines.
+
+
+--------------------------------0.330 build 12--------------------------------
+MassMsg temporarily disabled. It was badly depending on the userlist listbox. Needs rewrite.
+Gui userlist is off until next build.
+Fixed: kick message in lua.
+Changes in slot checker gui controll.
+Changed: sendbuffer data processing (Im expecting bugs ;).
+Wordreplacer is temporarily disabled.
+Changed: code for closing user's connection (now tries send all buffered data before shuting down the connection).
+
+In general there are next changes in the core so it's possible that new bugs will arrive.
+Before using the build 12 delete all logs (PtokaxDebug.log and Error.log).
+
+
+--------------------------------0.330 build 11--------------------------------
+Fixed: closing of sockets. All sockets are now closed properly.
+Fixed: "your nick is already taken..." on fast reconnects.
+Fixed: !ban command. Reason is now parsed properly.
+Fixed: some logic in parsing $ConnectToMe and $RevConnectToMe.
+Fixed: parsing of DC tag for DCGUI clients.
+Fixed: LUA OnExit() is now properly called before appz exit and possible global messages are dispatched to all users before exit.
+Added: NickRule redirect.
+Added: options for users without DC tag in description.
+Added: hub setting is now saved on HubStart.
+Rearranged: 'Rules and Bots' section.
+Disabled: checking for new release (I have to set up new URL for checking).
+Disabled: debug console.
+Rewriten: 'About' section.
+Some code cleaning again.
+
+
+--------------------------------0.330 build 9--------------------------------
+Fixed: memory access overrun in LUA PM sending function.
+Fixed: hubstart on already used port.
+Changed: chat sending loop.
+Few changes in data sending routines of client.
+Some code cleaning.
+
+I have tested this build with GlorySecuritas 1.9 without problems.
+Do not use the userstatistics for the tests!
+
+
+--------------------------------v0.326 TD5--------------------------------
+Added: OnExit() handler for LUA scripts which is called right before the script restarts.
+       Good for saving state of variables, tables etc.
+Fixed: problem with renaming registered users (thanx to Neo).
+Fixed: problem with Access Violation on appz exit.
+Fixed: problem with random misscheck of newly added registered user (thanx to [GTE]Gatecrusher).
+Fixed: problem with cancelation of Windows shutdown.
+Rewriten MultiHubbing network code, no more API errors.
+On fast disconnects (insuffitioent share etc.) hub tries max. 10 times to send all buffered data before the user disconnects.
+
+
+--------------------------------v0.326 TestDrive4--------------------------------
+Added: AntiMoGlo description (Im not sure about the functionality).
+Added: TempBan default ban time setting.
+Added: handling for unknown $commands. Return 1 from DataArrival to validate command.
+Added: slot checking for passive users, fixed UDP port 413 is used as the checker listener (will be adjustable in next release).
+Added: password_bruteforce_attack protection (greetings to Birdy).
+Added: delayed entry to avoid userlist 'jumping' (also saves some traffic).
+Fixed: and improved Tray Icon code. Tray icon is now recreated after explorer crash.
+Fixed: bug in flood protection.
+Fixed: bug in $ValidateNick subroutine.
+Fixed: ghost spawning in reversed order of $NickList and $MyINFO.
+Fixed: $SR spoofing (thanx Fusbar).
+Fixed: little bug in new chatsending routine (thanx Skrollster).
+Fixed: problem with "full" hub.
+Fixed: !iprangeinfo.
+Fixed: problem with specific nick characters in users statistics.
+Improved: $GetINFO subroutine.
+Improved: nicklist processing routines.
+Improved: commands logic: $MyINFO is now accepted properly even before $GetNickList.
+Improved: chat messages dispatching performance..
+Improved: TempBan engine  tempban list is now saved on exit and restored on appz start.
+A little tweaked network core.
+Added frmHub:EnableSearchData() and frmHub:EnableFullData() to LUA (more in Scripting.txt).
+
+
+--------------------------------v0.326 TestDrive3--------------------------------
+Fixed: problem with lua user:TempBan().
+
+
+--------------------------------v0.326 TestDrive2--------------------------------
+Fixed: problem with slot checker.
+
+
+--------------------------------v0.326 TestDrive1--------------------------------
+Added:
+    'Enable tray icon' to Advanced page.
+    Languagefiles got a refresh...
+    Languages: 	 
+	German (aMutex)
+	Italian (PopsLutor and Lothariel)
+	French (bolamix and Echo)
+	Swedish (bastsweden, sebastiannielsen)
+	Norwegian (LeviataN)
+	Finnish (MadBeezzz)
+	Hungarian (a1s and dentro)
+	Danish (JenZen™ and Ratcom_Owner)
+	Latvian (XericsX)
+	Spanish (poweroperator)
+	Dutch (FlipDeluXe)
+    Userstat in Access (users.mdb) now.
+    Commands: !userinfo <name> and !ipinfo <IP> and !iprangeinfo 187.24.
+	      !MHban ip/nick ... bans someone on the whole network.
+	      !addreguser  adds new registered user with specified password and profile.
+	      !delreguser  removes registered user.
+    Userstat NEEDS to be enabled when ptokax starts up to work properly!!!
+    LUA Functions added:
+        GetMinShare()  ... returns the minshare in bytes.
+        SetMinShare(amount, unit) ... set the minshare (unit: 0=byte, 1=KByte,2=MByte, 3=GByte).
+        GetCurrentShareAmount() ... returns te total share of all users at the moment.
+        GetOpChatName() ... returns the name of the OpChatBot.
+        GetHubBotName() ... returns te name of the HubBot.
+        user:TempBan() ... bans temporary without kickmessage.
+	new LUA functions for working with profiles:
+	    AddProfile(profile_name, profile_data)
+	    RemoveProfile(profile_name)
+	    GetProfileIdx(profile_name)
+	    GetProfileName(profile_idx)
+	    GetProfiles()
+	    GetUsersByProfile(profile_name)
+    Commandline parameters:
+	/notray  dissables systray icon.
+	/autostart  enables the autostart option.
+	/noautostart  disables the autostart option.
+Preparation for Multihub/Remote administration (still in progress).
+Changed:
+    "Show Userstatisics" to "Clear Userstatistics" on Advanced page.
+    AddRegUser(nick,pass,profile) is now global function. No preceeding frmHub is needed.
+    DelRegUser(nick) is now global function. No preceeding frmHub is needed.
+Fixed: few minor bugs in profile manager.
+
+
+--------------------------------v0.325 AshCan prerelease--------------------------------
+Implemented ProfileManager (no lua support yet).
+Changes in 'Rules and bots' gui.
+Added: !clrtempban and !clrpermban.
+Publiclist.noip.com removed from core.
+Added: new dialog for adding/editing user's properties (doubleclick on registered user).
+Peruser logon timer replaced with better time checking algo.
+Batched command queue  less cpu usage.
+
+
+--------------------------------v0.324 IceCube III Fix 3--------------------------------
+Fixed: problem with new DC++ tag recognition.
+Added: PtokaX Quit confirmation.
+
+
+--------------------------------v0.324 IceCube III fix 2--------------------------------
+Fixed: problem with return value in lua DataArrival.
+
+
+--------------------------------v0.324 IceCube III--------------------------------
+Fixed: parial IP banning issue.
+Fixed: no duplicate nicks! Two nicks with variable case are considering as same (Ex.: PtaCzEk is the same as ptaczek).
+Fixed: dead and 0 share users are now cleared from nicklist correctly.
+Fixed: ''*** Your nick is already taken'' message after reconnect.
+Added: buffer overflow counter  If the 'Keep slow users online' is turned on, every user is allowed to 3 times overflow his sendbuf. Then he is disconnected.
+Added: user:Kick(reason) and user:Kick(kicker, reason) to LUA.
+Added: return value for DataArrival in LUA. ''return 1'' to stop processing the data by the hub, ''return 0'' or no return at all to let the hub process the data.
+Added: UL/DL counters are written into error.log at serving stop.
+Changed: MOTD is sent after full log in of certain user.
+	 That means it's not sent i.e. when the hub is full or if the user is banned
+Changed: Redirect messages are now sent only to OPs via PM in form <HubSecurity> _Nick_ redirected to _address_ by _operator_.
+Changed: CPS flood protection and user statistics are dissabled for this release.
+
+Languages added:
+    Latvian by Piglja
+    Spanish by Poweroperator
+
+Thanks:
+   Thanx to Arnetheduck for simplification of my concept of DataArrival return values and for few clever insights about lua scripting subsystem.
+   Thanx to aMutex for additional insights about lua scripting subsystem.
+   Thanx to TIC35 hub for incredible patience with testing of all buggy versions, especialy to Iceman.
+   Thanx to all others who participate on this project! You are COOL! ;)
+
+
+--------------------------------v0.324 IceCube II (nonpublic release)--------------------------------
+
+
+--------------------------------v0.324 IceCube--------------------------------
+Fixed: problems with Neo-Modus Direct Connect connecting on big hubs.
+Fixed: hopefully fixed problem with 0 share hanged nicks in userlist.
+Fixed: ip subnet ban with wildcards (ex.: 111.222.* or 111.222.33.*).
+       btw: 111.*.33.44 is NOT possible.
+Fixed: IPMF (Intelligent Pm Frequency Measuring) is now tweaked a little.
+       I hope it will get rid of PM spammers but keep innocents on the hub.
+Added: The LUA memory monitor is back.
+
+Thanx to [DK][TIC]Icemand™ for quick test.
+
+
+--------------------------------v0.324 Test3--------------------------------
+Fixed: several crashes.
+Fixed: totalShare counter issue ;)
+Fixed: several crashes again.
+Fixed: User Statistics is working now .
+Changed: the old good network core is back.
+Added: DoubleClick on permBan list to manualy add Nick or IP to ban list.
+Added: partial IP bans (ex. 192.80.80. will ban all IPs started with this prefix).
+Added: IPFM  an Intelligent Pm Frequency Measuring for better security on PM spam attacks (experimental).
+Added: !gag nickname and !ungag nickname ..... the famous silencefunction (user is no longer able to post to mainchat).
+Added: LUA: function ClearTempBan() .... Clears all tempbanentries.
+
+Dutch language file provided by Peter Wieringa.
+
+
+--------------------------------v0.324 Test2--------------------------------
+A bugfix of the bugfix ;)
+
+
+--------------------------------v0.324 Test1--------------------------------
+Fixed: directory changing in LUA. All paths in scripts are now relative to scripts\ directory.
+Fixed: reasonless kicking for flooding.
+Fixed: bugs in slotchecker  the additional slot check should works fine now.
+Changed: new network core (experimental). Should be faster than the old one based on borland components.
+Changed: builtin commands change (thanx to frontline3k):
+    !ban <nick> (<reason>)  permanently ban IP address of the <nick>, followed by kick. Reason is optional.
+    !banip <IP>  permanently ban IP address.
+    !nickban <nick>  ban user's nick (if user is connected then he is kicked).
+Added: multiple hublist registration (ex.: vandel405.dynip.com;dreamland.gotdns.org)
+Added: realtime user statistics (ask aMutex for details)
+
+Note!
+This is just extended bugfix with some new features. There can be new bugs!
+Also the old bugs can not be fixed properly. Please test whatever you can and let me know. Thanx.
+
+
+--------------------------------v0.323 Test2B--------------------------------
+Fixed: public hublist misspeling bug which caused GLO search to crash and probably failed registration of hubs running on other port than 411. Thanx to aDe.
+
+
+--------------------------------v0.323 Test2--------------------------------
+Fixed: incorrect detection of slot number for Neo-Modus Direct Connect.
+Fixed: script methods SendToOps and SendPmToOps now works for Neo-Modus Direct Connect.
+Fixed: !unban issue.
+Fixed: Unsent data are now sent before disconnect.
+Changed: Script editor with resizable panes. Filelist not working yet.
+Changed: SendToAll, user:SendData. See Scripting.txt.
+Changed: WebStats now accepts xml as templates.
+Added: <PTOKAXVERSION> and <HUBUPTIME> tags for WebStats.
+Added: Memory monitor for scripts.
+Added: 
+    user:Ban()
+    user:NickBan()
+    Unban(what)
+    DisconnectByName(nick)
+    GetItemByName(nick),
+    SendPmToAll(from, data),
+    -- See Scripting.txt for details
+
+Added: language files
+    Saverio Motta	Italian
+    Vodka 	        Spanish and Galician
+    Balde Edward	Russian
+    LeviataN		Norwegian
+
+[ if I forgot somebody, just scream! ;) ]
+
+
+--------------------------------v0.323 Test1--------------------------------
+Added: "Keep slow clients online" to keep users that can't handle the traffic online by clearing the senduffer.
+Fixed: hopefully fixed the public hublist registration problems.
+Fixed: OpChat now works for Neo-Modus Direct Connect too.
+Fixed: SendPmToOps and SendToOps in lua now works for Neo-Modus Direct Connect too.
+
+
+--------------------------------v0.322 PF'2003 edition--------------------------------
+Added: new methods and events to scripting API (more in Scripting.txt).
+Added: !nickban, !drop.
+The Permanent Ban list is now a mixed mode. Can contain IP or nicks.
+As such it acts as global banlist for IP's and Nicks.
+!unban command now accepts banned IP or nick as a parameter.
+Added: SlotCheck for Neo-Modus Direct Connect users + additional check for DC++ users.
+Added: Temban cleaning.
+Forum: a temporary LUA scripting forum up on http://mitglied.lycos.de/amutex/wbboard/.
+
+Language files by (in no particular order):
+    Stimorol	swedish
+    aMutex	german
+    Maicom	finnish
+    Dazzle®	french
+    Ptaczek	czech
+
+
+--------------------------------v0.321 prerelease--------------------------------
+Fixed: scritps loading issues.
+Fixed: CPS flood protection bug.
+Fixed: <CHATLINE0> in webstat live chat preview.
+Added: Timers for LUA.
+Added: Multilanguage support.
+Change: LUA 4.0 replaced with LUA 4.01.
+
+
+--------------------------------v0.320 XMass edition--------------------------------
+Added: scripting (read the Scripting.txt).
+Added: regular expressions nickname checker.
+Added: live web statistics with live chat (read the Webserver.txt).
+Added: adjustable flood protection (CPS).
+Added: redirect all button.
+Added: max users limit changeable even during serving.
+Fixed: problems with looong messages  no crashes anymore.
+Fixed: problem with anonymous chatting.
+Sizeable application windows *grin*.
+Userlimit changeable even during serving.
+
+Remember that this is huge update and as such it can be buggy in some way.
+Test it and let us know :)
+
+Also welcome new member of our team aMutex.
+
+
+--------------------------------v0.315 [NeonBlue] RC1--------------------------------
+Added: mass message.
+Added: redirect for lowshare users (redirect address is taken from RedirectAddress in network settings).
+Added: improved userInfo for hubadmin (dblClick on user in hub's userlist).
+Fixed: anyone was able to write to OpChat.
+Fixed: MyInfo is now not sended to others if there is no change.
+Several tuneups to the core.
+
+
+--------------------------------v0.315 prerelease--------------------------------
+*******************************************************************************
+PRERELEASE OF UPCOMMING 0.315 NeonBlue
+THIS VERSION IS RELEASED TO SOLVE THE PROBLEM WITH PUBLIC HUBLIST REGISTRATION!
+*******************************************************************************
+Added: OpChat bot (also known as multichat).
+Fixed: problems with Neo-Modus public hublist registration.
+Fixed: problem with registered users.
+Changed: !ban,!unban commands now works with IP addresses instead of nicks.
+Added: !getinfo command to get IP of specified nick.
+
+
+--------------------------------v0.314 NeonBlue--------------------------------
+Added: Min.Slot checker (frontline3k).
+Changed: old Min.Slot checker is now Min slots/hub ratio checker (frontline3k).
+Fixed: bug in public hublist registration (thanx to Simon).
+Fixed: another small bug in hash manager (CheckNick  ptaczek).
+
+ATTENTION! Due to changes in SlotChecker you have to reconfigure hub's slot checking values.
+
+
+--------------------------------v0.313 Neon--------------------------------
+Added: Min.Slots checker.
+Added: Max.Hubs checker.
+Added: user agent detector (operates on different port).
+Added: global permissions (optional deny of DC++, Neo-Modus Direct Connect, cloacked DC++).
+Added: botname.
+Fixed: small bugs in hash manager (Find, Delete).
+
+
+--------------------------------v0.299b Neon (Beta test)--------------------------------
+THIS IS BETA TEST VERSION - USE ON OWN RISK !
+Another bugfix :/
+
+
+--------------------------------v0.299 Neon (Beta test)--------------------------------
+THIS IS BETA TEST VERSION - USE ON OWN RISK !
+Added: hashed userManager table for better internal processing.
+Added: operators can connect to full hub.
+Changed: sendBuffer size increased to 64kB.
+Fixed: small problems with memory allocation.
+
+
+--------------------------------v0.221 Neon (Beta test)--------------------------------
+THIS IS BETA TEST VERSION - USE ON OWN RISK !
+Rewritten user manager.
+Rewritten nicklist handling.
+Network core optimised for high performance (500+ users).
+
+
+--------------------------------v0.203f Xenon--------------------------------
+Fixed: passive search issue for old nmdc client (thanx to frontline3k).
+Fixed: AutoStart issue (thanx to frontline3k too ;) ).
+
+
+--------------------------------v0.203e Xenon--------------------------------
+Added: Hub Autostart.
+Added: Hub Stop.
+
+
+--------------------------------v0.203e--------------------------------
+Fixed: hub lockup if somebody sent message longer than 1024 bytes (thanx to PPK).
+Fixed: data was incorrectly pumped to winsock which caused data loss.
+Added: maximum SendBuffer size is 16Kb.
+       If anybody exceeds this size (i.e. due to slow connection) then he/she is disconnected.
+OpPlus extension added by PPK.
+Fixed: backward compatibility with Neo-Modus Direct Connect client.
+
+
+--------------------------------v0.203--------------------------------
+Fixed: Access violation error caused by improper pointer arithmetic.
+Fixed: Anybody can send others MyINFO! Thanx to big_dave.
+Fixed: Neo-Modus Direct Connect users cannot see the logon message. Thanx to iCeRapto®.
+Added: redirections.
+
+
+--------------------------------v0.202--------------------------------
+From now PtokaX is totaly ICS free.
+Completly rewritten network core (no more ICS).
+Fixed: memory leaks solved.
+Fixed: client objects are now correctly freed.
+Readded 60secs login timeout.
+Added: new error handling for defected sockets.
+Additional optimizations.
+Changed: chat message max.length = 250 characters.
+Changed: private message max.length = 350 characters.
+Added: now you can turn off the chat tracing as well as commands tracing.
+Added: public hublist registration.
+Small visual changes in gui.
+
+
+--------------------------------23.24.8.2002 [0.201]--------------------------------
+Completly rewritten network core (no more ICS).
+Minimalized memory leaks.
+Client objects are now correctly freed.
+Readded 60secs login timeout.
+New error handling for defected sockets.
+Additional optimizations.
+...more to come.
+
+
+--------------------------------20.8.2002 [0.196C]--------------------------------
+Small internal changes.
+Changed: chat message max.length = 250 characters.
+Changed: private message max.length = 350 characters.
+
+
+--------------------------------18.8.2002 [0.196]--------------------------------
+End of vacation ;) Spain is beautifull country !!!
+Several bugs fixed.
+Memory consuming issues solved (I hope at least).
+Now you can turn off the chat tracing as well as commands tracing.
+Added: public hublist registration.
+Small visual changes in gui.
+
+
+--------------------------------29.7.2002--------------------------------
+Experimental memleaks solution (don't know if it'll work :/ ).
+
+
+--------------------------------23.7.2002--------------------------------
+Added: Ops must follow the share rule.
+Added: Kick shows the kicked user's IP (prepared for IP ban cmd).
+Fixed: Neo-Modus Direct Connect users can't see themself in userlist (thanx to CruxAnsata).
+Changed: the login procedure, login timer raised to 60 secs.
+
+
+--------------------------------22.7.2002--------------------------------
+Added: chat message max.length = 200 characters.
+Added: private message max.length = 300 characters.
+Added: private message basic flood protection.
+Added: Working redirects for operators ($OpForceMove).
+
+
+--------------------------------21.7.2002--------------------------------
+Added: search timeout 5 seconds.
+Added: share limit.
+Added: basic message flood protection.
+Optimized next part of code :)
+
+
+--------------------------------20.7.2002--------------------------------
+Added: hub capacity progress bar.
+Added: ini file (Network setting is now stored in it).
+
+
+--------------------------------19.7.2002--------------------------------
+Fix: new and optimised userManager.
+Several bugs fixed (stability increased).
+
+
+--------------------------------14.7.2002 [0.1.7.8]--------------------------------
+Additional touch ups in error handling.
+
+
+--------------------------------13.7.2002--------------------------------
+Zombies handling changed.
+Touch ups in error.log formating.
+Added: error handling for application exceptions.
+Fixed: Ban reason is now sended to banned user too.
+Fixed: operator can't kick or ban himself.
+Fixed: operator has no Version info.
+
+
+--------------------------------12.7.2002--------------------------------
+Some error handling changed.
+Minimizing to systray.
+Gui changes.
+
+
+--------------------------------11.7.2002 [0.1.7.5]--------------------------------
+Added: commands for OPs: !ban, !unban, !getbanlist, !help.
+
+
+--------------------------------10.7.2002 [0.1.7.4]--------------------------------
+Rewriten code for OnSessionClosed.
+Fix: for OnDataAvailable
+Fix: fix DisconnectAll.
+
+
+--------------------------------8.7.2002 [v0.1.7.3]--------------------------------
+Tempban timer increased to 5 minutes :)
+
+
+--------------------------------4.7.2002 [v0.1.7.1]--------------------------------
+Added: one minute IP tempBan after Kick.
+Added: IP permBan list (saved to PermBan.dat).
+OpList and BanList now loaded on startup.
+Now is possible to add offline user to OpList.
+Small changes in GUI.
+
+1.oficial test of version 0.1.6 on CZECHCHANNEL 4 (tnx to MatteZ and JoeT1).
+
+(always no commands for ops available)
+
+
+--------------------------------2.7.2002--------------------------------
+Rewrite: finally fix problems with memory.
+%me now works same as !me.
+
+
+--------------------------------1.7.2002--------------------------------
+Rewritten user object for test.
+
+
+--------------------------------30.6.2002--------------------------------
+Rewriten code for error.log.
+
+
+--------------------------------28.6.2002--------------------------------
+Small changes in gui.
+Rewriten code for userlimit (tnx to Garf).
+
+
+--------------------------------26.6.2002--------------------------------
+Added login timer 10 seconds for any new user. If user not finish login in 10 seconds is disconnected. Maybe it fish unfinished (frozen) connections.
+Filelist now working for passive user too (bug in protocol description).
+Reserved nicks: Hub-Security, Admin (more add to ReservedNicks.dat).
+Registered users.
+Working:
+    OpList (add operator from list by RightClick>Op, change password, Deop).
+    Kick for OPs (for now working as Drop only. I add Tempban later).
+Icon of app.
+
+TODO:
+    add command %ban %tempban %op %deop for operators
+
+
+--------------------------------24.25.6.2002--------------------------------
+Echo | for Neo-Modus Direct Connect.
+
+
+--------------------------------23.6.2002--------------------------------
+MatteZ is first people, who have testing version.
+Few bugfixes.
+Fixed: user counting and userlist refresh.
+Working passive search.
+1. extra command %me <text>.
+Client socket optimisations.
+
+
+--------------------------------22.6.2002  night--------------------------------
+Implementation of more parts of Direct Connect Protocol.
+Working:
+    private message
+    filelist for active users
+    search for active users
+    added popup menu for userlist (Info, Kick, Ban, Op)
+    gui changes
+    MOTD
+    popupmenu Kick
+
+
+--------------------------------22.6.2002  6:30am--------------------------------
+This night new interface changes  from debug version to user friendly version.
+Hub process first cca 40 useru and running, it looks like without problems.
+Working: 
+    basic autorisation
+    chat
+
+
+--------------------------------21.6.2002  11:36pm--------------------------------
+ICS is great component!!! Starting new project and go deep to C++.
+
+
+--------------------------------18.6.2002--------------------------------
+ICS  Internet Component Suite (Aka FPIETTE's Components) is best alternative i found and i must learn it more. François PIETTE who ICS write and not want anything for it is in one word genius :) Next 3 days i don't have time for programming :(
+
+
+--------------------------------14.6.2002--------------------------------
+New project, new experiences. After fights with WinSocket components i stay with TCP Server and test first session for visitors of PtokaX-CZECHPOINT hub.
+My pleasure not have long time, because TCPServer component in trial version is limited to 10 connections, and i am very pissed off !!! <PPK>  "Aaaa bude sranda ;)"
+Next 4 days i looking for good alternative.
+
+
+--------------------------------11.6.2002--------------------------------
+New try, now with implemented part of Direct Connect Protocol. First sucessfull try of login. Always is monouser server :)
+
+
+--------------------------------9.6.2002--------------------------------
+First tries on clientserver app. I understand first things how this working.
+Because i don't have any TCP knowledge, i use BCPP components and tryingto send data.
+My miniclient first time connect to Direct Connect hub and send/receive first data ;)
+
+
+--------------------------------8.6.2002--------------------------------
+I instaled Trial version of Borland C++ Builder v6.0 I don't have any experiences with it and few next days i learning how it works.
+
+
+--------------------------------May 2002--------------------------------
+After my experienses with Neo-Modus Direct Connect Hub and with another available hubs for Windows i get opinion that is better to write new Hub working without problems with functions missing in another hubs. I start looking on internet and getting first informations on Direct Connect Protocol and network communication.

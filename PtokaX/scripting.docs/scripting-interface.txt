@@ -1,0 +1,759 @@
+Functions
+-------------------
+OnStartup()								- Is called on script startup.
+OnExit()								- Is called on script exit.
+
+OnTimer(uTimerId)						- Default function called by timer on given interval.
+
+UserConnected(tUser)					- Is called when user finish login sequence. When true is returned then hub don't send it to next scripts.
+UserDisconnected(tUser)					- Is called when user disconnect or was disconnected.
+
+RegConnected(tUser)						- Is called when reg finish login sequence. When true is returned then hub don't send it to next scripts.
+RegDisconnected(tUser)					- Is called when reg disconnect or was disconnected.
+
+OpConnected(tUser)						- Is called when operator finish login sequence. When true is returned then hub don't send it to next scripts.
+OpDisconnected(tUser)					- Is called when operator disconnect or was disconnected.
+
+OnError(sErrorMsg)						- Is called when error was found in script.
+
+SupportsArrival(tUser, sData)			- Incoming supports from user.
+ChatArrival(tUser, sData)				- Incoming chat message from user. If script return true hub don't process data.
+KeyArrival(tUser, sData)				- Incoming key from user. It is called only when $Key is first command from client.
+ValidateNickArrival(tUser, sData)		- Incoming validate nick from user.
+PasswordArrival(tUser, sData)			- Incoming password from user.
+VersionArrival(tUser, sData)			- Incoming version from user.
+GetNickListArrival(tUser, sData)		- Incoming get nick list request from user. If script return true hub don't process data.
+MyINFOArrival(tUser, sData)				- Incoming user myinfo.
+GetINFOArrival(tUser, sData)			- Incoming get info request from user. If script return true hub don't process data.
+SearchArrival(tUser, sData)				- Incoming search request from user. If script return true hub don't process data.
+MultiSearchArrival(tUser, sData)		- Incoming multi search request from user. If script return true hub don't process data.
+ToArrival(tUser, sData)					- Incoming private message from user. If script return true hub don't process data.
+ConnectToMeArrival(tUser, sData)		- Incoming active connection request from user. If script return true hub don't process data.
+MultiConnectToMeArrival(tUser, sData)	- Incoming multi connection request from user. If script return true hub don't process data.
+RevConnectToMeArrival(tUser, sData)		- Incoming pasive connection request from user. If script return true hub don't process data.
+SRArrival(tUser, sData)					- Incoming search reply from user. If script return true hub don't process data.
+UDPSRArrival(tUser, sData)				- Incoming search reply from user. If script return true hub don't process data.
+KickArrival(tUser, sData)				- Incoming kick command from user. If script return true hub don't process data.
+OpForceMoveArrival(tUser, sData)		- Incoming redirect command from user. If script return true hub don't process data.
+UnknownArrival(tUser, sData)			- Incoming unknown command from user. If script return true hub don't process data (don't disconnect user).
+BotINFOArrival(tUser, sData)			- Incoming hublist pinger request from user. If script return true hub don't process data.
+CloseArrival(tUser, sData)				- Incoming close command from user. If script return true hub don't process data.
+
+
+Core.
+-------------------
+Version																- Return PtokaX version.
+BuildNumber															- Return PtokaX build number.
+
+Restart()															- Restart hub.
+Shutdown()															- Shutdown hub.
+
+ResumeAccepts()														- Resume listening thread(s) if they were suspended.
+SuspendAccepts()													- Stop listening thread(s). Hub looks in this time like it is not running.
+SuspendAccepts(nTime)												- Stop listening thread(s) for given time in seconds. Hub looks in this time like it is not running.
+
+RegBot(sBotName, sDescription, sEmail, bHaveKey)					- Chars $| and space not allowed in nick. $ and | not allowed in Description and Email, max length 64 chars per string. Return nil when failed, true when success.
+UnregBot(sBotName)													- Return nil when failed, true when success.
+
+GetBots()															- Return table with all bots registered by scripts as tables with sNick, sMyINFO, bIsOP and sScriptName.
+GetActualUsersPeak()												- Return actual users peak.
+GetMaxUsersPeak()													- Return max users peak.
+GetCurrentSharedSize()												- Return total hub share size in bytes.
+GetHubIP()															- Return IP if is available, or nil when not.
+GetHubIPs() 														- Return table with one or more IP addreses or nil when no address is available.
+GetHubSecAlias()													- Return actual Hub-Security alias.
+GetPtokaXPath() 													- Return PtokaX path.
+GetUsersCount()														- Return hub users count.
+GetUpTime()															- Return hub uptime in seconds.
+GetOnlineNonOps()													- Return table with all logged user tables without operator status.
+GetOnlineNonOps(bAllData)											- Return table with all logged user tables without operator status. Use true for bAllData if you want user tables with all data.
+GetOnlineOps()														- Return table with all logged user tables with operator status.
+GetOnlineOps(bAllData)												- Return table with all logged user tables with operator status. Use true for bAllData if you want user tables with all data.
+GetOnlineRegs()														- Return table with all logged and registered (profile > -1) user tables.
+GetOnlineRegs(bAllData)												- Return table with all logged and registered (profile > -1) user tables. Use true for bAllData if you want user tables with all data.
+GetOnlineUsers()													- Return table with all logged user tables.
+GetOnlineUsers(bAllData)											- Return table with all logged user tables. Use true for bAllData if you want user tables with all data.
+GetOnlineUsers(iProfileNumber)										- Return table with users of given profile.
+GetOnlineUsers(iProfileNumber, bAllData)							- Return table with users of given profile. Use true for bAllData if you want user tables with all data.
+GetUser(sNick)														- Return online user as user table.
+GetUser(sNick, bAllData)											- Return online user as user table. Use true for bAllData if you want user table with all data.
+GetUserAllData(tUser)												- Add or update all user data in user table. Return nil when failed (user is not online) or true when sucess.
+GetUserData(tUser, iValueId)										- Add or update value of given id in user table. Return nil when failed (user is not online) or true when sucess.
+GetUserValue(tUser, iValueId)										- Return value of wanted iValueId or nil when failed (user is not online).
+GetUsers(sIP)														- Return online users from given ip as table with user tables or nil when no user with that IP is found or invalid IP is given.
+GetUsers(sIP, bAllData)												- Return online users from given ip as table with user tables or nil when no user with that IP is found or invalid IP is given. Use true for bAllData if you want user table with all data.
+
+Disconnect(sNick)													- Disconnect user with given nick. Return nil when failed, true when success.
+Disconnect(tUser)													- Disconnect user. Return nil when failed, true when success.
+
+Kick(tUser, sKickerNick, sReason)									- Kick user. Max KickerNick length 64 chars, max Reason length 128000 chars. Return nil when failed, true when success.
+Redirect(tUser, sAddress, sReason)									- Redirect user to given address with given reason. Max Address length 1024 chars. Max Reason length 128000 chars. Return nil when failed, true when success.
+
+DefloodWarn(tUser)													- Warn user on flood. Return nil when failed, true when success.
+
+SendToAll(sData)													- Send data to all users. Max sData length 128000 chars. When data don't contains | on end, will be automatically added.
+SendToNick(sNick, sData)											- Send data to user with given nick. Max sData length 128000 chars. When data don't contains | on end, will be automatically added.
+SendToOpChat(sData)													- Send data as private message in OpChat. Max sData length 128000 chars. If OpChat is not enabled then nothing is sent.
+SendToOps(sData)													- Send data to operators. Max sData length 128000 chars. When data don't contains | on end, will be automatically added.
+SendToProfile(iProfileNumber, sData)								- Send data to users with given profile. Max sData length 128000 chars. When data don't contains | on end, will be automatically added.
+SendToUser(tUser, sData)											- Send data to user. Max Data length 128000 chars. When data don't contains | on end, will be automatically added.
+
+SendPmToAll(sFromNick, sData)										- Send data as private message to all users. Max FromNick length 64 chars, max Data length 128000 chars.
+SendPmToNick(sToNick, sFromNick, sData)								- Send data as private message to user with given nick. Max FromNick length 64 chars, max Data length 128000 chars.
+SendPmToOps(sFromNick, sData)										- Send data to operators. Max FromNick length 64 chars, max Data length 128000 chars.
+SendPmToProfile(iProfileNumber, sFromNick, sData)					- Send data as private message to users with given profile. Max FromNick length 64 chars, max Data length 128000 chars.
+SendPmToUser(tUser, sFromNick, sData)								- Send private message to user. Max FromNick length 64 chars, max Data length 128000 chars.
+
+Core.SetUserInfo(tUser, iValueId, nil/sValue/iValue, bPermanent)	- Set user info in MyINFO. Max sValue lenght 64 chars, $ and | is not allowed. Use bPermanent when you want to apply change permanently.
+
+
+SetMan.
+-------------------
+Save()																				- Save settings.
+
+GetMOTD()
+SetMOTD(sString)																	- | is not allowed.
+
+GetBool(iBoolId)																	- true or nil.
+SetBool(iBoolId, bBoolean)
+
+GetNumber(iNumberId)
+SetNumber(iNumberId, iNumber)
+
+GetString(iStringId)																- String or nil.
+SetString(iStringId, sString)
+
+GetMinShare()																		- Return min share in bytes.
+SetMinShare(iShareInBytes)
+SetMinShare(iMinShare, iShareUnits)													- iMinShare max is 9999. iShareUnits 0 = B, 1 = kB, 2 = MB, 3 = GB, 4 = TB
+
+GetMaxShare()																		- Return max share in bytes.
+SetMaxShare(iShareInBytes)
+SetMaxShare(iMaxShare, iShareUnits)													- iMaxShare max is 9999. iShareUnits 0 = B, 1 = kB, 2 = MB, 3 = GB, 4 = TB
+
+SetHubSlotRatio(iHubs, iSlots)
+
+GetOpChat()																			- Return table with sNick, sDescription, sEmail, bEnabled.
+SetOpChat(bEnabled, sNewOpChatName, sNewDescription, sNewEmail)						- Max length of string is 64 chars !!! In nick is not allowed $|<>:?*"/\ and space. In Description and Email is not allowed $ and |. Return nil when failed, true when success.
+GetHubBot()																			- Return table with sNick, sDescription, sEmail, bEnabled, bUsedAsHubSecAlias.
+SetHubBot(bEnabled, sNewHubBotName, sNewDescription, sNewEmail, bUseAsHubSecAlias)	- Max length of string is 64 chars !!! In nick is not allowed $|<>:?*"/\ and space. In Description and Email is not allowed $ and |. Return nil when failed, true when success.
+
+
+RegMan.
+-------------------
+Save()										- Save registered users.
+
+GetRegsByProfile(iProfileNumber)			- Return table with all registered users with given profile as registered user tables.
+GetNonOps()									- Return table with all registered users without operator status as registered user tables.
+GetOps()									- Return table with all registered users with operator status as registered user tables.
+GetReg(sNick)								- Return registered user with given nick as registered user table or nil when reg with this nick not exist.
+GetRegs()									- Return table with all registered users as registered user tables.
+
+AddReg(sNick, iProfileNumber)				- Chars $| and space not allowed in nick. Max nick length 64 chars. Hub will ask user for password and after password is received then user will be registered. Return nil when failed, true if success.
+AddReg(sNick, sPass, iProfileNumber)		- Chars $| and space not allowed in nick. Char | not allowed in password. Max nick/pass length 64 chars. Return nil when failed, true if success.
+DelReg(sNick)								- Return nil when failed, true if success.
+ChangeReg(sNick, sPass/nil, iProfileNumber)	- Return nil when failed, true if success. When you don't want to change password then use nil instead of string as second param.
+
+ClrRegBadPass(sNick)						- Clear advanced password protection bad password count for given nick. Return nil when failed, true if success.
+
+
+BanMan.
+-------------------
+Save()														- Save bans.
+
+GetBans()													- Return table with ban tables.
+GetTempBans()												- Return table with ban tables.
+GetPermBans()												- Return table with ban tables.
+
+GetBan(sNick/sIP)											- Return ban table with ban for given nick or nil when not exist. Return table with ban table(s) with ban(s) for given ip or nil when not exist.
+GetPermBan(sNick/sIP)										- Return ban table with permban for given nick or nil when not exist. Return table with ban table(s) with permban(s) for given ip or nil when not exist.
+GetTempBan(sNick/sIP)										- Return ban table with tempban for given nick or nil when not exist. Return table with ban table(s) with tempban(s) for given ip or nil when not exist.
+
+GetRangeBans()												- Return table with range ban tables.
+GetTempRangeBans()											- Return table with range ban tables.
+GetPermRangeBans()											- Return table with range ban tables.
+
+GetRangeBan(sIPFrom, sIPTo)									- Return range ban table with rangeban for given range or nil when not exist.
+GetRangePermBan(sIPFrom, sIPTo)								- Return range ban table with rangepermban for given range or nil when not exist.
+GetRangeTempBan(sIPFrom, sIPTo)								- Return range ban table with rangetempban for given range or nil when not exist.
+
+Unban(sNick/sIP)											- Unban ban with given nick or ip. Return nil when failed, true if success.
+UnbanPerm(sNick/sIP)										- Unban permban with given nick or ip. Return nil when failed, true if success.
+UnbanTemp(sNick/sIP)										- Unban tempban with given nick or ip. Return nil when failed, true if success.
+
+UnbanAll(sIP)												- Unban all bans with given ip.
+UnbanPermAll(sIP)											- Unban all permbans with given ip.
+UnbanTempAll(sIP)											- Unban all tempbans with given ip.
+
+RangeUnban(sIPFrom, sIPTo)									- Unban range ban with given range. Return nil when failed, true if success.
+RangeUnbanPerm(sIPFrom, sIPTo)								- Unban permanent range ban with given range. Return nil when failed, true if success.
+RangeUnbanTemp(sIPFrom, sIPTo)								- Unban temporary range ban with given range. Return nil when failed, true if success.
+
+ClearBans()													- Clear all bans.
+ClearPermBans()												- Clear all perm bans.
+ClearTempBans()												- Clear all temp bans.
+
+ClearRangeBans()											- Clear all range bans.
+ClearRangePermBans()										- Clear all range perm bans.
+ClearRangeTempBans()										- Clear all range temp bans.
+
+Ban(tUser, sReason, sBy, bFull)								- Perm ban user. Return nil when failed, true if success.
+BanIP(sIP, sReason, sBy, bFull)								- Perm ban given ip. Return nil when failed, true if success.
+BanNick(sNick, sReason, sBy)								- Perm ban given nick. Return nil when failed, true if success.
+
+TempBan(tUser, iTime, sReason, sBy, bFull)					- Temp ban user. iTime is in minutes (0 = default tempban time from settings) ! Return nil when failed, true if success.
+TempBanIP(sIP, iTime, sReason, sBy, bFull)					- Temp ban given ip. iTime is in minutes (0 = default tempban time from settings) ! Return nil when failed, true if success.
+TempBanNick(sNick, iTime, sReason, sBy)						- Temp ban given nick. iTime is in minutes (0 = default tempban time from settings) ! Return nil when failed, true if success.
+
+RangeBan(sIPFrom, sIPTo, sReason, sBy, bFull)				- Range perm ban given range. Return nil when failed, true if success.
+RangeTempBan(sIPFrom, sIPTo, iTime, sReason, sBy, bFull)	- Range temp ban given range. iTime is in minutes (0 = default tempban time from settings) ! Return nil when failed, true if success.
+
+
+ProfMan.
+-------------------
+AddProfile(sProfileName)										- Add profile to profilemanager, return iProfileNumber if success or nil when profile already exist.
+RemoveProfile(sProfileName/iProfileNumber)						- Remove profile from profilemanager, return true if success or nil when profile not exist or is in use.
+
+MoveDown(iProfileNumber)										- Move profile down. Return nil when failed, true if success.
+MoveUp(iProfileNumber)											- Move profile up. Return nil when failed, true if success.
+
+GetProfile(sProfileName/iProfileNumber)							- Return profile as profile table or nil if not exist.
+GetProfiles()													- Return table with profiles as profile tables.
+
+GetProfilePermission(iProfileNumber, iPermissionId)				- Return true if permission is true, or nil.
+GetProfilePermissions(iProfileNumber)							- Return table with profile permissions.
+
+SetProfileName(iProfileNumber, sProfileName)					- Change profile name, return true if success or nil if profile not exist.
+SetProfilePermission(iProfileNumber, iPermissionId, bBoolean)	- Change profile permission, return true if success or nil if profile not exist.
+Save()															- Save profiles.
+
+
+TmrMan.
+-------------------
+AddTimer(iTimerInterval)				- Add new timer for script. iTimerInterval is in ms. Return nil when failed or uTimerId when success.
+AddTimer(iTimerInterval, fFunction)		- Add new timer for script. iTimerInterval is in ms. fFunction is Lua function called by this timer. Return nil when failed or uTimerId when success.
+AddTimer(iTimerInterval, sFunctionName)	- Add new timer for script. iTimerInterval is in ms. sFunctionName is name of function called by this timer. Return nil when failed or uTimerId when success.
+RemoveTimer(uTimerId)					- Remove timer with given ID from script.
+
+
+UDPDbg.
+-------------------
+Reg(sIp, iPort, bAllData)	- Register to receiving data to PtokaX UDP Debug receiver, bAllData false means to receive only data from this script. Return nil when failed or true when success.
+Unreg()						- Remove from receiving data.
+Send(sData)					- Send data to udp debug. If script is registered then only to this reg, else to all. Return nil when failed or true when success.
+
+
+ScriptMan.
+-------------------
+GetScript()					- Return script table with sName, bEnabled, iMemUsage.
+GetScripts()				- Return table with scripts as tables with sName, bEnabled, iMemUsage.
+
+MoveUp(sScriptName)			- Move script up in script order. Return nil when failed, true if success.
+MoveDown(sScriptName)		- Move script down in script order. Return nil when failed, true if success.
+
+StartScript(sScriptName)	- Start script with given name. Return nil when failed, true if success.
+RestartScript(sScriptName)	- Restart script with given name. Return nil when failed, true if success.
+StopScript(sScriptName)		- Stop script with given name. Return nil when failed, true if success.
+
+Restart()					- Restart scripting interface.
+
+Refresh()					- Refresh script list.
+
+
+IP2Country.
+-------------------
+GetCountryCode(sIP)		- Return country code of given IP or nil when IP is not valid.
+GetCountryName(sIP)		- Return country name of given IP or nil when IP is not valid.
+GetCountryName(tUser)	- Return country name for given user.
+Reload()				- Reload (update) database from database files.
+
+
+User.
+-------------------
+sNick			- User nick.
+sIP				- User ip address.
+uptr			- Memory address to original user data structure, for internal PtokaX use. Don't modify it, else functions with user table parameter will not work.
+iProfile		- User profile.
+
+Data available after GetUserAllData or GetUserData call:
+sMode			- User mode (from tag) or nil when user don't have tag or mode in tag.
+sMyInfoString	- User MYINFO string or nil when user don't send MyINFO yet.
+sDescription	- User description or nil when user don't have description.
+sTag			- User tag or nil when user don't have tag.
+sConnection		- User connection or nil when user don't have connection.
+sEmail			- User email or nil when user don't have email.
+sClient			- User client (from tag) or nil when user don't have tag.
+sClientVersion	- User client version (from tag) or nil when user don't have tag.
+sVersion		- User version (from $Version) or nil when user don't send Version.
+sCountryCode	- User country code or nil when ip-to-country database is not loaded.
+
+bConnected		- User is added in hub (visible for other users, added is after User/Reg/OpConnected).
+bActive			- true when user is active (from tag or is sending active commands) or nil when is not active.
+bOperator		- User have operator status.
+bUserCommand	- User support UserCommands protocol extension.
+bQuickList		- User support QuickList protocol extension.
+bSuspiciousTag	- User have suspicious tag.
+
+iShareSize		- User share size.
+iHubs			- User hubs count (from tag).
+iNormalHubs		- User hubs without registration count (from tag) or nil if user don't have tag or have old-style (only H:x) tag.
+iRegHubs		- User hubs with registration count (from tag) or nil if user don't have tag or have old-style (only H:x) tag.
+iOpHubs			- User hubs with operator status (from tag) or nil if user don't have tag or have old-style (only H:x) tag.
+iSlots			- User slots count (from tag).
+iLlimit			- User L or B limit (from tag).
+iDefloodWarns	- User deflood warns count.
+iMagicByte		- Number of ascii char after connection in myinfo.
+iLoginTime		- User login time in seconds from 1.1.1970
+
+tIPs			- Table with one or more user IP addresses.
+
+
+RegisteredUser.
+-------------------
+sNick			- Reg user nick.
+sPassword		- Reg user password or nil when password hashing is enabled.
+iProfile		- Reg user profile.
+
+Ban.
+-------------------
+sIP				- ip or nil when ban don't have ip.
+sNick			- nick or nil when ban don't have nick.
+sReason			- reason or nil when ban don't have reason.
+sBy				- nick of operator who create ban or or nil when ban don't have it.
+
+iExpireTime		- Seconds from 1.1.1970 or nil when ban is perm ban.
+
+bIpBan			- true or nil.
+bNickBan		- true or nil.
+bFullIpBan		- true or nil.
+
+
+RangeBan.
+-------------------
+sIPFrom
+sIPTo
+sReason			- reason or nil when ban don't have reason.
+sBy				- nick of operator who create ban or or nil when ban don't have it.
+
+iExpireTime		- Seconds from 1.1.1970 or nil when ban is perm ban.
+
+bFullIpBan		- true or nil.
+
+
+Profile.
+-------------------
+sProfileName
+iProfileNumber
+tProfilePermissions
+
+
+ProfilePermissions.
+-------------------
+bIsOP						- User have key / is OP
+bNoDefloodGetNickList		- No GetNickList Deflood
+bNoDefloodNMyINFO			- No MyINFO Deflood
+bNoDefloodSearch			- No Search Deflood
+bNoDefloodPM				- No PM Deflood
+bNoDefloodMainChat			- No Main Chat Deflood
+bMassMsg					- Mass Message
+bTopic						- Topic
+bTempBan					- TempBan
+bTempUnban					- TempUnban
+bRefreshTxt					- Reload text files
+bNoTagCheck					- No Tag check
+bDelRegUser					- DelRegUser
+bAddRegUser					- AddRegUser
+bNoChatLimits				- No ChatLimits
+bNoMaxHubCheck				- No MaxHubs Check
+bNoSlotHubRatio				- No Slot/Hub ratio check
+bNoSlotCheck				- No SlotCheck
+bNoShareLimit				- No ShareLimit
+bClrPermBan					- Clear PermBan
+bClrTempBan					- Clear TempBan
+bGetInfo					- GetInfo
+bGetBans					- Get Bans
+bRestartScripts				- Start/Stop/Restart script(s)
+bRestartHub					- Restart hub
+bTempOP						- TempOP
+bGag						- Gag, Ungag
+bRedirect					- Redirect
+bBan						- Ban
+bUnban						- Unban
+bKick						- Kick
+bDrop						- Drop
+bEnterFullHub				- Enter full hub
+bEnterIfIPBan				- Enter hub if IP banned
+bAllowedOPChat				- Allowed for OpChat
+bSendFullMyinfos			- Send full myinfos
+bSendAllUserIP				- Send all users IP
+bRangeBan					- Range ban
+bRangeUnban					- Range unban
+bRangeTempBan				- Range temp ban
+bRangeTempUnban				- Range temp unban
+bGetRangeBans				- Get range perm bans
+bClearRangePermBans			- Clear range perm bans
+bClearRangeTempBans			- Clear range temp bans
+bNoIpCheck					- No IP checking in connection and search request.
+bClose						- Close
+bNoSearchLimits				- No search length limits.
+bNoDefloodCTM				- No ConnectToMe deflood.
+bNoDefloodRCTM				- No RevConnectToMe deflood.
+bNoDefloodSR				- No search reply deflood.
+bNoDefloodRecv				- No received data deflood.
+bNoChatInterval				- No chat interval.
+bNoPMInterval				- No private message interval.
+bNoSearchInterval			- No search interval.
+bNoMaxUsersSameIP			- No maximum users from same IP.
+bNoReConnTime				- No reconnect time.
+
+
+ProfilePermission IDs for SetProfilePermission
+-------------------
+ProfMan.tPermissions.IsOperator				-	User have key / is OP
+ProfMan.tPermissions.NoDefloodGetnicklist	-	No GetNickList Deflood
+ProfMan.tPermissions.NoDefloodMyinfo		-	No MyINFO Deflood
+ProfMan.tPermissions.NoDefloodSearch		-	No Search Deflood
+ProfMan.tPermissions.NoDefloodPm			-	No PM Deflood
+ProfMan.tPermissions.NoDefloodMainChat		-	No Main Chat Deflood
+ProfMan.tPermissions.MassMsg				-	Mass Message
+ProfMan.tPermissions.Topic					-	Topic
+ProfMan.tPermissions.TempBan				-	TempBan
+ProfMan.tPermissions.ReloadTxtFiles			-	Reload text files
+ProfMan.tPermissions.NoTagCheck				-	No Tag check
+ProfMan.tPermissions.TempUnban				-	TempUnban
+ProfMan.tPermissions.DelRegUser				-	DelRegUser
+ProfMan.tPermissions.AddRegUser				-	AddRegUser
+ProfMan.tPermissions.NoChatLimits			-	No ChatLimits
+ProfMan.tPermissions.NoMaxHubsCheck			-	No MaxHubs Check
+ProfMan.tPermissions.NoSlotHubRatioCheck	-	No Slot/Hub ratio Check
+ProfMan.tPermissions.NoSlotCheck			-	No SlotCheck
+ProfMan.tPermissions.NoShareLimit			-	No ShareLimit check
+ProfMan.tPermissions.ClrPermBan				-	Clear PermBan
+ProfMan.tPermissions.ClrTempBan				-	Clear TempBan
+ProfMan.tPermissions.GetInfo				-	GetInfo
+ProfMan.tPermissions.GetBans				-	Get Bans
+ProfMan.tPermissions.ScriptControl			-	Start/Stop/Restart script(s)
+ProfMan.tPermissions.RstHub					-	Restart hub
+ProfMan.tPermissions.TempOp					-	TempOP
+ProfMan.tPermissions.GagUngag				-	Gag, Ungag
+ProfMan.tPermissions.Redirect				-	Redirect
+ProfMan.tPermissions.Ban					-	Ban
+ProfMan.tPermissions.Kick					-	Kick
+ProfMan.tPermissions.Drop					-	Drop
+ProfMan.tPermissions.EnterIfHubFull			-	Enter full hub
+ProfMan.tPermissions.EnterIfIpBan			-	Enter hub if IP banned
+ProfMan.tPermissions.AllowedOpChat			-	Allowed for OpChat
+ProfMan.tPermissions.SendAllUsersIp			-	Send all users IP
+ProfMan.tPermissions.RangeBan				-	Range ban
+ProfMan.tPermissions.RangeUnban				-	Range unban
+ProfMan.tPermissions.RangeTempBan			-	Range temp ban
+ProfMan.tPermissions.RangeTempUnban			-	Range temp unban
+ProfMan.tPermissions.GetRangeBans			-	Get range perm bans
+ProfMan.tPermissions.ClrRangePermBans		-	Clear range perm bans
+ProfMan.tPermissions.ClrRangeTempBans		-	Clear range temp bans
+ProfMan.tPermissions.Unban					-	Unban
+ProfMan.tPermissions.NoSearchLimits			-	No search length limits.
+ProfMan.tPermissions.SendLongMyinfos		-	Send full myinfos
+ProfMan.tPermissions.NoIpCheck				-	No IP checking in connection and search request.
+ProfMan.tPermissions.Close					-	Close
+ProfMan.tPermissions.NoDefloodCtm			-	No ConnectToMe deflood.
+ProfMan.tPermissions.NoDefloodRctm			-	No RevConnectToMe deflood.
+ProfMan.tPermissions.NoDefloodSr			-	No search reply deflood.
+ProfMan.tPermissions.NoDefloodRecv			-	No received data deflood.
+ProfMan.tPermissions.NoChatInterval			-	No chat interval.
+ProfMan.tPermissions.NoPmInterval			-	No private message interval.
+ProfMan.tPermissions.NoSearchInterval		-	No search interval.
+ProfMan.tPermissions.NoMaxUsrSameIp			-	No maximum users from same IP.
+ProfMan.tPermissions.NoReconnTime			-	No reconnect time.
+
+
+Settings bool IDs for SetMan.(G/S)etBool
+-------------------
+SetMan.tBooleans.AntiMoGlo				-	Anti MoGlo description
+SetMan.tBooleans.AutoStart				-	Hub autostart
+SetMan.tBooleans.RedirectAll			-	Redirect all connecting users
+SetMan.tBooleans.RedirectWhenHubFull	-	Redirect users when hub is full
+SetMan.tBooleans.AutoReg				-	Automatically register to hublist
+SetMan.tBooleans.RegOnly				-	Hub for registered users only
+SetMan.tBooleans.RegOnlyRedir			-	Redirect non
+SetMan.tBooleans.ShareLimitRedir		-	Redirect user when he's don't have share limit
+SetMan.tBooleans.SlotLimitRedir			-	Redirect user when he's don't have slot limit
+SetMan.tBooleans.HubSlotRatioRedir		-	Redirect user when he's don't have hub/slot ratio limit
+SetMan.tBooleans.MaxHubsLimitRedir		-	Redirect user when he's don't have max hubs limit
+SetMan.tBooleans.ModeToMyInfo			-	Add user mode to MyINFO command.
+SetMan.tBooleans.ModeToDescription		-	Add user mode to description.
+SetMan.tBooleans.StripDescription		-	Strip user description.
+SetMan.tBooleans.StripTag				-	Strip user description tag.
+SetMan.tBooleans.StripConnection		-	Strip user connection.
+SetMan.tBooleans.StripEmail				-	Strip user email
+SetMan.tBooleans.RegBot					-	Register hub bot on hub.
+SetMan.tBooleans.UseBotAsHubSec			-	Use hub bot nick instead of Hub
+SetMan.tBooleans.RegOpChat				-	Register Opchat bot on hub.
+SetMan.tBooleans.TempBanRedir			-	Redirect user when is temp banned.
+SetMan.tBooleans.PermBanRedir			-	Redirect user when is perm banned.
+SetMan.tBooleans.EnableScripting		-	Enable scripting interface.
+SetMan.tBooleans.KeepSlowUsers			-	Keep slow clients.
+SetMan.tBooleans.CheckNewReleases		-	Automatically check for new PtokaX releases on startup
+SetMan.tBooleans.EnableTrayIcon			-	Enable tray icon.
+SetMan.tBooleans.StartMinimized			-	Start minimized.
+SetMan.tBooleans.FilterKickMessages		-	Filter kick messages.
+SetMan.tBooleans.SendKickMessagesToOps	-	Send kick messages to OPs.
+SetMan.tBooleans.SendStatusMessages		-	Send status messages to OPs.
+SetMan.tBooleans.SendStatusMessagesAsPm	-	Send status messages as private messages.
+SetMan.tBooleans.EnableTextFiles		-	Enable text files.
+SetMan.tBooleans.SendTextFilesAsPm		-	Send text files as private messages.
+SetMan.tBooleans.StopScriptOnError		-	Stop script on error.
+SetMan.tBooleans.SendMotdAsPm			-	Send MOTD as private message.
+SetMan.tBooleans.DefloodReport			-	Report deflood actions.
+SetMan.tBooleans.ReplyToHubCommandsAsPm	-	Reply to hub commands with private messages.
+SetMan.tBooleans.DisableMotd			-	Disable MOTD.
+SetMan.tBooleans.DontAllowPingers		-	Don't allow hublist pingers.
+SetMan.tBooleans.ReportPingers			-	Report hublist pingers.
+SetMan.tBooleans.Report3xBadPass		-	Report 3x bad password.
+SetMan.tBooleans.AdvancedPassProtection	-	Advanced password protection.
+SetMan.tBooleans.ListenOnlySingleIp		-	Listen only on single IP.
+SetMan.tBooleans.ResolveToIp			-	Resolve hostname to IP.
+SetMan.tBooleans.NickLimitRedir			-	Redir user when he's don't have nick in length limits.
+SetMan.tBooleans.BanMsgShowIp			-	Send ip in ban message.
+SetMan.tBooleans.BanMsgShowRange		-	Send range in ban message.
+SetMan.tBooleans.BanMsgShowNick			-	Send nick in ban message.
+SetMan.tBooleans.BanMsgShowReason		-	Send reason in ban message.
+SetMan.tBooleans.BanMsgShowBy			-	Send who create ban in ban message.
+SetMan.tBooleans.ReportSuspiciousTag	-	Report suspicious tag to OPs.
+SetMan.tBooleans.LogScriptErrors		-	Save script errors to log.
+SetMan.tBooleans.DisallowBadSupports	-	Disallow clients sending buggy supports.
+SetMan.tBooleans.HashPasswords			-	Hash registered users passwords.
+SetMan.tBooleans.EnableDatabase			-	Enable/Disable database support.
+
+
+Setting number IDs for SetMan.(G/S)etNumber
+-------------------
+SetMan.tNumbers.MaxUsers							-	Max users limit
+SetMan.tNumbers.MinShareLimit						-	Min share limit. Max 9999.
+SetMan.tNumbers.MinShareUnits						-	Min share units. 0 = B, 1 = kB, 2 = MB, 3 = GB, 4 = TB. Max 4.
+SetMan.tNumbers.MaxShareLimit						-	Max share limit. Max 9999.
+SetMan.tNumbers.MaxShareUnits						-	Max share units. 0 = B, 1 = kB, 2 = MB, 3 = GB, 4 = TB. Max 4.
+SetMan.tNumbers.MinSlotsLimit						-	Min slots limit.
+SetMan.tNumbers.MaxSlotsLimit						-	Max slots limit.
+SetMan.tNumbers.HubSlotRatioHubs					-	Hubs for hub/slot ratio.
+SetMan.tNumbers.HubSlotRatioSlots					-	Slots for hub/slot ratio.
+SetMan.tNumbers.MaxHubsLimit						-	Max hubs limit.
+SetMan.tNumbers.NoTagOption							-	No tag option. 0 = accept, 1 = reject, 2 = redirect. Max 2.
+SetMan.tNumbers.LongMyinfoOption					-	Send full MyINFO to... 0 = to all, 1 = to profile, 2 = to none. Max 2.
+SetMan.tNumbers.MaxChatLen							-	Max chat length limit.
+SetMan.tNumbers.MaxChatLines						-	Max chat lines limit.
+SetMan.tNumbers.MaxPmLen							-	Max private message length limit.
+SetMan.tNumbers.MaxPmLines							-	Max private message lines limit.
+SetMan.tNumbers.DefaultTempBanTime					-	Default tempban time. Must be higher than 0.
+SetMan.tNumbers.MaxPasiveSr							-	Max passive search replys limit.
+SetMan.tNumbers.MyInfoDelay							-	Time before new MyINFO from user is accepted for broadcast.
+SetMan.tNumbers.MainChatMessages					-	Main chat deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.MainChatTime						-	Main chat deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.MainChatAction						-	Main chat deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.SameMainChatMessages				-	Same main chat deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.SameMainChatTime					-	Same main chat deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.SameMainChatAction					-	Same main chat deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.SameMultiMainChatMessages			-	Same multiline main chat deflood messages count. Min 2, max 999.
+SetMan.tNumbers.SameMultiMainChatLines				-	Same multiline main chat deflood lines. Min 2, max 999.
+SetMan.tNumbers.SameMultiMainChatAction				-	Same multiline main chat deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.PmMessages							-	Private message deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.PmTime								-	Private message deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.PmAction							-	Private message deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.SamePmMessages						-	Same private message deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.SamePmTime							-	Same private message deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.SamePmAction						-	Same private message deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.SameMultiPmMessages					-	Same multiline private message deflood messages count. Min 2, max 999.
+SetMan.tNumbers.SameMultiPmLines					-	Same multiline private message deflood lines. Min 2, max 999.
+SetMan.tNumbers.SameMultiPmAction					-	Same multiline private message action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.SearchMessages						-	Search deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.SearchTime							-	Search deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.SearchAction						-	Search deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.SameSearchMessages					-	Same search deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.SameSearchTime						-	Same search deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.SameSearchAction					-	Same search deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.MyinfoMessages						-	MyINFO deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.MyinfoTime							-	MyINFO deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.MyinfoAction						-	MyINFO deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.GetnicklistMessages					-	GetNickList deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.GetnicklistTime						-	GetNickList deflood time. Higher than 0, max 29999. 
+SetMan.tNumbers.GetnicklistAction					-	GetNickList deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.NewConnectionsCount					-	Connection deflood connecions count. Higher than 0, max 999. 
+SetMan.tNumbers.NewConnectionsTime					-	Connection deflood time. Higher than 0, max 999.
+SetMan.tNumbers.DefloodWarningCount					-	Deflood warnings count. Higher than 0, max 29999.
+SetMan.tNumbers.DefloodWarningAction				-	Deflood warnings action. 0 = disconnect, 1 = kick, 2 = tempban, 3 = permban. Max 3.
+SetMan.tNumbers.DefloodTempBanTime					-	Deflood tempban time. Higher than 0.
+SetMan.tNumbers.GlobalMainChatMessages				-	Global main chat messages count. Higher than 0, max 29999.
+SetMan.tNumbers.GlobalMainChatTime					-	Global main chat time. Higher than 0, max 29999.
+SetMan.tNumbers.GlobalMainChatTimeout				-	Global main chat timeout. Higher than 0, max 29999.
+SetMan.tNumbers.GlobalMainChatAction				-	Global main chat action. 0 = disabled, 1 = lock chat, 2 = send to ops with ips. Max 2.
+SetMan.tNumbers.MinSearchLen						-	Min search length.
+SetMan.tNumbers.MaxSearchLen						-	Max search length.
+SetMan.tNumbers.MinNickLen							-	Min nick length. Max 64.
+SetMan.tNumbers.MaxNickLen							-	Max nick length. Max 64.
+SetMan.tNumbers.BruteForcePassProtectBanType		-	Brute force password protection ban type. 0 = disabled, 1 = permban, 2 = tempban. Max 2.
+SetMan.tNumbers.BruteForcePassProtectTempBanTime	-	Brute force password protection temp ban time. Higher than 0.
+SetMan.tNumbers.MaxPmCountToUser					-	Max pm count to same user per minute.
+SetMan.tNumbers.MaxSimultaneousLogins				-	Max simultaneous logins. Higher than 0, max 500.
+SetMan.tNumbers.MainChatMessages2					-	Secondary main chat deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.MainChatTime2						-	Secondary main chat deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.MainChatAction2						-	Secondary main chat deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.PmMessages2							-	Secondary private message deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.PmTime2								-	Secondary private message deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.PmAction2							-	Secondary private message deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.SearchMessages2						-	Secondary search deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.SearchTime2							-	Secondary search deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.SearchAction2						-	Secondary search deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.MyinfoMessages2						-	Secondary myINFO deflood messages count. Higher than 0, max 29999.
+SetMan.tNumbers.MyinfoTime2							-	Secondary myINFO deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.MyinfoAction2						-	Secondary myINFO deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.MaxMyinfoLen						-	Maximum MyINFO length. Min 64, max 512.
+SetMan.tNumbers.CtmMessages							-	Primary ConnectToMe deflood count. Higher than 0, max 29999.
+SetMan.tNumbers.CtmTime								-	Primary ConnectToMe deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.CtmAction							-	Primary ConnectToMe deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.CtmMessages2						-	Secondary ConnectToMe deflood count. Higher than 0, max 29999.
+SetMan.tNumbers.CtmTime2							-	Secondary ConnectToMe deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.CtmAction2							-	Secondary ConnectToMe deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.RctmMessages						-	Primary RevConnectToMe deflood count. Higher than 0, max 29999.
+SetMan.tNumbers.RctmTime							-	Primary RevConnectToMe deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.RctmAction							-	Primary RevConnectToMe deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.RctmMessages2						-	Secondary RevConnectToMe deflood count. Higher than 0, max 29999.
+SetMan.tNumbers.RctmTime2							-	Secondary RevConnectToMe deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.RctmAction2							-	Secondary RevConnectToMe deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.MaxCtmLen							-	Maximum ConnectToMe length. Higher than 0, max 512.
+SetMan.tNumbers.MaxRctmLen							-	Maximum RevConnectToMe length. Higher than 0, max 512.
+SetMan.tNumbers.SrMessages							-	Primary SR deflood count. Higher than 0, max 29999.
+SetMan.tNumbers.SrTime								-	Primary SR deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.SrAction							-	Primary SR deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.SrMessages2							-	Secondary SR deflood count. Higher than 0, max 29999.
+SetMan.tNumbers.SrTime2								-	Secondary SR deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.SrAction2							-	Secondary SR deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.MaxSrLen							-	Maximum SR length. Higher than 0, max 8192.
+SetMan.tNumbers.MaxDownAction						-	Primary received data deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.MaxDownKB							-	Primary received data deflood kB. Higher than 0, max 29999.
+SetMan.tNumbers.MaxDownTime							-	Primary received data deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.MaxDownAction2						-	Secondary received data deflood action. 0 = disabled, 1 = ignore, 2 = warn, 3 = disconnect, 4 = kick, 5 = tempban, 6 = permban. Max 6.
+SetMan.tNumbers.MaxDownKB2							-	Secondary received data deflood kB. Higher than 0, max 29999.
+SetMan.tNumbers.MaxDownTime2						-	Secondary received data deflood time. Higher than 0, max 29999.
+SetMan.tNumbers.ChatIntervalMessages				-	Chat messages interval messages. Higher than 0, max 29999.
+SetMan.tNumbers.ChatIntervalTime					-	Chat messages interval time. Higher than 0, max 29999.
+SetMan.tNumbers.PmIntervalMessages					-	Private messages interval messages. Higher than 0, max 29999.
+SetMan.tNumbers.PmIntervalTime						-	Private messages interval time. Higher than 0, max 29999.
+SetMan.tNumbers.SearchIntervalMessages				-	Search interval count. Higher than 0, max 29999.
+SetMan.tNumbers.SearchIntervalTime					-	Search interval time. Higher than 0, max 29999.
+SetMan.tNumbers.MaxConnsSameIp						-	Maximum users from same IP. Higher than 0, max 256.
+SetMan.tNumbers.MinReconnTime						-	Minimum reconnect time in seconds. Higher than 0, max 256.
+SetMan.tNumbers.DbRemoveOldRecords					-	Remove records older than x days from database.
+
+
+Setting string IDs for SetMan.(G/S)etString (| is not allowed in all strings, if max length is not specified then is max 4096)
+-------------------
+SetMan.tStrings.HubName						-	Hub name. Min length 1, max 256.
+SetMan.tStrings.AdminNick					-	Admin nick. Min length 1, max 64, $ is not allowed.
+SetMan.tStrings.HubAddress					-	Hub address. Min length 1, max 256.
+SetMan.tStrings.TCPPorts					-	TCP ports. Min length 1, max 64.
+SetMan.tStrings.UDPPort						-	UDP port. Min length 1, max 5.
+SetMan.tStrings.HubDescription				-	Hub description. Max length 256.
+SetMan.tStrings.MainRedirectAddress			-	Main redirect address. Max length 256.
+SetMan.tStrings.HublistRegisterAddresses	-	Hublist register servers. Max length 1024.
+SetMan.tStrings.RegOnlyMessage				-	Registered users only message. Min length 1, max 256.
+SetMan.tStrings.RegOnlyRedirAddress			-	Registered users only redirect address. Max length 256.
+SetMan.tStrings.HubTopic					-	Hub topic. Max length 256.
+SetMan.tStrings.ShareLimitMessage			-	Share limit message. Min length 1, max 256. Use %[min] for min share size and %[max] for max share size.
+SetMan.tStrings.ShareLimitRedirAddress		-	Share limit redirect address. Max length 256.
+SetMan.tStrings.SlotLimitMessage			-	Slot limit message. Min length 1, max 256. Use %[min] for min slots and %[max] for max slots.
+SetMan.tStrings.SlotLimitRedirAddress		-	Slot limit redirect address. Max length 256.
+SetMan.tStrings.HubSlotRatioMessage			-	Hub/slot ratio limit message. Min length 1, max 256. Use %[hubs] for hubs and %[slots] for slots.
+SetMan.tStrings.HubSlotRatioRedirAddress	-	Hub/slot ratio limit redirect address. Max length 256.
+SetMan.tStrings.MaxHubsLimitMessage			-	Max hubs limit message. Min length 1, max 256. Use %[hubs] for max hubs.
+SetMan.tStrings.MaxHubsLimitRedirAddress	-	Max hubs limit redirect address. Max length 256.
+SetMan.tStrings.NoTagMessage				-	No tag rule message. Min length 1, max 256.
+SetMan.tStrings.NoTagRedirAddress			-	No tag rule redirect address. Max length 256.
+SetMan.tStrings.HubBotNick					-	Hub bot nick. Min length 1, max 64, $ and space is not allowed.
+SetMan.tStrings.HubBotDescription			-	Hub bot description. Max length 64, $ is not allowed.
+SetMan.tStrings.HubBotEmail					-	Hub bot email. Max length 64, $ is not allowed.
+SetMan.tStrings.OpChatNick					-	OpChat bot nick. Min length 1, max 64, $ and space is not allowed.
+SetMan.tStrings.OpChatDescription			-	OpChat bot description. Max length 64, $ is not allowed.
+SetMan.tStrings.OpChatEmail					-	OpChat bot email. Max length 64, $ is not allowed.
+SetMan.tStrings.TempBanRedirAddress			-	Temp ban redirect address. Max length 256.
+SetMan.tStrings.PermBanRedirAddress			-	Perm ban redirect address. Max length 256.
+SetMan.tStrings.ChatCommandsPrefixes		-	Chat commands prefixes. Min length 1, max 5.
+SetMan.tStrings.HubOwnerEmail				-	Hub owner email. Max length 64.
+SetMan.tStrings.NickLimitMessage			-	Nick limit message. Min length 1, max 256. Use %[min] for min length and %[max] for max length.
+SetMan.tStrings.NickLimitRedirAddress		-	Nick limit redirect address. Max length 256.
+SetMan.tStrings.MessageToAddToBanMessage	-	Additional message to ban message. Max lenght 256.
+SetMan.tStrings.Language					-	Language. When language is default then return nil.
+SetMan.tStrings.IPv4Address					-	TCP/IP version 4 address.
+SetMan.tStrings.IPv6Address					-	TCP/IP version 6 address.
+SetMan.tStrings.Encoding					-	Character encoding for non-unicode texts.
+SetMan.tStrings.PostgresHost				-	PostgreSQL host.
+SetMan.tStrings.PostgresPort				-	PostgreSQL port.
+SetMan.tStrings.PostgresDBName				-	PostgreSQL database name.
+SetMan.tStrings.PostgresUser				-	PostgreSQL database user.
+SetMan.tStrings.PostgresPass				-	PostgreSQL database password.
+SetMan.tStrings.MySQLHost					-	MySQL host.
+SetMan.tStrings.MySQLPort					-	MySQL port.
+SetMan.tStrings.MySQLDBName					-	MySQL database name.
+SetMan.tStrings.MySQLUser					-	MySQL database user.
+SetMan.tStrings.MySQLPass					-	MySQL database password.
+
+
+User data IDs for Core.GetUserData and Core.GetUserValue call.
+-------------------
+0	- sMode
+1	- sMyInfoString
+2	- sDescription
+3	- sTag
+4	- sConnection
+5	- sEmail
+6	- sClient
+7	- sClientVersion
+8	- sVersion
+9	- bConnected
+10	- bActive
+11	- bOperator
+12	- bUserCommand
+13	- bQuickList
+14	- bSuspiciousTag
+15	- iProfile
+16	- iShareSize
+17	- iHubs
+18	- iNormalHubs
+19	- iRegHubs
+20	- iOpHubs
+21	- iSlots
+22	- iLlimit
+23	- iDefloodWarns
+24	- iMagicByte
+25	- iLoginTime
+26	- sCountryCode
+27	- sMac (windoze/linux only)
+28	- bDescriptionChanged
+29	- bTagChanged
+30	- bConnectionChanged
+31	- bEmailChanged
+32	- bShareChanged
+33	- sScriptedDescriptionShort
+34	- sScriptedDescriptionLong
+35	- sScriptedTagShort
+36	- sScriptedTagLong
+37	- sScriptedConnectionShort
+38	- sScriptedConnectionLong
+39	- sScriptedEmailShort
+40	- sScriptedEmailLong
+41	- iScriptediShareSizeShort
+42	- iScriptediShareSizeLong
+43	- tIPs
+
+
+User info IDs for Core.SetUserInfo call.
+-------------------
+0 - DescriptionShort
+1 - DescriptionLong
+2 - TagShort
+3 - TagLong
+4 - ConnectionShort
+5 - ConnectionLong
+6 - EmailShort
+7 - EmailLong
+8 - ShareSizeShort
+9 - ShareSizeLong

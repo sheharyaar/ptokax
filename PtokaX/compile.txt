@@ -1,0 +1,111 @@
+To compile PtokaX on Unix operating system is needed to have installed: GNU make, GCC or Clang compiler, Lua, zlib.
+Optionaly for database support is required: PostgreSQL or SQLite or MySQL or MariaDB.
+On most Unixes are these things available as packages.
+	
+Compile guides for different Operating Systems are available in PtokaX Wiki http://wiki.ptokax.org/doku.php?id=guides.
+
+
+Short compile instruction:
+
+Compile on Debian/Mint/Ubuntu/Dyson:
+Packages to install: make g++ zlib1g-dev libtinyxml-dev and liblua5.3-dev or liblua5.2-dev or liblua5.1-dev for required Lua version.
+Optional package for PostgreSQL database support: libpq-dev
+Optional package for MariaDB database support: libmariadb-client-lgpl-dev-compat
+Optional package for MySQL database support: libmysqlclient-dev
+Optional package for SQLite database support: libsqlite3-dev
+To compile PtokaX with without database: make for Lua 5.3 or make lua52 for Lua 5.2 or make lua51 for Lua 5.1
+To compile PtokaX with PostgreSQL database: make -f makefile-postgres for Lua 5.3 or make -f makefile-postgres lua52 for Lua 5.2 or make -f makefile-postgres lua51 for Lua 5.1
+To compile PtokaX with MariaDB or MySQL database: make -f makefile-mysql  for Lua 5.3 or make -f makefile-mysql lua52 for Lua 5.2 or make -f makefile-mysql lua51 for Lua 5.1
+To compile PtokaX with SQLite database: make -f makefile-sqlite for Lua 5.3 or make -f makefile-sqlite lua52 for Lua 5.2 or make -f makefile-sqlite lua51 for Lua 5.1
+
+Compile on CentOS:
+Packages to install: make gcc-c++ zlib-devel lua-devel
+Optional package for PostgreSQL database support: postgresql-devel
+Optional package for MariaDB database support: mariadb-devel
+Optional package for SQLite database support: sqlite-devel
+To compile PtokaX with without database: make centos
+To compile PtokaX with PostgreSQL database: make -f makefile-postgres centos
+To compile PtokaX with MariaDB database: make -f makefile-mysql centos
+To compile PtokaX with SQLite database: make -f makefile-sqlite centos
+
+Compile on Fedora:
+Packages to install: make gcc-c++ zlib-devel tinyxml-devel lua-devel
+Optional package for PostgreSQL database support: postgresql-devel
+Optional package for MariaDB database support: mariadb-devel
+Optional package for MySQL database support: community-mysql-devel
+Optional package for SQLite database support: sqlite-devel
+To compile PtokaX with without database: make fedora
+To compile PtokaX with PostgreSQL database: make -f makefile-postgres fedora
+To compile PtokaX with MariaDB or MySQL database: make -f makefile-mysql fedora
+To compile PtokaX with SQLite database: make -f makefile-sqlite fedora
+
+Compile on Mageia:
+Packages to install: make gcc-c++ zlib-devel tinyxml-devel lua-devel
+Optional package for PostgreSQL database support: postgresql-devel
+Optional package for MariaDB database support: mariadb-devel
+Optional package for SQLite database support: sqlite3-devel
+To compile PtokaX with without database: make fedora
+To compile PtokaX with PostgreSQL database: make -f makefile-postgres fedora
+To compile PtokaX with MariaDB database: make -f makefile-mysql fedora
+To compile PtokaX with SQLite database: make -f makefile-sqlite fedora
+
+Compile on OpenSuse:
+Packages to install: make gcc-c++ zlib-devel tinyxml-devel lua-devel
+Optional package for PostgreSQL database support: postgresql-devel
+Optional package for MariaDB database support: mysql-devel
+Optional package for SQLite database support: sqlite-devel
+To compile PtokaX with without database: make fedora
+To compile PtokaX with PostgreSQL database: make -f makefile-postgres fedora
+To compile PtokaX with MariaDB database: make -f makefile-mysql fedora
+To compile PtokaX with SQLite database: make -f makefile-sqlite fedora
+
+Compile on Arch Linux:
+Packages to install: make make gcc zlib tinyxml and lua53 or lua51 for required Lua version.
+Optional package for PostgreSQL database support: postgresql-libs
+Optional package for MariaDB database support: mariadb
+Optional package for SQLite database support: sqlite
+To compile PtokaX with without database: make fedora for Lua 5.3 or make for Lua 5.1
+To compile PtokaX with PostgreSQL database: make -f makefile-postgres fedora for Lua 5.3 or make -f makefile-postgres for Lua 5.1
+To compile PtokaX with MariaDB database: make -f makefile-mysql fedora for Lua 5.3 or make -f makefile-mysql for Lua 5.1
+To compile PtokaX with SQLite database: make -f makefile-sqlite fedora for Lua 5.3 or make -f makefile-sqlite for Lua 5.1
+
+Compile on FreeBSD:
+Packages to install: gmake tinyxml libiconv and lua53 or lua51 for required Lua version.
+Optional package for PostgreSQL database support: postgresql94-client
+Optional package for MariaDB database support: mariadb100-client
+Optional package for MySQL database support: mysql56-client
+Optional package for SQLite database support: sqlite3
+To compile PtokaX with without database: gmake freebsd for Lua 5.3 or gmake freebsd51 for Lua 5.1
+To compile PtokaX with PostgreSQL database: gmake -f makefile-postgres freebsd for Lua 5.3 or gmake -f makefile-postgres freebsd51 for Lua 5.1
+To compile PtokaX with MariaDB or MySQL database: gmake -f makefile-mysql freebsd for Lua 5.3 gmake -f makefile-mysql freebsd51 for Lua 5.1
+To compile PtokaX with SQLite database: gmake -f makefile-sqlite freebsd for Lua 5.3 or gmake -f makefile-sqlite freebsd51 for Lua 5.1
+
+Compile on OpenBSD:
+Packages to install: gmake tinyxml libiconv lua
+Optional package for PostgreSQL database support: postgresql-client
+Optional package for MariaDB database support: mariadb-client
+To compile PtokaX with without database: gmake openbsd for Lua 5.3 or gmake openbsd51 for Lua 5.1
+To compile PtokaX with PostgreSQL database: gmake -f makefile-postgres openbsd for Lua 5.3 or gmake -f makefile-postgres openbsd51 for Lua 5.1
+To compile PtokaX with MariaDB database: gmake -f makefile-mysql openbsd for Lua 5.3 or gmake -f makefile-mysql openbsd51 for Lua 5.1
+To compile PtokaX with SQLite database: gmake -f makefile-sqlite openbsd for Lua 5.3 or gmake -f makefile-sqlite openbsd51 for Lua 5.1
+
+Compile on NetBSD:
+Packages to install: gmake tinyxml libiconv and lua53 or lua51 for required Lua version.
+Optional package for PostgreSQL database support: postgresql93-client
+Optional package for MySQL database support: mysql-client
+To compile PtokaX with without database: gmake netbsd for Lua 5.3 or gmake netbsd51 for Lua 5.1
+To compile PtokaX with PostgreSQL database: gmake -f makefile-postgres netbsd for Lua 5.3 or gmake -f makefile-postgres netbsd51 for Lua 5.1
+To compile PtokaX with MariaDB database: gmake -f makefile-mysql netbsd for Lua 5.3 or gmake -f makefile-mysql netbsd51 for Lua 5.1
+To compile PtokaX with SQLite database: gmake -f makefile-sqlite netbsd for Lua 5.3 or gmake -f makefile-sqlite netbsd51 for Lua 5.1
+
+Compile on Haiku:
+Packages to install: lua
+To compile PtokaX with without database: make haiku
+
+Compile on Solaris:
+Packages to install: gcc-dev lua
+To compile PtokaX with without database: gmake solaris
+
+Compile on Mac OS X:
+Packages to install: lua tinyxml
+To compile PtokaX with without database: make macosx

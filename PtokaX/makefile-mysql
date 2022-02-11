@@ -1,0 +1,371 @@
+#*******************************************************************************
+#
+# Makefile for PtokaX.
+#
+#*******************************************************************************
+
+#*******************************************************************************
+# Compiler
+#*******************************************************************************
+CXX = c++
+
+#*******************************************************************************
+# Path where install
+#*******************************************************************************
+INSTDIR = /usr/local/bin
+
+#*******************************************************************************
+# Debug flags
+#*******************************************************************************
+#CXXFLAGS = -g -Wall -Wextra
+
+#*******************************************************************************
+# Release flags
+#*******************************************************************************
+CXXFLAGS = -O -g -Wall -Wextra -D_WITH_MYSQL
+
+#*******************************************************************************
+# Include
+#*******************************************************************************
+INCLUDE = -Itinyxml -Iskein/Optimized_32bit -I/usr/include -I/usr/include/lua5.1 -I/usr/include/mysql -I/usr/include/mariadb
+
+#*******************************************************************************
+# Files to compile and link
+#*******************************************************************************
+
+OBJS = $(CURDIR)/obj/colUsers.o $(CURDIR)/obj/DB-MySQL.o $(CURDIR)/obj/DcCommands.o $(CURDIR)/obj/DeFlood.o $(CURDIR)/obj/eventqueue.o $(CURDIR)/obj/GlobalDataQueue.o $(CURDIR)/obj/hashBanManager.o \
+		$(CURDIR)/obj/hashUsrManager.o $(CURDIR)/obj/hashRegManager.o $(CURDIR)/obj/HubCommands.o $(CURDIR)/obj/HubCommands-AE.o $(CURDIR)/obj/HubCommands-FH.o $(CURDIR)/obj/HubCommands-IQ.o \
+		$(CURDIR)/obj/HubCommands-RZ.o $(CURDIR)/obj/IP2Country.o $(CURDIR)/obj/LanguageManager.o $(CURDIR)/obj/LuaBanManLib.o $(CURDIR)/obj/LuaCoreLib.o $(CURDIR)/obj/LuaIP2CountryLib.o \
+		$(CURDIR)/obj/LuaProfManLib.o $(CURDIR)/obj/LuaRegManLib.o $(CURDIR)/obj/LuaScript.o $(CURDIR)/obj/LuaScriptManager.o $(CURDIR)/obj/LuaScriptManLib.o $(CURDIR)/obj/LuaSetManLib.o \
+		$(CURDIR)/obj/LuaTmrManLib.o $(CURDIR)/obj/LuaUDPDbgLib.o $(CURDIR)/obj/ProfileManager.o $(CURDIR)/obj/PtokaX-nix.o $(CURDIR)/obj/PXBReader.o $(CURDIR)/obj/pxstring.o $(CURDIR)/obj/RegThread.o \
+		$(CURDIR)/obj/ResNickManager.o $(CURDIR)/obj/ServerManager.o $(CURDIR)/obj/ServerThread.o $(CURDIR)/obj/serviceLoop.o $(CURDIR)/obj/SettingManager.o $(CURDIR)/obj/TextConverter.o \
+		$(CURDIR)/obj/TextFileManager.o $(CURDIR)/obj/UdpDebug.o $(CURDIR)/obj/UDPThread.o $(CURDIR)/obj/User.o $(CURDIR)/obj/utility.o $(CURDIR)/obj/ZlibUtility.o
+
+#*******************************************************************************
+# Binary to create
+#
+# Lua in Debian is lua5.1. Other known names are lua-5.1, lua51 and lua.
+# If you have Lua lib with another name than lua5.1 change it in -llua5.1.
+#
+# In case when you don't have Lua as dynamic library (in debian liblua5.1.so)
+# but as static library (liblua.a default when you compile Lua from sources)
+# then remove -llua5.1 and after tinyxml/tinyxml.a add /usr/local/lib/liblua.a (default path when is Lua compiled from sources).
+#*******************************************************************************
+
+PtokaX: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/include/lua5.3 -I/usr/include/mysql -I/usr/include/mariadb
+PtokaX: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lrt -lz -llua5.3 -ltinyxml -lmysqlclient
+
+lua52: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/include/lua5.2 -I/usr/include/mysql -I/usr/include/mariadb
+lua52: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lrt -lz -llua5.2 -ltinyxml -lmysqlclient
+
+lua51: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/include/lua5.1 -I/usr/include/mysql -I/usr/include/mariadb
+lua51: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lrt -lz -llua5.1 -ltinyxml -lmysqlclient
+
+centos: CXXFLAGS = -O -g -Wall -Wextra -DTIXML_USE_STL -D_WITH_MYSQL
+centos: $(OBJS)
+	cd skein; $(MAKE)
+	cd tinyxml; $(MAKE)
+	$(CXX) $(OBJS) -L/usr/lib64/mysql $(CURDIR)/tinyxml/tinyxml.a $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lrt -lz -llua -lmysqlclient
+
+fedora: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/include/mysql -I/usr/include/mariadb
+fedora: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) -L/usr/lib64/mysql $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lz -llua -ltinyxml -lmysqlclient
+
+freebsd: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/local/include -I/usr/local/include/lua53 -I/usr/local/include/mysql
+freebsd: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) -L/usr/local/lib -L/usr/local/lib/mysql $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lz -llua-5.3 -ltinyxml -liconv -lmysqlclient
+
+freebsd51: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/local/include -I/usr/local/include/lua51 -I/usr/local/include/mysql
+freebsd51: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) -L/usr/local/lib -L/usr/local/lib/mysql $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lz -llua-5.1 -ltinyxml -liconv -lmysqlclient
+
+openbsd: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/local/include -I/usr/local/include/lua-5.3 -I/usr/local/include/mysql
+openbsd: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) -L/usr/local/lib -L/usr/local/lib/mysql $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lz -llua5.3 -ltinyxml -liconv -lmysqlclient
+
+openbsd51: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/local/include -I/usr/local/include/lua-5.1 -I/usr/local/include/mysql
+openbsd51: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) -L/usr/local/lib -L/usr/local/lib/mysql $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lz -llua5.1 -ltinyxml -liconv -lmysqlclient
+
+netbsd: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/pkg/include -I/usr/pkg/include/lua-5.3 -I/usr/pkg/include/mysql
+netbsd: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) -L/usr/pkg/lib -L/usr/pkg/lib/mysql $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lz -llua5.3 -ltinyxml -liconv -lmysqlclient
+
+netbsd51: INCLUDE = -Iskein/Optimized_32bit -I/usr/include -I/usr/pkg/include -I/usr/pkg/include/lua-5.1 -I/usr/pkg/include/mysql
+netbsd51: $(OBJS)
+	cd skein; $(MAKE)
+	$(CXX) $(OBJS) -L/usr/pkg/lib -L/usr/pkg/lib/mysql $(CURDIR)/skein/skein.a -o PtokaX -lstdc++ -lpthread -lm -lz -llua5.1 -ltinyxml -liconv -lmysqlclient
+
+install:
+	@if test -d $(INSTDIR); then \
+		cp PtokaX $(INSTDIR) && echo cp PtokaX $(INSTDIR) && echo "PtokaX was installed to $(INSTDIR)"; \
+		setcap 'cap_net_bind_service=+ep' $(INSTDIR)/PtokaX && echo setcap 'cap_net_bind_service=+ep' $(INSTDIR)/PtokaX && \
+		echo "PtokaX executable was allowed to run on ports below 1025"; \
+	else \
+		echo "Can't install, because directory $(INSTDIR) don't exist"; \
+		false; \
+	fi
+
+uninstall:
+	-rm $(INSTDIR)/PtokaX
+
+
+#*******************************************************************************
+# Files to compile
+#*******************************************************************************
+$(CURDIR)/obj/colUsers.o: $(CURDIR)/core/colUsers.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/colUsers.h $(CURDIR)/core/GlobalDataQueue.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/colUsers.cpp -o $(CURDIR)/obj/colUsers.o
+
+$(CURDIR)/obj/DB-MySQL.o: $(CURDIR)/core/DB-MySQL.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/DB-MySQL.h \
+  $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h \
+  $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h \
+  $(CURDIR)/core/TextConverter.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/IP2Country.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/DB-MySQL.cpp -o $(CURDIR)/obj/DB-MySQL.o
+
+$(CURDIR)/obj/DcCommands.o: $(CURDIR)/core/DcCommands.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/DcCommands.h $(CURDIR)/core/colUsers.h \
+  $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ProfileManager.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h \
+  $(CURDIR)/core/utility.h $(CURDIR)/core/ZlibUtility.h $(CURDIR)/core/DeFlood.h $(CURDIR)/core/HubCommands.h $(CURDIR)/core/IP2Country.h \
+  $(CURDIR)/core/ResNickManager.h $(CURDIR)/core/TextFileManager.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/DcCommands.cpp -o $(CURDIR)/obj/DcCommands.o
+
+$(CURDIR)/obj/DeFlood.o: $(CURDIR)/core/DeFlood.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/DeFlood.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/DeFlood.cpp -o $(CURDIR)/obj/DeFlood.o
+
+$(CURDIR)/obj/eventqueue.o: $(CURDIR)/core/eventqueue.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/eventqueue.h \
+  $(CURDIR)/core/DcCommands.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ServerManager.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/LuaScript.h \
+  $(CURDIR)/core/RegThread.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/eventqueue.cpp -o $(CURDIR)/obj/eventqueue.o
+
+$(CURDIR)/obj/GlobalDataQueue.o: $(CURDIR)/core/GlobalDataQueue.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/GlobalDataQueue.h \
+  $(CURDIR)/core/colUsers.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h \
+  $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/ZlibUtility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/GlobalDataQueue.cpp -o $(CURDIR)/obj/GlobalDataQueue.o
+
+$(CURDIR)/obj/hashBanManager.o: $(CURDIR)/core/hashBanManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/hashBanManager.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h \
+  $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/hashBanManager.cpp -o $(CURDIR)/obj/hashBanManager.o
+
+$(CURDIR)/obj/hashRegManager.o: $(CURDIR)/core/hashRegManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/hashRegManager.h \
+  $(CURDIR)/core/colUsers.h $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LanguageManager.h \
+  $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/PXBReader.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/hashRegManager.cpp -o $(CURDIR)/obj/hashRegManager.o
+
+$(CURDIR)/obj/hashUsrManager.o: $(CURDIR)/core/hashUsrManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/hashUsrManager.h \
+  $(CURDIR)/core/User.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/hashUsrManager.cpp -o $(CURDIR)/obj/hashUsrManager.o
+
+$(CURDIR)/obj/HubCommands.o: $(CURDIR)/core/HubCommands.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/colUsers.h \
+  $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h \
+  $(CURDIR)/core/HubCommands.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/HubCommands.cpp -o $(CURDIR)/obj/HubCommands.o
+
+$(CURDIR)/obj/HubCommands-AE.o: $(CURDIR)/core/HubCommands-AE.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/colUsers.h \
+  $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h \
+  $(CURDIR)/core/HubCommands.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/HubCommands-AE.cpp -o $(CURDIR)/obj/HubCommands-AE.o
+
+$(CURDIR)/obj/HubCommands-FH.o: $(CURDIR)/core/HubCommands-FH.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/GlobalDataQueue.h \
+  $(CURDIR)/core/hashBanManager.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h \
+  $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/HubCommands.h $(CURDIR)/core/IP2Country.h \
+  $(CURDIR)/core/LuaScript.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/HubCommands-FH.cpp -o $(CURDIR)/obj/HubCommands-FH.o
+
+$(CURDIR)/obj/HubCommands-IQ.o: $(CURDIR)/core/HubCommands-IQ.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/colUsers.h \
+  $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h \
+  $(CURDIR)/core/HubCommands.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/HubCommands-IQ.cpp -o $(CURDIR)/obj/HubCommands-IQ.o
+
+$(CURDIR)/obj/HubCommands-RZ.o: $(CURDIR)/core/HubCommands-RZ.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/colUsers.h \
+  $(CURDIR)/core/DcCommands.h $(CURDIR)/core/eventqueue.h $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h \
+  $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h \
+  $(CURDIR)/core/LuaInc.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/serviceLoop.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/HubCommands.h \
+  $(CURDIR)/core/LuaScript.h $(CURDIR)/core/TextFileManager.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/HubCommands-RZ.cpp -o $(CURDIR)/obj/HubCommands-RZ.o
+
+$(CURDIR)/obj/IP2Country.o: $(CURDIR)/core/IP2Country.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/IP2Country.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/IP2Country.cpp -o $(CURDIR)/obj/IP2Country.o
+
+$(CURDIR)/obj/LanguageManager.o: $(CURDIR)/core/LanguageManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LanguageXml.h \
+  $(CURDIR)/core/LanguageStrings.h $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LanguageManager.cpp -o $(CURDIR)/obj/LanguageManager.o
+
+$(CURDIR)/obj/LuaBanManLib.o: $(CURDIR)/core/LuaBanManLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaBanManLib.h $(CURDIR)/core/hashBanManager.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LuaScriptManager.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/LuaScript.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaBanManLib.cpp -o $(CURDIR)/obj/LuaBanManLib.o
+
+$(CURDIR)/obj/LuaCoreLib.o: $(CURDIR)/core/LuaCoreLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h $(CURDIR)/core/LuaCoreLib.h \
+  $(CURDIR)/core/colUsers.h $(CURDIR)/core/eventqueue.h $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h $(CURDIR)/core/hashUsrManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ServerManager.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/IP2Country.h \
+  $(CURDIR)/core/ResNickManager.h $(CURDIR)/core/LuaScript.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaCoreLib.cpp -o $(CURDIR)/obj/LuaCoreLib.o
+
+$(CURDIR)/obj/LuaIP2CountryLib.o: $(CURDIR)/core/LuaIP2CountryLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaIP2CountryLib.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/IP2Country.h \
+  $(CURDIR)/core/LuaScript.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaIP2CountryLib.cpp -o $(CURDIR)/obj/LuaIP2CountryLib.o
+
+$(CURDIR)/obj/LuaProfManLib.o: $(CURDIR)/core/LuaProfManLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaProfManLib.h $(CURDIR)/core/ProfileManager.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaProfManLib.cpp -o $(CURDIR)/obj/LuaProfManLib.o
+
+$(CURDIR)/obj/LuaRegManLib.o: $(CURDIR)/core/LuaRegManLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaRegManLib.h $(CURDIR)/core/colUsers.h $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaRegManLib.cpp -o $(CURDIR)/obj/LuaRegManLib.o
+
+$(CURDIR)/obj/LuaScript.o: $(CURDIR)/core/LuaScript.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h $(CURDIR)/core/colUsers.h \
+  $(CURDIR)/core/eventqueue.h $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LanguageManager.h \
+  $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/LuaScript.h $(CURDIR)/core/IP2Country.h \
+  $(CURDIR)/core/LuaCoreLib.h $(CURDIR)/core/LuaBanManLib.h $(CURDIR)/core/LuaIP2CountryLib.h $(CURDIR)/core/LuaProfManLib.h \
+  $(CURDIR)/core/LuaRegManLib.h $(CURDIR)/core/LuaScriptManLib.h $(CURDIR)/core/LuaSetManLib.h $(CURDIR)/core/LuaTmrManLib.h \
+  $(CURDIR)/core/LuaUDPDbgLib.h $(CURDIR)/core/ResNickManager.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaScript.cpp -o $(CURDIR)/obj/LuaScript.o
+
+$(CURDIR)/obj/LuaScriptManager.o: $(CURDIR)/core/LuaScriptManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/User.h \
+  $(CURDIR)/core/utility.h $(CURDIR)/core/LuaScript.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaScriptManager.cpp -o $(CURDIR)/obj/LuaScriptManager.o
+
+$(CURDIR)/obj/LuaScriptManLib.o: $(CURDIR)/core/LuaScriptManLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaScriptManLib.h $(CURDIR)/core/eventqueue.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/utility.h $(CURDIR)/core/LuaScript.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaScriptManLib.cpp -o $(CURDIR)/obj/LuaScriptManLib.o
+
+$(CURDIR)/obj/LuaSetManLib.o: $(CURDIR)/core/LuaSetManLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaSetManLib.h $(CURDIR)/core/eventqueue.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LuaScriptManager.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaSetManLib.cpp -o $(CURDIR)/obj/LuaSetManLib.o
+
+$(CURDIR)/obj/LuaTmrManLib.o: $(CURDIR)/core/LuaTmrManLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaTmrManLib.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/utility.h $(CURDIR)/core/LuaScript.h 
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaTmrManLib.cpp -o $(CURDIR)/obj/LuaTmrManLib.o
+
+$(CURDIR)/obj/LuaUDPDbgLib.o: $(CURDIR)/core/LuaUDPDbgLib.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/LuaInc.h \
+  $(CURDIR)/core/LuaUDPDbgLib.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/utility.h $(CURDIR)/core/LuaScript.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/LuaUDPDbgLib.cpp -o $(CURDIR)/obj/LuaUDPDbgLib.o
+
+$(CURDIR)/obj/ProfileManager.o: $(CURDIR)/core/ProfileManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/ProfileManager.h \
+  $(CURDIR)/core/colUsers.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/ProfileManager.cpp -o $(CURDIR)/obj/ProfileManager.o
+
+$(CURDIR)/obj/PtokaX-nix.o: $(CURDIR)/core/PtokaX-nix.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/eventqueue.h $(CURDIR)/core/GlobalDataQueue.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/serviceLoop.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/PtokaX-nix.cpp -o $(CURDIR)/obj/PtokaX-nix.o
+
+$(CURDIR)/obj/PXBReader.o: $(CURDIR)/core/PXBReader.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/PXBReader.h $(CURDIR)/core/ServerManager.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/PXBReader.cpp -o $(CURDIR)/obj/PXBReader.o
+
+$(CURDIR)/obj/pxstring.o: $(CURDIR)/core/pxstring.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/pxstring.cpp -o $(CURDIR)/obj/pxstring.o
+
+$(CURDIR)/obj/RegThread.o: $(CURDIR)/core/RegThread.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/eventqueue.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/utility.h $(CURDIR)/core/RegThread.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/RegThread.cpp -o $(CURDIR)/obj/RegThread.o
+
+$(CURDIR)/obj/ResNickManager.o: $(CURDIR)/core/ResNickManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/ResNickManager.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/ResNickManager.cpp -o $(CURDIR)/obj/ResNickManager.o
+
+$(CURDIR)/obj/ServerManager.o: $(CURDIR)/core/ServerManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/ServerManager.h \
+  $(CURDIR)/core/colUsers.h $(CURDIR)/core/DcCommands.h $(CURDIR)/core/eventqueue.h $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h \
+  $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h \
+  $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/serviceLoop.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/utility.h $(CURDIR)/core/ZlibUtility.h $(CURDIR)/core/HubCommands.h \
+  $(CURDIR)/core/IP2Country.h $(CURDIR)/core/LuaScript.h $(CURDIR)/core/RegThread.h $(CURDIR)/core/ResNickManager.h $(CURDIR)/core/ServerThread.h \
+  $(CURDIR)/core/TextConverter.h $(CURDIR)/core/TextFileManager.h $(CURDIR)/core/UDPThread.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/ServerManager.cpp -o $(CURDIR)/obj/ServerManager.o
+
+$(CURDIR)/obj/ServerThread.o: $(CURDIR)/core/ServerThread.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/eventqueue.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/serviceLoop.h \
+  $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/utility.h $(CURDIR)/core/ServerThread.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/ServerThread.cpp -o $(CURDIR)/obj/ServerThread.o
+
+$(CURDIR)/obj/serviceLoop.o: $(CURDIR)/core/serviceLoop.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/serviceLoop.h \
+  $(CURDIR)/core/colUsers.h $(CURDIR)/core/eventqueue.h $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashBanManager.h $(CURDIR)/core/hashRegManager.h $(CURDIR)/core/hashUsrManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ProfileManager.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/User.h \
+  $(CURDIR)/core/utility.h $(CURDIR)/core/ZlibUtility.h $(CURDIR)/core/LuaScript.h $(CURDIR)/core/RegThread.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/serviceLoop.cpp -o $(CURDIR)/obj/serviceLoop.o
+
+$(CURDIR)/obj/SettingManager.o: $(CURDIR)/core/SettingManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/SettingStr.h \
+  $(CURDIR)/core/SettingCom.h $(CURDIR)/core/SettingDefaults.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/colUsers.h \
+  $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/LuaScriptManager.h \
+  $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h $(CURDIR)/core/ResNickManager.h \
+  $(CURDIR)/core/ServerThread.h $(CURDIR)/core/TextFileManager.h $(CURDIR)/core/UDPThread.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/SettingManager.cpp -o $(CURDIR)/obj/SettingManager.o
+
+$(CURDIR)/obj/TextConverter.o: $(CURDIR)/core/TextConverter.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/TextConverter.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/TextConverter.cpp -o $(CURDIR)/obj/TextConverter.o
+
+$(CURDIR)/obj/TextFileManager.o: $(CURDIR)/core/TextFileManager.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h \
+  $(CURDIR)/core/TextFileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/User.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/TextFileManager.cpp -o $(CURDIR)/obj/TextFileManager.o
+
+$(CURDIR)/obj/UdpDebug.o: $(CURDIR)/core/UdpDebug.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/LanguageManager.h \
+  $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/User.h \
+  $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/UdpDebug.cpp -o $(CURDIR)/obj/UdpDebug.o
+
+$(CURDIR)/obj/UDPThread.o: $(CURDIR)/core/UDPThread.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/eventqueue.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h $(CURDIR)/core/SettingIds.h $(CURDIR)/core/utility.h $(CURDIR)/core/UDPThread.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/UDPThread.cpp -o $(CURDIR)/obj/UDPThread.o
+
+$(CURDIR)/obj/User.o: $(CURDIR)/core/User.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/User.h $(CURDIR)/core/colUsers.h $(CURDIR)/core/DcCommands.h \
+  $(CURDIR)/core/GlobalDataQueue.h $(CURDIR)/core/hashUsrManager.h $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h \
+  $(CURDIR)/core/LuaScriptManager.h $(CURDIR)/core/ProfileManager.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/utility.h $(CURDIR)/core/UdpDebug.h $(CURDIR)/core/ZlibUtility.h $(CURDIR)/core/DeFlood.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/User.cpp -o $(CURDIR)/obj/User.o
+
+$(CURDIR)/obj/utility.o: $(CURDIR)/core/utility.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/utility.h $(CURDIR)/core/hashBanManager.h \
+  $(CURDIR)/core/LanguageManager.h $(CURDIR)/core/LanguageIds.h $(CURDIR)/core/ServerManager.h $(CURDIR)/core/SettingManager.h \
+  $(CURDIR)/core/SettingIds.h $(CURDIR)/core/UdpDebug.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/utility.cpp -o $(CURDIR)/obj/utility.o
+
+$(CURDIR)/obj/ZlibUtility.o: $(CURDIR)/core/ZlibUtility.cpp $(CURDIR)/core/stdinc.h $(CURDIR)/core/pxstring.h $(CURDIR)/core/ZlibUtility.h \
+  $(CURDIR)/core/ServerManager.h $(CURDIR)/core/utility.h
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $(CURDIR)/core/ZlibUtility.cpp -o $(CURDIR)/obj/ZlibUtility.o
+
+#*******************************************************************************
+# Cleanup
+#*******************************************************************************
+clean:
+	cd skein; $(MAKE) clean
+	cd tinyxml; $(MAKE) clean
+	-rm $(OBJS) PtokaX

@@ -1,0 +1,56 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          PtokaX 
+# Required-Start:    $local_fs $remote_fs $network $syslog postgresql
+# Required-Stop:     $local_fs $remote_fs $network $syslog postgresql
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: start/stop/restart PtokaX
+### END INIT INFO
+
+# Get LSB functions
+. /lib/lsb/init-functions
+. /etc/default/rcS
+
+PTOKAX_USER=ptokax
+PTOKAX_GROUP=ptokax
+PTOKAX_BIN=/usr/local/bin/PtokaX
+PTOKAX_PATH=/home/$PTOKAX_USER/
+PTOKAX_PID=$PTOKAX_PATHPtokaX.pid
+
+# Check that the package is still installed
+[ -x $PTOKAX_BIN ] || exit 0;
+
+case "$1" in
+        start)
+                log_begin_msg "Starting PtokaX...\n"
+                if start-stop-daemon --start \
+                --chuid $PTOKAX_USER:$PTOKAX_GROUP --pidfile $PTOKAX_PID\
+                --exec $PTOKAX_BIN \
+                -- -d -c $PTOKAX_PATH -p $PTOKAX_PID; then
+                        log_end_msg 0
+                else
+                        log_end_msg $?
+                fi
+        ;;
+
+        stop)
+                log_begin_msg "Stopping PtokaX...\n"
+                if start-stop-daemon --stop --pidfile $PTOKAX_PID --exec $PTOKAX_BIN; then
+                log_end_msg 0
+                else
+                log_end_msg $?
+                fi
+        ;;                                                    
+
+        restart)
+                "$0" stop && "$0" start
+        ;;
+
+        *)
+        e       cho "Usage: /etc/init.d/ptokax {start|stop|restart}"
+                exit 1
+        ;;
+esac
+
+exit 0

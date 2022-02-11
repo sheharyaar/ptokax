@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="windows-1252" standalone="yes" ?>
+<RegisteredUsers>
+    <RegisteredUser>
+        <Nick>Example_Nick</Nick>
+        <Password>Example_Password</Password>
+        <Profile>3</Profile><!-- 0 for master, 1 for operator, 2 for vip, 3 for reg -->
+    </RegisteredUser>
+</RegisteredUsers>

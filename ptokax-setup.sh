@@ -56,7 +56,7 @@ printf "\n\n[log] Setting up PtokaX!\n\n"
 printf "\n\n[log] Now importing Hit Hi Fit Hai scripts\n\n"
 
 cd $home
-git clone https://github.com/HiT-Hi-FiT-Hai/ptokax-scripts
+git clone https://github.com/sheharyaar/ptokax-scripts
 cp ptokax-scripts/* PtokaX/scripts/ -rf
 
 printf "\n\nRun Ptokax server using \"sudo ~/ptokax-start.sh\" \n"
