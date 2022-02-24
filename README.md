@@ -1,12 +1,19 @@
 Raspberry Pi 4 Model B Rev 1.1 ( 2 GB ) \
 OS : Rasbian 64 Bit
 
+- [Searching the Pi and SSH](#searching-the-pi-and-ssh)
 - [Automatic Installation](#automatic-installation)
 - [Manual Installation](#manual-installation)
 - [Running Scripts](#running-scripts)
     - Changing the Message of the Day
     - Changing the Share limit
 - [Changes Made to HHFH Version](#changes-made-to-ptokax-hhfh-version)
+
+# Searching the Pi and SSH
+
+```bash
+
+```
 
 # Installing Ptokax on Raspberry Pi
 
