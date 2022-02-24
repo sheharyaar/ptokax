@@ -1,7 +1,42 @@
 Raspberry Pi 4 Model B Rev 1.1 ( 2 GB ) \
 OS : Rasbian 64 Bit
 
-## Installing Ptokax on Raspberry Pi
+1. [Automatic Installation](#automatic-installation)
+2. [Manual Installation](#manual-installation)
+3. [Running Scripts](#running-scripts)
+4. [Changes Made to HHFH Version](#changes-made-to-ptokax-hhfh-version)
+
+# Installing Ptokax on Raspberry Pi
+
+## Automatic Installation
+
+To install PtokaX on raspberry Pi run the following commands in sequence :
+```bash
+cd ~
+curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-setup.sh -L -o ptokax-setup.sh
+chmod +x ptokax-setup.sh
+./ptokax-setup.sh
+```
+
+To run Ptokax server just run
+```bash
+cd ~
+./ptokax-start.sh
+```
+
+To stop PtokaX server just run
+```bash
+cd ~
+./ptokax-stop.sh
+```
+
+To configure PtokaX server just run
+```bash
+cd ~
+./ptokax-config.sh
+```
+
+## Manual Installation
 
 The first step involves getting the IP address of the Raspberry Pi assigned to it. \
 
@@ -35,39 +70,13 @@ nameserver 127.0.0.53
 ```
 The DNS Address is : `127.0.0.53` or the first IP Address.
 
-4) Edit the dhcp config file : `sudo nano /etc/dhcpcd.conf` \
+5) Edit the dhcp config file : `sudo nano /etc/dhcpcd.conf` \
 Add to the end of the config. If it is already there and commented out using # then uncomment and edit.
 ```bash
 interface eth0
 static ip_address=IP_ADDRESS_TO_BE_ASSIGNED_TO_PI/24
 static routers=GATEWAY_ADDRESS
 static domain_name_servers=DNS_ADDRESS
-```
-
-To install PtokaX on raspberry Pi run the following commands in sequence :
-```bash
-cd ~
-curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-setup.sh -L -o ptokax-setup.sh
-chmod +x ptokax-setup.sh
-./ptokax-setup.sh
-```
-
-To run Ptokax server just run
-```bash
-cd ~
-./ptokax-start.sh
-```
-
-To stop PtokaX server just run
-```bash
-cd ~
-./ptokax-stop.sh
-```
-
-To configure PtokaX server just run
-```bash
-cd ~
-./ptokax-config.sh
 ```
 
 ## Running Scripts
@@ -116,3 +125,4 @@ make: *** [makefile:340: /home/pi/PtokaX/obj/SettingManager.o] Error 1
 ```
 
 - Created script to setup, start and stop ptokax server
+
