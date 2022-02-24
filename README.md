@@ -11,9 +11,41 @@ OS : Rasbian 64 Bit
 
 # Searching the Pi and SSH
 
-```bash
+- Install nmap. For Debian/Ubuntu : `sudo apt update && sudo apt install -y nmap`
+- If you are connected to the same ethernet subnetwork then <br> 
+Check your ethernet interface name by running : `ip addr`. <br>
+In my case it's `eth0`. <br>
 
+Run the following command to get your subnet IP and replace `eth0` with your interface name : 
+```bash
+ip route | grep link | grep eth0 | cut -d ' ' -f 1
 ```
+- If you are not on the same subnet then get the subnet address from a friend on the same subnet as in the above step.
+- Now to find Pi run (Replace `10.112.5.0/24` with yout subnet address ) :
+```bash
+sudo nmap -sS -O -p22 10.112.5.0/24 -oG result
+```
+
+This will create a file name result. <br>
+Now view the contents of the file, it will be similar to this:
+```bash
+# Nmap 7.92 scan initiated Fri Feb 25 00:55:18 2022 as: nmap -sS -O -p22 -oG testing 10.112.5.0/24
+Host: 10.112.5.2 ()	Status: Up
+Host: 10.112.5.2 ()	Ports: 22/closed/tcp//ssh///
+Host: 10.112.5.32 ()	Status: Up
+Host: 10.112.5.32 ()	Ports: 22/filtered/tcp//ssh///
+Host: 10.112.5.123 ()	Status: Up
+Host: 10.112.5.123 ()	Ports: 22/closed/tcp//ssh///
+Host: 10.112.5.167 ()	Status: Up
+Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index: 260	IP ID Seq: All zeros
+# Nmap done at Fri Feb 25 00:55:25 2022 -- 256 IP addresses (4 hosts up) scanned in 7.22 seconds
+```
+In this case, the status is **Up** and the OS is **Linux**. If there are more than one devices, then try with all of them.
+```bash
+Host: 10.112.5.167 ()	Status: Up
+Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index: 260	IP ID Seq: All zeros
+```
+- Now ssh to the pi : `ssh pi@IP`. If it is a new install, then the password will be `raspberrypi`.
 
 # Installing Ptokax on Raspberry Pi
 
