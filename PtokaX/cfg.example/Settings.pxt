@@ -357,11 +357,11 @@ SameSearchMessages	=	0
 #
 
 # Hub name. Minimal length 1, maximal length 256. $ and | is not allowed
-#HubName	=	<Enter hub name here>
+#HubName	=	MetaHub
 # Admin nick. Minimal length 1. Maximal length 64. $, | and space is not allowed
 #AdminNick	=	Admin
 # Hub address. Minimal length 1. Maximal length 256. $ and | is not allowed
-#HubAddress	=	<Enter hub address here>
+#HubAddress	=	10.112.5.167
 # TCP ports. Minimal length 1. Maximal length 64
 #TCPPorts	=	1209;411
 # UDP port. Minimal length 1. Maximal length 5
@@ -369,7 +369,7 @@ SameSearchMessages	=	0
 # Hub description. Maximal length 256. $ and | is not allowed
 #HubDescription	=	
 # Main redirect address. Maximal length 256. | is not allowed
-#RedirectAddress	=	PtokaX-Alpha.CzDC.org:6891
+#RedirectAddress	=	10.112.5.167:411
 # Hublist register servers. Maximal length 1024
 #RegisterServers	=	reg.hublist.org;serv.hubs-list.com;hublist.cz;hublist.dreamland-net.eu;allhublista.myip.hu;publichublist-nl.no-ip.org;reg.hublist.dk;hublist.te-home.net;dc.gwhublist.com
 # Registered users only message. Minimal length 1. Maximal length 256. | is not allowed

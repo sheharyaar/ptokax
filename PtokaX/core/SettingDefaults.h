@@ -211,13 +211,13 @@ int16_t SetShortDef[] = {
 };
 
 const char* SetTxtDef[] = {
-    "<Enter hub name here>", //HUB_NAME
+    "MetaHub", //HUB_NAME
     "Admin", //ADMIN_NICK
-    "<Enter hub address here>", //HUB_ADDRESS
+    "10.112.5.167", //HUB_ADDRESS
     "1209;411", //TCP_PORTS
     "0", //UDP_PORT
     "", //HUB_DESCRIPTION
-    "PtokaX-Alpha.CzDC.org:6891", //REDIRECT_ADDRESS
+    "10.112.5.167:411", //REDIRECT_ADDRESS
     "reg.hublist.org;serv.hubs-list.com;hublist.cz;hublist.dreamland-net.eu;allhublista.myip.hu;publichublist-nl.no-ip.org;reg.hublist.dk;hublist.te-home.net;dc.gwhublist.com", //REGISTER_SERVERS
     "Sorry, this hub is only for registered users.", //REG_ONLY_MSG
     "", //REG_ONLY_REDIR_ADDRESS
