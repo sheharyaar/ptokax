@@ -40,7 +40,7 @@ Host: 10.112.5.167 ()	Status: Up
 Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index: 260	IP ID Seq: All zeros
 # Nmap done at Fri Feb 25 00:55:25 2022 -- 256 IP addresses (4 hosts up) scanned in 7.22 seconds
 ```
-In this case, the status is **Up** and the OS is **Linux**. If there are more than one devices, then try with all of them.
+In this case, the status is **Up**, the port is **open** and the OS is **Linux**. If there are more than one devices, then try with all of them.
 ```bash
 Host: 10.112.5.167 ()	Status: Up
 Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index: 260	IP ID Seq: All zeros
