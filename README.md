@@ -3,6 +3,7 @@ OS : Rasbian 64 Bit
 
 - [Searching the Pi and SSH](#searching-the-pi-and-ssh)
 - [Automatic Installation](#automatic-installation)
+    - Important Note
 - [Manual Installation](#manual-installation)
 - [Running Scripts](#running-scripts)
     - Changing the Message of the Day
@@ -75,6 +76,45 @@ To configure PtokaX server just run
 ```bash
 cd ~
 ./ptokax-config.sh
+```
+
+:warn: There is a bug where users are sometimes redirected to the wrong hub address and are banned. Check the following commit for more info and changes : [3ae699421373c49c6a640e927222a76f68f07835](https://github.com/sheharyaar/ptokax/commit/3ae699421373c49c6a640e927222a76f68f07835)
+
+To fix this, change the following files, change "REDIRECT ADDRESS PART, HUB_NAME, HUB_ADDRESS"
+
+- PtokaX/core/SettingDefaults.h
+```bash
+const char* SetTxtDef[] = {
+    "MetaHub", //HUB_NAME
+    "Admin", //ADMIN_NICK
+    "10.112.5.167", //HUB_ADDRESS
+    "1209;411", //TCP_PORTS
+    "0", //UDP_PORT
+    "", //HUB_DESCRIPTION
+    "10.112.5.167:411", //REDIRECT_ADDRESS
+    "reg.hublist.org;serv.hubs-list.com;hublist.cz;hublist.dreamland-net.eu;allhublista.myip.hu;publichublist-nl.no-ip.org;reg.hublist.dk;hublist.te-home.net;dc.gwhublist.com", //REGISTER_SERVERS
+    "Sorry, this hub is only for registered users.", //REG_ONLY_MSG
+    "", //REG_ONLY_REDIR_ADDRESS
+```
+
+- PtokaX/cfg.example/Settings.pxt
+
+```bash
+# Hub name. Minimal length 1, maximal length 256. $ and | is not allowed
+#HubName	=	MetaHub
+# Admin nick. Minimal length 1. Maximal length 64. $, | and space is not allowed
+#AdminNick	=	Admin
+# Hub address. Minimal length 1. Maximal length 256. $ and | is not allowed
+#HubAddress	=	10.112.5.167
+# TCP ports. Minimal length 1. Maximal length 64
+#TCPPorts	=	1209;411
+# UDP port. Minimal length 1. Maximal length 5
+#UDPPort	=	0
+# Hub description. Maximal length 256. $ and | is not allowed
+#HubDescription	=	
+# Main redirect address. Maximal length 256. | is not allowed
+#RedirectAddress	=	10.112.5.167:411
+# Hublist register servers. Maximal length 1024
 ```
 
 ## Manual Installation
