@@ -1,5 +1,27 @@
 #!/bin/bash
 
+printf "\n\n[log] Enabling and Starting DHCP Service\n\n"
+
+sudo service dhcpcd start
+sudo systemctl enable dhcpcd
+
+RASPI_IP=$(ip addr | grep inet | grep eth0 | cut -d ' ' -f 6)
+printf "RASPI IP : ${RASPI_IP}\n"
+
+GATEWAY_IP=$(ip route | grep default | cut -d ' ' -f 3)
+printf "GATEWAY_IP : ${GATEWAY_IP}\n"
+
+DNS_ADDRESS=$(cat /etc/resolv.conf | grep nameserver -m 1 | cut -d ' ' -f 2)
+printf "DNS DNS_ADDRESS : ${DNS_ADDRESS}\n"
+
+printf "\n\nMaking Raspberry Pi IP Address static\n"
+
+sudo echo "#Static IP for PtokaX" >> /etc/dhcpcd.conf
+sudo echo "interface eth0" >> /etc/dhcpcd.conf
+sudo echo "static ip_address=${RASPI_IP}" >> /etc/dhcpcd.conf
+sudo echo "static routers=${GATEWAY_IP}" >> /etc/dhcpcd.conf
+sudo echo "static domain_name_servers=${DNS_ADDRESS}" >> /etc/dhcpcd.conf
+
 home=$(echo $HOME)
 
 cd $home
@@ -60,3 +82,9 @@ git clone https://github.com/sheharyaar/ptokax-scripts
 cp ptokax-scripts/* PtokaX/scripts/ -rf
 
 printf "\n\nRun Ptokax server using \"sudo ~/ptokax-start.sh\" \n"
+
+printf "\n\nRestarting Raspberry Pi in 10 seconds\n"
+
+sleep 10
+
+sudo reboot
