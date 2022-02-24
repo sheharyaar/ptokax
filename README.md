@@ -78,7 +78,7 @@ cd ~
 ./ptokax-config.sh
 ```
 
-:warn: There is a bug where users are sometimes redirected to the wrong hub address and are banned. Check the following commit for more info and changes : [3ae699421373c49c6a640e927222a76f68f07835](https://github.com/sheharyaar/ptokax/commit/3ae699421373c49c6a640e927222a76f68f07835)
+⚠️ There is a bug where users are sometimes redirected to the wrong hub address and are banned. Check the following commit for more info and changes : [3ae699421373c49c6a640e927222a76f68f07835](https://github.com/sheharyaar/ptokax/commit/3ae699421373c49c6a640e927222a76f68f07835)
 
 To fix this, change the following files, change "REDIRECT ADDRESS PART, HUB_NAME, HUB_ADDRESS"
 
