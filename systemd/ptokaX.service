@@ -1,0 +1,11 @@
+[Unit]
+Description=PtokaX server
+After=network.target
+
+[Service]
+ExecStart=/home/pi/PtokaX/PtokaX -c /home/pi/PtokaX/
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
