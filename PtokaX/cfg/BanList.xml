@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1252" standalone="yes" ?>
+<BanList version="2.000000">
+    <Bans>
+        <Ban>
+            <Type>1</Type><!-- 0 for permanent ban, 1 for temporary ban -->
+            <IP>1.2.3.4</IP>
+            <Nick>Example_Nick</Nick>
+            <Reason>Example_Reason</Reason>
+            <By>PPK</By>
+            <NickBan>1</NickBan><!-- 1 when nick is banned, 0 when nick is only for information -->
+            <IpBan>1</IpBan><!-- 1 when IP is banned, 0 when IP is only for information -->
+            <FullIpBan>1</FullIpBan><!-- 1 when nobody from banned IP is allowed for login, 0 to allow some profiles to login from banned IP -->
+            <Expire>1234281175</Expire><!-- seconds from 1.1.1970 when temporary ban expire -->
+        </Ban>
+    </Bans>
+    <RangeBans>
+        <RangeBan>
+            <Type>0</Type><!-- 0 for permanent ban, 1 for temporary ban -->
+            <IpFrom>66.192.0.0</IpFrom><!-- IP starting range -->
+            <IpTo>66.195.255.255</IpTo><!-- IP ending range -->
+            <Reason>Example_Reason</Reason>
+            <By>PPK</By>
+            <FullIpBan>0</FullIpBan><!-- 1 when nobody from banned IP is allowed for login, 0 to allow some profiles to login from banned IP -->
+            <Expire>0</Expire><!-- seconds from 1.1.1970 when temporary ban expire -->
+        </RangeBan>
+    </RangeBans>
+</BanList>
