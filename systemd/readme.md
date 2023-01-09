@@ -10,3 +10,8 @@ sudo systemctl start ./ptokax.service
 //To check the status of the script
 sudo systemctl status ./ptokax.service
 ```
+
+
+# TODO: 
+- Improve ptokax-dhcp.service
+- Complete ptokax-ip.py
