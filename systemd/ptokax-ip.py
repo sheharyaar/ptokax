@@ -1,4 +1,5 @@
 import netifaces
+import time
 
 
 class InterfaceNotFoundException(Exception):
@@ -32,10 +33,26 @@ def get_interface_adddress(itf_name):
     return ip[0]["addr"]
 
 
-if __name__ == "__main__":
+def main(retry):
     try:
-        addr = get_interface_adddress("eth0")
-    except Exception as e:
-        print("Error in get_interface_address :", e)
+        addr = get_interface_adddress("eno2")
+
+    except InterfaceNotFoundException as e:
+        print(e)
+        exit(1)
+
+    except IPNotFoundException as e:
+        print(e)
+        if retry > 0:
+            # handle dhcp stuff
+            exit(1)
+
+        print("Retrying in 15 seconds")
+        time.sleep(15)
+        main(retry + 1)
     else:
         print("IP Address : ", addr)
+
+
+if __name__ == "__main__":
+    main(0)
