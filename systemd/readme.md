@@ -15,3 +15,4 @@ sudo systemctl status ./ptokax.service
 # TODO: 
 - Improve ptokax-dhcp.service
 - Complete ptokax-ip.py
+- Create a master script or improve the existing script to start the systemd scripts everywhere
