@@ -2,9 +2,10 @@ Raspberry Pi 4 Model B Rev 1.1 ( 2 GB ) \
 OS : Rasbian 64 Bit
 
 - [Searching the Pi and SSH](#searching-the-pi-and-ssh)
-- [Automatic Installation](#automatic-installation)
-    - Important Note
-- [Manual Installation](#manual-installation)
+- [Installing Ptokax on Raspberry Pi](#installing-ptokax-on-raspberry-pi)
+    - [Automatic Installation](#automatic-installation)
+        - Important Note
+    - [Manual Installation](#manual-installation)
 - [Running Scripts](#running-scripts)
     - Changing the Message of the Day
     - Changing the Share limit
@@ -12,9 +13,31 @@ OS : Rasbian 64 Bit
 
 # Searching the Pi and SSH
 
-- Install nmap. For Debian/Ubuntu : `sudo apt update && sudo apt install -y nmap`
-- If you are connected to the same ethernet subnetwork then <br> 
-Check your ethernet interface name by running : `ip addr`. <br>
+1. Install the following dependencies based on your system:
+   - Linux
+      - `nmap`
+   - MacOS
+      - `nmap`
+      - `iproute2mac`
+      
+    For Debian/Ubuntu : `sudo apt update && sudo apt install -y nmap`<br>
+    For MacOS using brew : `brew install nmap iproute2mac`<br>
+2. Make sure you are connected to the same ethernet subnetwork as that of pi before you start the search for its ip.
+3. Follow either one of the following methods to get the ip:
+   - [Automatic Searching](#automatic-searching)
+   - [Manual Searching](#manual-searching)
+4. Now ssh to the pi : `ssh pi@IP`. If it is a new install, then the password will be `raspberrypi`.
+
+### Automatic Searching
+
+- Simply run the follwoing command:
+  ```bash
+  curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/ipofpi.sh | bash
+  ```
+  
+### Manual Searching
+
+- Check your ethernet interface name by running : `ip addr`. <br>
 In my case it's `eth0`. <br>
 
 Run the following command to get your subnet IP and replace `eth0` with your interface name : 
@@ -23,11 +46,11 @@ ip route | grep link | grep eth0 | cut -d ' ' -f 1
 ```
 - If you are not on the same subnet then get the subnet address from a friend on the same subnet as in the above step.
 - Now to find Pi run (Replace `10.112.5.0/24` with yout subnet address ) :
-```bash
-sudo nmap -sS -O -p22 10.112.5.0/24 -oG result
-```
+  ```bash
+  sudo nmap -sS -O -p22 10.112.5.0/24 -oG result
+  ```
 
-This will create a file name result. <br>
+This will create a file named `result`. <br>
 Now view the contents of the file, it will be similar to this:
 ```bash
 # Nmap 7.92 scan initiated Fri Feb 25 00:55:18 2022 as: nmap -sS -O -p22 -oG testing 10.112.5.0/24
@@ -46,7 +69,6 @@ In this case, the status is **Up**, the port is **open** and the OS is **Linux**
 Host: 10.112.5.167 ()	Status: Up
 Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index: 260	IP ID Seq: All zeros
 ```
-- Now ssh to the pi : `ssh pi@IP`. If it is a new install, then the password will be `raspberrypi`.
 
 # Installing Ptokax on Raspberry Pi
 
