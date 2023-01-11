@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eou pipefail
+
 PYTHON=$(which python3 || echo "python3")
 PIP=$(which pip3 || echo "pip3")
 MODULE=$(pip list | grep -cw "netifaces")
