@@ -9,8 +9,7 @@ MODULE=$(pip list | grep -cw "netifaces")
 for package in "$PYTHON" "$PIP"; do
     if [[ $package != *"/"* ]]; then
         echo "$cmd package not found. Installing ..."
-    	# install package
-        # sudo apt install "$package" # will this not work.. idk what happens when system boots 
+    	# install when have network access
    	fi
 done
 
