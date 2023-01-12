@@ -36,7 +36,7 @@ def get_interface_adddress(itf_name):
 
 def main(retry):
     try:
-        addr = get_interface_adddress("eno2")
+        addr = get_interface_adddress("eth0")
 
     except InterfaceNotFoundException as e:
         print(e)
@@ -45,20 +45,19 @@ def main(retry):
     except IPNotFoundException as e:
         print(e)
         if retry > 0:
-            # handle dhcp stuff
+            # handling dhcp stuff
             ## removing static ip config lines
-            # execl("/usr/bin/sed", "sed", "-i", '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;', "/etc/dhcpcd.conf") -> replaces the main process image
-            # system("/usr/bin/sed -i '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;' /etc/dhcpcd.conf") -> deprecated
+            ### execl("/usr/bin/sed", "sed", "-i", '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;', "/etc/dhcpcd.conf") -> replaces the main process image
+            ### system("/usr/bin/sed -i '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;' /etc/dhcpcd.conf") -> deprecated
             run(["/usr/bin/sed", "-i", '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;', "/etc/dhcpcd.conf"])
-            ## set new static ip
-            ## start the ptokax service
-            exit(1)
 
         print("Retrying in 15 seconds")
         time.sleep(15)
         main(retry + 1)
     else:
         print("IP Address : ", addr)
+        ## start the setup ptokax script
+        run(["/home/pi/ptokax-setup.sh"])
 
 
 if __name__ == "__main__":
