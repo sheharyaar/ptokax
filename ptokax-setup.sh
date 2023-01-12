@@ -13,7 +13,7 @@ if [ "$?" -eq 1 ]; then
 
 	RASPI_IP=$(ip addr | grep inet | grep eth0 | cut -d ' ' -f 6)
 	GATEWAY_IP=$(ip route | grep default | cut -d ' ' -f 3)
-	DNS_ADDRESS=$(cat /etc/resolv.conf | grep nameserver -m 1 | cut -d ' ' -f 2)
+	DNS_ADDRESS=$(grep nameserver -m 1 /etc/resolv.conf | cut -d' ' -f2)
 
 	cat <<- EOF >> /etc/dhcpcd.conf
 		#Static IP for PtokaX
