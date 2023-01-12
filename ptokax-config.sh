@@ -1,8 +1,4 @@
 #!/bin/bash
 
-home=$(echo $HOME)
-
-cd $home
-$home/PtokaX/PtokaX -m
-
+~/PtokaX/PtokaX -m
 exit
