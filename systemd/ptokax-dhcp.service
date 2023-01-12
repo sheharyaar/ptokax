@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=/root
-ExecStart=/home/pi/PtokaX/PtokaX -c /home/pi/PtokaX/
+ExecStart=/home/pi/systemd/ptokax-ip.sh
 Restart=always
 
 [Install]
