@@ -1,5 +1,6 @@
 import netifaces
 import time
+from subprocess import run
 
 
 class InterfaceNotFoundException(Exception):
@@ -45,6 +46,12 @@ def main(retry):
         print(e)
         if retry > 0:
             # handle dhcp stuff
+            ## removing static ip config lines
+            # execl("/usr/bin/sed", "sed", "-i", '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;', "/etc/dhcpcd.conf") -> replaces the main process image
+            # system("/usr/bin/sed -i '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;' /etc/dhcpcd.conf") -> deprecated
+            run(["/usr/bin/sed", "-i", '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;', "/etc/dhcpcd.conf"])
+            ## set new static ip
+            ## start the ptokax service
             exit(1)
 
         print("Retrying in 15 seconds")
