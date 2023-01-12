@@ -6,36 +6,36 @@ sudo service dhcpcd start
 sudo systemctl enable dhcpcd
 
 RASPI_IP=$(ip addr | grep inet | grep eth0 | cut -d ' ' -f 6)
-printf "RASPI IP : ${RASPI_IP}\n"
+echo "RASPI IP : ${RASPI_IP}"
 
 GATEWAY_IP=$(ip route | grep default | cut -d ' ' -f 3)
-printf "GATEWAY_IP : ${GATEWAY_IP}\n"
+echo "GATEWAY_IP : ${GATEWAY_IP}"
 
 DNS_ADDRESS=$(cat /etc/resolv.conf | grep nameserver -m 1 | cut -d ' ' -f 2)
-printf "DNS DNS_ADDRESS : ${DNS_ADDRESS}\n"
+echo "DNS DNS_ADDRESS : ${DNS_ADDRESS}"
 
-printf "\n\nMaking Raspberry Pi IP Address static\n"
+grep -q '#Static IP for PtokaX' sed_ptokax.conf
+if [ "$?" -eq 1 ]; then
+	printf "\n\nMaking Raspberry Pi IP Address static\n"
 
-sudo echo "#Static IP for PtokaX" >> /etc/dhcpcd.conf
-sudo echo "interface eth0" >> /etc/dhcpcd.conf
-sudo echo "static ip_address=${RASPI_IP}" >> /etc/dhcpcd.conf
-sudo echo "static routers=${GATEWAY_IP}" >> /etc/dhcpcd.conf
-sudo echo "static domain_name_servers=${DNS_ADDRESS}" >> /etc/dhcpcd.conf
+	cat <<- EOF >> /etc/dhcpcd.conf
+		#Static IP for PtokaX
+		interface eth0
+		static ip_address=${RASPI_IP}
+		static routers=${GATEWAY_IP}
+		static domain_name_servers=${DNS_ADDRESS}
+	EOF
+fi
 
-home=$(echo $HOME)
-
-cd $home
+cd ~ || (echo "cd to ~ failed" && exit)
 
 printf "\n\n[log] Downloading start and stop scripts\n\n"
 
 curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-start.sh -L -o ./ptokax-start.sh
-chmod +x ./ptokax-start.sh
-
 curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-stop.sh -L -o ./ptokax-stop.sh
-chmod +x ./ptokax-stop.sh
-
 curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-config.sh -L -o ./ptokax-config.sh
-chmod +x ./ptokax-config.sh
+
+chmod +x ./ptokax-config.sh ./ptokax-start.sh ./ptokax-stop.sh
 
 printf "\n\n[log] Installing Prerequisites\n\n"
 
@@ -53,7 +53,7 @@ sudo apt install -y liblua5.2-dev
 sudo apt-get install -y default-libmysqlclient-dev lua-sql-mysql
 
 # Go back to home
-cd $home 
+cd ~ || (echo "cd to ~ failed" && exit)
 
 printf "\n\n[log] Downloading and installing PtokaX\n\n"
 
@@ -64,7 +64,7 @@ curl -L https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5
 tar -xf ./ptokax-0.5.2.2-src.tgz
 
 # Make the program
-cd PtokaX/
+cd PtokaX/ || (echo "cd to PtokaX failed" && exit)
 make -f makefile-mysql lua52
 
 # Setup privileges in order to allow ptokax to run on port 411 (default port)
@@ -77,11 +77,13 @@ printf "\n\n[log] Setting up PtokaX!\n\n"
 
 printf "\n\n[log] Now importing Hit Hi Fit Hai scripts\n\n"
 
-cd $home
+cd ~ || (echo "cd to ~ failed" && exit)
 git clone https://github.com/sheharyaar/ptokax-scripts
 cp ptokax-scripts/* PtokaX/scripts/ -rf
 
 printf "\n\nRun Ptokax server using \"sudo ~/ptokax-start.sh\" \n"
+sudo systemctl enable ptokax-dhcp.service
+sudo service ptokax-dhcp.service start
 
 printf "\n\nRestarting Raspberry Pi in 10 seconds\n"
 
