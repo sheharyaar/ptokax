@@ -1,39 +1,54 @@
-                                                                 
-o     o   .oPYo.   ooooo        .oo    o    o   o    o    .oPYo. 
-8b   d8   8.         8         .P 8    8    8   8    8    8   `8 
-8`b d'8   `boo       8        .P  8   o8oooo8   8    8   o8YooP' 
-8 `o' 8   .P         8       oPooo8    8    8   8    8    8   `b 
-8     8   8          8      .P    8    8    8   8    8    8    8 
-8     8   `YooP'     8     .P     8    8    8   `YooP'    8oooP' 
+
+
+o     o   .oPYo.   ooooo        .oo    o    o   o    o    .oPYo.
+8b   d8   8.         8         .P 8    8    8   8    8    8   `8
+8`b d'8   `boo       8        .P  8   o8oooo8   8    8   o8YooP'
+8 `o' 8   .P         8       oPooo8    8    8   8    8    8   `b
+8     8   8          8      .P    8    8    8   8    8    8    8
+8     8   `YooP'     8     .P     8    8    8   `YooP'    8oooP'
+
 ..::::..:::.....:::::..::::..:::::..:::..:::..:::.....::::......:
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --
+
+### Welcome to .:: Metahub ::.	  =- Share as much as you can -=
+
+-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --
 
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-	### Welcome to .:: Metahub ::.	   =- Share as much as you can -=
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+		Hub Address         -    10.105.12.22
 
-			Hub Address        -	10.112.5.18
-			Contact Email	   -	metahubkgp@gmail.com
-			Issue Tracker Form -    https://bit.ly/3EGsZnD
-			How to Setup Doc   -    https://bit.ly/3S3T3fi
-			
+		Contact Email       -    metahubkgp@gmail.com
+
+		Issue Tracker Form  -    https://bit.ly/3EGsZnD
+
+		How to Setup Doc    -    https://bit.ly/3S3T3fi
+
+		
 Rules
 =====
 
-* Minimum limit for connecting is: 0 GiB. For searching and downloading: 0 GiB. (Will be increaded soon) 
-* Sharing pornography/NSFW links, on mainchat, is strictly prohibited.
-* Fake sharing is NOT allowed here. Anybody found sharing fakes will be banned immediately.
-* Mirror stuff that you download. You can be banned by VIPs for not mirroring stuff that you download.
-* Don't share crap like Windows and Program Files directory. You can be kicked or banned for 1-3 hours.
-* Upload speed limiting is strictly prohibited. Can lead to a minimum ban time of 8 hours.
+* Minimum limit (Will be increased soon)
+	- For connecting: 0 GiB 
+	- For searching and downloading: 0 GiB 
 
+* You will be banned for:
+	- Sharing pornographic/NSFW links, on mainchat.
+	- Sharing fake material. 
+	- Limiting upload speed. Minimum ban time: 8 hours.
+	- Not mirroring stuff that you download.
+	- Sharing crap; like Windows and Program Files directory. 
+	  Minimum ban time: 1-3 hours.
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- 
-Hello Kgpians, It is very dissapointing to see that we have such a low user base in DC++. 
-DC community at Kgp was once famous for it's rich content and userbase. In order to imporve
-the userbase, we the admins would be having some sessions soon but we wont succeed without 
-your help too. It is requested to each current user to share the word of DC++ and also
-share as much content as possible. It would be of great help to build back our glory. 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- 
+-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --
+
+Hello Kgpians, It is very dissapointing to see that we have such 
+a low user base in DC++. DC community at Kgp was once famous for
+it's rich content and userbase. In order to imporve the userbase,
+we the admins would be having some sessions soon but we wont 
+succeed without your help too. It is requested to each current 
+user to share the word of DC++ and also share as much content as 
+possible. It would be of great help to bring back our glory.
+
+-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --
