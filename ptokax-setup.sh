@@ -9,18 +9,6 @@ BLUE=$(tput setaf 4)
 WHITE=$(tput setaf 7)
 ORANGE=$(tput setaf 9)
 
-spinner() {
-	local pid=$!
-	local spin="|/-\\"
-	local i=0
-	while [ "$(ps a | awk '{print $1}' | grep $pid)" -eq "$pid" ]; do
-		i=$(( (i+1)%4 ))
-		printf " ${YELLOW}$1 \r[${RED}%s${YELLOW}]${WHITE}" "${spin:$i:1}"
-		sleep 0.25 
-	done
-	printf "\b\b\b"
-}
-
 echo -e "${GREEN}[+] ${BLUE}Enabling and Starting DHCP service${WHITE}"
 sudo service dhcpcd start
 sudo systemctl enable dhcpcd
