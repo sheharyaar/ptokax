@@ -12,7 +12,7 @@ spinner() {
 	local pid=$!
 	local spin="|/-\\"
 	local i=0
-	while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+	while [ "$(ps a | awk '{print $1}' | grep $pid)" -eq "$pid" ]; do
 		i=$(( (i+1)%4 ))
 		printf " ${YELLOW}Scanning the network \r[${RED}%s${YELLOW}]${WHITE}" "${spin:$i:1}"
 		sleep 0.25 

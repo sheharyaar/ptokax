@@ -1,15 +1,17 @@
 #!/bin/bash
 
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+WHITE=$(tput setaf 7)
+
 ptokaxId=$(pgrep PtokaX)
-if [ "$ptokaxId" == "" ]; then
+if [ -z "$ptokaxId" ]; then
 	echo "PtokaX is not running currently"
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX is not running currently${WHITE}"
 	exit
 fi
 
-echo "PID : {$ptokaxId}"
-
-sudo kill -SIGTERM $ptokaxId
-
-echo "Successfully stopped PtokaX!"
-
-exit
+sudo kill -SIGTERM "$ptokaxId"
+echo -e "${GREEN}[+] ${BLUE}Successfully stopped PtokaX server at PID[${RED}${ptokaxId}${WHITE}]!"

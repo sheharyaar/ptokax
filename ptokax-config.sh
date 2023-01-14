@@ -1,8 +1,8 @@
 #!/bin/bash
 
-home=$(echo $HOME)
+GREEN=$(tput setaf 2)
+BLUE=$(tput setaf 4)
+WHITE=$(tput setaf 7)
 
-cd $home
-$home/PtokaX/PtokaX -m
-
-exit
+echo -e "${GREEN}[+] ${BLUE}Configuring PtokaX ...${WHITE}"
+~/PtokaX/PtokaX -m
