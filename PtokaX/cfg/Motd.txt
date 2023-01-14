@@ -10,6 +10,7 @@ o     o   .oPYo.   ooooo        .oo    o    o   o    o    .oPYo.
 ..::::..:::.....:::::..::::..:::::..:::..:::..:::.....::::......:
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+ (Disclaimer: Use any *-mono font to render the above ASCII art)
 -- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --
 
 ### Welcome to .:: Metahub ::.	  =- Share as much as you can -=
