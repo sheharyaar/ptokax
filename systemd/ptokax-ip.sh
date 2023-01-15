@@ -1,22 +1,18 @@
 #!/bin/bash
 
-PYTHON=$(which python3)
-if [[ "x$PYTHON" == "x" ]]; then
-    # Install python raspberry pi
-    echo "Python3 not found. Installing ..."
-fi
+set -eou pipefail
 
-echo "Python found at : $PYTHON"
+PYTHON=$(command -v python3 || echo "python3")
+PIP=$(command -v pip3 || echo "pip3")
+MODULE=$($PIP list | grep -cw "netifaces")
 
-PIP=$(which pip3)
-if [[ "x$PIP" == "x" ]]; then
-    # Install pip raspberry pi
-    echo "Pip not found. Installing ..."
-fi
+for package in "$PYTHON" "$PIP"; do
+    if [[ $package != *"/"* ]]; then
+        echo "$package package not found. Installing ..."
+		sudo apt install -y "$package"
+   	fi
+done
 
-echo "Pip found at : $PIP"
-
-MODULE=$(pip list | grep -cw "netifaces")
 if [[ $MODULE -eq 0 ]]; then
     echo "Netifaces module not found. Installing ..."
     $PIP install netifaces
