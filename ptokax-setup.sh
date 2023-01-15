@@ -14,7 +14,7 @@ sudo service dhcpcd start
 sudo systemctl enable dhcpcd
 
 # Adding the static ip config only if an entry doesn't already exist
-grep -q '#Static IP for PtokaX' sed_ptokax.conf
+grep -q '#Static IP for PtokaX' /etc/resolv.conf
 if [ "$?" -eq 1 ]; then
 	echo -e "${GREEN}[+] ${BLUE}Making RPi's IP address static${WHITE}"
 
