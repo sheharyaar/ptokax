@@ -1,0 +1,12 @@
+[Unit]
+Description="Checks for PI ip and displays it"
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root
+ExecStart=/home/pi/systemd/ptokax-ip.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
