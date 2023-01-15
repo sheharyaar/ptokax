@@ -11,11 +11,11 @@ ORANGE=$(tput setaf 9)
 
 echo -e "${GREEN}[+] ${BLUE}Enabling and Starting DHCP service${WHITE}"
 sudo service dhcpcd start
-sudo systemctl enable dhcpcd
+sudo systemctl enable dhcpcd 2>/dev/null
 
 # Adding the static ip config only if an entry doesn't already exist
-grep -q '#Static IP for PtokaX' sed_ptokax.conf
-if [ "$?" -eq 1 ]; then
+STATIC_IP=$(grep -q '#Static IP for PtokaX' /etc/dhcpcd.conf && echo true || echo false)
+if [ "$STATIC_IP" == "false" ]; then
 	echo -e "${GREEN}[+] ${BLUE}Making RPi's IP address static${WHITE}"
 
 	RASPI_IP=$(ip addr | grep inet | grep eth0 | cut -d' ' -f6)
@@ -61,11 +61,19 @@ sudo make install
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
 ./PtokaX -m
 
-echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
-git clone https://github.com/sheharyaar/ptokax-scripts ~/ptokax-scripts
+if [ ! -d ~/ptokax-scripts ]; then
+	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
+	git clone https://github.com/sheharyaar/ptokax-scripts ~/ptokax-scripts
+else
+	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
+fi
 cp ~/ptokax-scripts/* ~/PtokaX/scripts/ -rf
 
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
+sudo systemctl enable ptokax.service
+sudo service ptokax.service start
+
+echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX-DHCP service${WHITE}"
 sudo systemctl enable ptokax-dhcp.service
 sudo service ptokax-dhcp.service start
 

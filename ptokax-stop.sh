@@ -8,10 +8,9 @@ WHITE=$(tput setaf 7)
 
 ptokaxId=$(pgrep PtokaX)
 if [ -z "$ptokaxId" ]; then
-	echo "PtokaX is not running currently"
 	echo -e "${YELLOW}[-] ${BLUE}PtokaX is not running currently${WHITE}"
 	exit
 fi
 
 sudo kill -SIGTERM "$ptokaxId"
-echo -e "${GREEN}[+] ${BLUE}Successfully stopped PtokaX server at PID[${RED}${ptokaxId}${WHITE}]!"
+echo -e "${GREEN}[+] ${BLUE}Successfully stopped PtokaX server at PID${WHITE}[${RED}${ptokaxId}${WHITE}]${BLUE}!${WHITE}"
