@@ -33,33 +33,42 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}RPi's IP address is already static${WHITE}"
 fi
 
-echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX - start, stop & setup scripts${WHITE}"
 for action in "start" "stop" "setup"; do
-	curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-${action}.sh -L -o ~/ptokax-${action}.sh
-	chmod +x ~/ptokax-${action}.sh
+	if [ ! -f ~/ptokax-${action}.sh ]; then
+		echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX-${action} script${WHITE}"
+		curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-${action}.sh -L -o ~/ptokax-${action}.sh
+		if [ ! -x ~/ptokax-${action}.sh ]; then
+			chmod +x ~/ptokax-${action}.sh
+		fi
+	else
+		echo -e "${YELLOW}[-] ${BLUE}PokaX-${action}.sh script already exist${WHITE}"
+	fi
 done
 
 echo -e "${GREEN}[+] ${BLUE}Installing Prerequisites${WHITE}"
 # Curl for downloading source code
 # mysql - required for scripts
 # LUA 5.2.2 - Latest lua not installed as scripts are in lua version 5.2.2
-sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql
+sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
 
 echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX${WHITE}"
 # Download PtokaX source code
-curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/ptokax-0.5.2.2-src.tgz
+if [ ! -f ~/ptokax-0.5.2.2-src.tgz ]; then
+	curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/ptokax-0.5.2.2-src.tgz
+fi
 # Extract the archive
-tar -xf ~/ptokax-0.5.2.2-src.tgz
+if [ ! -d ~/PtokaX ]; then  
+	tar -xf ~/ptokax-0.5.2.2-src.tgz
+fi
 echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
 # Make the program
 cd PtokaX/ || (echo "cd to PtokaX failed" && exit)
 make -f makefile-mysql lua52
-# Setup privileges in order to allow ptokax to run on port 411 (default port)
-sudo apt install -y libcap2-bin
 sudo make install
+cd ~ || (echo "cd to ~ failed" && exit)
 
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
-./PtokaX -m
+~/PtokaX/PtokaX -m
 
 if [ ! -d ~/ptokax-scripts ]; then
 	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
@@ -67,7 +76,9 @@ if [ ! -d ~/ptokax-scripts ]; then
 else
 	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
 fi
-cp ~/ptokax-scripts/* ~/PtokaX/scripts/ -rf
+if [ ! -d ~/PtokaX/scripts ]; then
+	cp ~/ptokax-scripts/* ~/PtokaX/scripts/ -rf
+fi
 
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
 sudo systemctl enable ptokax.service
