@@ -70,6 +70,10 @@ fi
 cp ~/ptokax-scripts/* ~/PtokaX/scripts/ -rf
 
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
+sudo systemctl enable ptokax.service
+sudo service ptokax.service start
+
+echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX-DHCP service${WHITE}"
 sudo systemctl enable ptokax-dhcp.service
 sudo service ptokax-dhcp.service start
 
