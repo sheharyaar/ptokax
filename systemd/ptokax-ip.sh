@@ -2,14 +2,14 @@
 
 set -eou pipefail
 
-PYTHON=$(which python3 || echo "python3")
-PIP=$(which pip3 || echo "pip3")
-MODULE=$(pip list | grep -cw "netifaces")
+PYTHON=$(command -v python3 || echo "python3")
+PIP=$(command -v pip3 || echo "pip3")
+MODULE=$($PIP list | grep -cw "netifaces")
 
 for package in "$PYTHON" "$PIP"; do
     if [[ $package != *"/"* ]]; then
         echo "$package package not found. Installing ..."
-    	# install when have network access
+		sudo apt install -y "$package"
    	fi
 done
 
