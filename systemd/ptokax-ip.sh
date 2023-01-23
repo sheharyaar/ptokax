@@ -15,7 +15,7 @@ done
 
 if [[ $MODULE -eq 0 ]]; then
     echo "Netifaces module not found. Installing ..."
-    $PIP install netifaces
+    $PIP install netifaces RPi.GPIO
 fi
 
 # Start the script
