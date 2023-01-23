@@ -51,25 +51,37 @@ echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
 # LUA 5.2.2 - Latest lua not installed as scripts are in lua version 5.2.2
 sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
 
-# Download PtokaX source code
-if [ ! -f ~/ptokax-0.5.2.2-src.tgz ]; then
-	echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX${WHITE}"
-	curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/ptokax-0.5.2.2-src.tgz
-else
-	echo -e "${YELLOW}[-] ${BLUE}PtokaX already exist${WHITE}"
-fi
-## TODO - improve the code to 13th line from now
-# Extract the archive
 if [ ! -d ~/PtokaX ]; then  
+	# Download PtokaX source code
+	echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX source-code${WHITE}"
+	curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/ptokax-0.5.2.2-src.tgz
+	# Extract the archive
+	echo -e "${GREEN}[+] ${BLUE}Extracting PtokaX source-code${WHITE}"
 	tar -xf ~/ptokax-0.5.2.2-src.tgz
+	rm -f ~/ptokax-0.5.2.2-src.tgz
+else
+	echo -e "${YELLOW}[-] ${BLUE}Extracted PtokaX source-code already exist${WHITE}"
 fi
-echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
-# Make the program
-cd PtokaX/ || (echo "cd to PtokaX failed" && exit)
-make -f makefile-mysql lua52
-sudo make install
-cd ~ || (echo "cd to ~ failed" && exit)
+# Compiling PtokaX
+if [ ! -f ~/PtokaX/skein/skein.a ]; then
+	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
+	cd PtokaX/ || (echo "cd to PtokaX failed" && exit)
+	make -f makefile-mysql lua52
+	cd ~ || (echo "cd to ~ failed" && exit)
+else
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX already compiled${WHITE}"
+fi
+# Installing PtokaX
+if [ ! -f /usr/local/bin/PtokaX ]; then
+	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
+	cd PtokaX/ || (echo "cd to PtokaX failed" && exit)
+	sudo make install
+	cd ~ || (echo "cd to ~ failed" && exit)
+else
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX already installed${WHITE}"
+fi
 
+# TODO: Do something with next 2 lines handling every case automatically
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
 ~/PtokaX/PtokaX -m
 
