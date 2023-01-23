@@ -4,7 +4,8 @@ set -eou pipefail
 
 PYTHON=$(command -v python3 || echo "python3")
 PIP=$(command -v pip3 || echo "pip3")
-MODULE=$($PIP list | grep -cw "netifaces")
+MODULE_1=$($PIP list | grep -cw "netifaces")
+MODULE_2=$($PIP list | grep -cw "RPi.GPIO")
 
 for package in "$PYTHON" "$PIP"; do
     if [[ $package != *"/"* ]]; then
@@ -13,9 +14,13 @@ for package in "$PYTHON" "$PIP"; do
    	fi
 done
 
-if [[ $MODULE -eq 0 ]]; then
+if [[ $MODULE_1 -eq 0 ]]; then
     echo "Netifaces module not found. Installing ..."
-    $PIP install netifaces RPi.GPIO
+    $PIP install netifaces
+fi
+if [[ $MODULE_2 -eq 0 ]]; then
+    echo "RPi.GPIO module not found. Installing ..."
+    $PIP install RPi.GPIO
 fi
 
 # Start the script
