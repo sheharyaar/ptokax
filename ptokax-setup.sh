@@ -97,23 +97,26 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
 fi
 
+# Editing SettingDefaults.h file
 IS_BUG_FIXED_1=$(grep -q "${RASPI_IP}" ~/PtokaX/core/SettingDefaults.h && echo true || echo false)
-IS_BUG_FIXED_2=$(grep -q "${RASPI_IP}" ~/PtokaX/cfg/Settings.pxt && echo true || echo false)
-if [ "$IS_BUG_FIXED_1" == "false" ] && [ "$IS_BUG_FIXED_2" == "false" ]; then
-	# Editing SettingDefaults.h file
+if [ "$IS_BUG_FIXED_1" == "false" ]; then
 	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/core/SettingDefaults.h${WHITE}"
 	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" ~/PtokaX/core/SettingDefaults.h
 	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP}\", \/\/HUB_ADDRESS/" ~/PtokaX/core/SettingDefaults.h
 	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP}:411\", \/\/REDIRECT_ADDRESS/" ~/PtokaX/core/SettingDefaults.h
-	# Editing SettingDefaults.h file
+else
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/PtokaX/core/SettingDefaults.h${WHITE}"
+fi
+# Editing SettingDefaults.h file
+IS_BUG_FIXED_2=$(grep -q "${RASPI_IP}" ~/PtokaX/cfg/Settings.pxt && echo true || echo false)
+if [ "$IS_BUG_FIXED_2" == "false" ]; then
 	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/cfg/Settings.pxt${WHITE}"
 	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/PtokaX/cfg/Settings.pxt
 	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP}/" ~/PtokaX/cfg/Settings.pxt
 	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP}:411/" ~/PtokaX/cfg/Settings.pxt
 else
-	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
-
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
 sudo systemctl enable ptokax.service
 sudo service ptokax.service start
