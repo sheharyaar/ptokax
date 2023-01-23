@@ -9,6 +9,9 @@ BLUE=$(tput setaf 4)
 WHITE=$(tput setaf 7)
 ORANGE=$(tput setaf 9)
 
+# IP of Pi
+RASPI_IP=$(ip addr | grep inet | grep eth0 | cut -d' ' -f6)
+
 echo -e "${GREEN}[+] ${BLUE}Enabling and Starting DHCP service${WHITE}"
 sudo service dhcpcd start
 sudo systemctl enable dhcpcd 2>/dev/null
@@ -18,7 +21,6 @@ IS_IP_STATIC=$(grep -q '#Static IP for PtokaX' /etc/dhcpcd.conf && echo true || 
 if [ "$IS_IP_STATIC" == "false" ]; then
 	echo -e "${GREEN}[+] ${BLUE}Making RPi's IP address static${WHITE}"
 
-	RASPI_IP=$(ip addr | grep inet | grep eth0 | cut -d' ' -f6)
 	GATEWAY_IP=$(ip route | grep default | cut -d' ' -f3)
 	DNS_ADDRESS=$(grep nameserver -m 1 /etc/resolv.conf | cut -d' ' -f2)
 
@@ -62,6 +64,7 @@ if [ ! -d ~/PtokaX ]; then
 else
 	echo -e "${YELLOW}[-] ${BLUE}Extracted PtokaX source-code already exist${WHITE}"
 fi
+
 # Compiling PtokaX
 if [ ! -f ~/PtokaX/skein/skein.a ]; then
 	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
@@ -71,6 +74,7 @@ if [ ! -f ~/PtokaX/skein/skein.a ]; then
 else
 	echo -e "${YELLOW}[-] ${BLUE}PtokaX already compiled${WHITE}"
 fi
+
 # Installing PtokaX
 if [ ! -f /usr/local/bin/PtokaX ]; then
 	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
@@ -81,7 +85,7 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}PtokaX already installed${WHITE}"
 fi
 
-# TODO: Do something with next 2 lines handling every case automatically
+# TODO: Do something with next 2 lines to autmate the handling of every case possible
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
 ~/PtokaX/PtokaX -m
 
@@ -91,6 +95,22 @@ if [ ! -d ~/PtokaX/scripts ]; then
 	git clone https://github.com/sheharyaar/ptokax-scripts ~/PtokaX/scripts/
 else
 	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
+fi
+
+IS_BUG_FIXED=$(grep -q "${RASPI_IP}" ~/PtokaX/core/SettingDefaults.h && echo true || echo false)
+if [ "$IS_BUG_FIXED" == "false" ]; then
+	# Editing SettingDefaults.h file
+	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/core/SettingDefaults.h${WHITE}"
+	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" ~/PtokaX/core/SettingDefaults.h
+	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP}\", \/\/HUB_ADDRESS/" ~/PtokaX/core/SettingDefaults.h
+	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP}:411\", \/\/REDIRECT_ADDRESS/" ~/PtokaX/core/SettingDefaults.h
+	# Editing SettingDefaults.h file
+	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/cfg/Settings.pxt${WHITE}"
+	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP}/" ~/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP}:411/" ~/PtokaX/cfg/Settings.pxt
+else
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed${WHITE}"
 fi
 
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
