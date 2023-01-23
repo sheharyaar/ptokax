@@ -14,8 +14,8 @@ sudo service dhcpcd start
 sudo systemctl enable dhcpcd 2>/dev/null
 
 # Adding the static ip config only if an entry doesn't already exist
-STATIC_IP=$(grep -q '#Static IP for PtokaX' /etc/dhcpcd.conf && echo true || echo false)
-if [ "$STATIC_IP" == "false" ]; then
+IS_IP_STATIC=$(grep -q '#Static IP for PtokaX' /etc/dhcpcd.conf && echo true || echo false)
+if [ "$IS_IP_STATIC" == "false" ]; then
 	echo -e "${GREEN}[+] ${BLUE}Making RPi's IP address static${WHITE}"
 
 	RASPI_IP=$(ip addr | grep inet | grep eth0 | cut -d' ' -f6)
@@ -45,17 +45,20 @@ for action in "start" "stop" "setup"; do
 	fi
 done
 
-echo -e "${GREEN}[+] ${BLUE}Installing Prerequisites${WHITE}"
+echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
 # Curl for downloading source code
 # mysql - required for scripts
 # LUA 5.2.2 - Latest lua not installed as scripts are in lua version 5.2.2
 sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
 
-echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX${WHITE}"
 # Download PtokaX source code
 if [ ! -f ~/ptokax-0.5.2.2-src.tgz ]; then
+	echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX${WHITE}"
 	curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/ptokax-0.5.2.2-src.tgz
+else
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX already exist${WHITE}"
 fi
+## TODO - improve the code to 13th line from now
 # Extract the archive
 if [ ! -d ~/PtokaX ]; then  
 	tar -xf ~/ptokax-0.5.2.2-src.tgz
@@ -70,14 +73,12 @@ cd ~ || (echo "cd to ~ failed" && exit)
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
 ~/PtokaX/PtokaX -m
 
-if [ ! -d ~/ptokax-scripts ]; then
+if [ ! -d ~/PtokaX/scripts ]; then
 	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
-	git clone https://github.com/sheharyaar/ptokax-scripts ~/ptokax-scripts
+	rm -rf ~/PtokaX/scripts/
+	git clone https://github.com/sheharyaar/ptokax-scripts ~/PtokaX/scripts/
 else
 	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
-fi
-if [ ! -d ~/PtokaX/scripts ]; then
-	cp ~/ptokax-scripts/* ~/PtokaX/scripts/ -rf
 fi
 
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
