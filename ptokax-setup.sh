@@ -97,8 +97,9 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
 fi
 
-IS_BUG_FIXED=$(grep -q "${RASPI_IP}" ~/PtokaX/core/SettingDefaults.h && echo true || echo false)
-if [ "$IS_BUG_FIXED" == "false" ]; then
+IS_BUG_FIXED_1=$(grep -q "${RASPI_IP}" ~/PtokaX/core/SettingDefaults.h && echo true || echo false)
+IS_BUG_FIXED_2=$(grep -q "${RASPI_IP}" ~/PtokaX/cfg/Settings.pxt && echo true || echo false)
+if [ "$IS_BUG_FIXED_1" == "false" ] && [ "$IS_BUG_FIXED_2" == "false" ]; then
 	# Editing SettingDefaults.h file
 	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/core/SettingDefaults.h${WHITE}"
 	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" ~/PtokaX/core/SettingDefaults.h
