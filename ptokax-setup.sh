@@ -35,7 +35,7 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}RPi's IP address is already static${WHITE}"
 fi
 
-for action in "start" "stop" "setup"; do
+for action in "start" "stop"; do
 	if [ ! -f ~/ptokax-${action}.sh ]; then
 		echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX-${action} script${WHITE}"
 		curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-${action}.sh -L -o ~/ptokax-${action}.sh
