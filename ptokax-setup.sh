@@ -2,6 +2,7 @@
 
 set -eou pipefail
 
+# Colors - Obvious no?
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 YELLOW=$(tput setaf 3)
@@ -35,17 +36,24 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}RPi's IP address is already static${WHITE}"
 fi
 
-for action in "start" "stop"; do
-	if [ ! -f ~/ptokax-${action}.sh ]; then
-		echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX-${action} script${WHITE}"
-		curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-${action}.sh -L -o ~/ptokax-${action}.sh
-		if [ ! -x ~/ptokax-${action}.sh ]; then
-			chmod +x ~/ptokax-${action}.sh
+# Downloading other componenets
+for component in "ptokax-alias" "ptokax-start.sh" "ptokax-stop.sh" "systemd"; do
+	if [ ! -f ~/${component} ]; then
+		echo -e "${GREEN}[+] ${BLUE}Downloading ${component}${WHITE}"
+		curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/${component} -L -o ~/${component}
+		if [ ${component##*.} == "sh" ] && [ ! -x ~/${component} ]; then
+			chmod +x ~/${component}
 		fi
 	else
-		echo -e "${YELLOW}[-] ${BLUE}PokaX-${action}.sh script already exist${WHITE}"
+		echo -e "${YELLOW}[-] ${BLUE}${component} already exist${WHITE}"
 	fi
 done
+
+# Configuring PtokaX Aliases
+ALIAS_CONFIGURED=$(grep -q 'source ~/ptokax-alias' ~/.bashrc && echo true || echo false)
+if [ "$ALIAS_CONFIGURED" == "false" ]; then
+	echo "source ~/ptokax-alias >> ~/.bashrc"
+fi
 
 echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
 # Curl for downloading source code
@@ -53,6 +61,7 @@ echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
 # LUA 5.2.2 - Latest lua not installed as scripts are in lua version 5.2.2
 sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
 
+# Getting the PtokaX source code
 if [ ! -d ~/PtokaX ]; then  
 	# Download PtokaX source code
 	echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX source-code${WHITE}"
@@ -89,6 +98,7 @@ fi
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
 ~/PtokaX/PtokaX -m
 
+# Getting PtokaX scripts
 if [ ! -d ~/PtokaX/scripts ]; then
 	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
 	rm -rf ~/PtokaX/scripts/

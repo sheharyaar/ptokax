@@ -76,28 +76,23 @@ Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index:
 
 To install PtokaX on raspberry Pi run the following commands in sequence :
 ```bash
-cd ~
-curl https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-setup.sh -L -o ptokax-setup.sh
-chmod +x ptokax-setup.sh
-./ptokax-setup.sh
+curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/ptokax-setup.sh | bash
 ```
 
 To run Ptokax server just run
 ```bash
-cd ~
-./ptokax-start.sh
+ptokax.start
 ```
 
 To stop PtokaX server just run
 ```bash
 cd ~
-./ptokax-stop.sh
+ptokax.stop
 ```
 
 To configure PtokaX server just run
 ```bash
-cd ~
-./ptokax-config.sh
+ptokax.config
 ```
 
 ## Manual Installation

@@ -1,0 +1,4 @@
+alias ptokax.setup='~/ptokax-setup.sh'
+alias ptokax.start='~/ptokax-start.sh'
+alias ptokax.stop='~/ptokax-stop.sh'
+alias ptokax.config='~/PtokaX/PtokaX -m'
