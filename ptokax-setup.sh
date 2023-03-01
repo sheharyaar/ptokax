@@ -37,7 +37,7 @@ else
 fi
 
 # Downloading other componenets
-for component in "ptokax-alias" "ptokax-start.sh" "ptokax-stop.sh" "systemd"; do
+for component in "ptokax-alias" "ptokax-start.sh" "ptokax-stop.sh" "ptokax-setup.sh" "systemd"; do
 	if [ ! -f ~/${component} ]; then
 		echo -e "${GREEN}[+] ${BLUE}Downloading ${component}${WHITE}"
 		curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/${component} -L -o ~/${component}
