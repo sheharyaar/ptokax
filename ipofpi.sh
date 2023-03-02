@@ -20,7 +20,7 @@ spinner() {
 	printf "\b\b\b"
 }
 
-internet_interface=$(ip addr | grep -Ev "scopeid|inet6" | grep "inet" | awk '{print $NF}')
+internet_interface=$(ip addr | grep -Ev "127.0.0.1|scopeid|inet6" | grep "inet" | awk '{print $NF}')
 if [ -z "$internet_interface" ]; then
 	echo -e "${YELLOW}[-] ${BLUE}Internet interface: ${RED}<EMPTY>${WHITE}"
 	echo -e "${RED}[ERROR]${WHITE}: You are NOT connected to the ${YELLOW}internet${WHITE}"
