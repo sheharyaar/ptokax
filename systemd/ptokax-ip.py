@@ -79,7 +79,7 @@ def main(retry):
     else:
         print("IP Address : ", addr)
         ## start the setup ptokax script
-        output = execo(["/home/pi/ptokax-setup.sh"])
+        output = execo(["/home/pi/MetaHub/systemd/ptokax-setup.sh"])
         output = output.decode("utf-8").strip()
         output_on_led(output)
 

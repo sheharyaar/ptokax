@@ -36,13 +36,14 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}RPi's IP address is already static${WHITE}"
 fi
 
+mkdir ~/MetaHub
 # Downloading other componenets
 for component in "ptokax-alias" "ptokax-start.sh" "ptokax-stop.sh" "ptokax-setup.sh" "systemd"; do
-	if [ ! -f ~/${component} ]; then
+	if [ ! -f ~/MetaHub/${component} ]; then
 		echo -e "${GREEN}[+] ${BLUE}Downloading ${component}${WHITE}"
-		curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/${component} -L -o ~/${component}
+		curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/${component} -L -o ~/MetaHub/${component}
 		if [ ${component##*.} == "sh" ] && [ ! -x ~/${component} ]; then
-			chmod +x ~/${component}
+			chmod +x ~/MetaHub/${component}
 		fi
 	else
 		echo -e "${YELLOW}[-] ${BLUE}${component} already exist${WHITE}"
@@ -50,9 +51,9 @@ for component in "ptokax-alias" "ptokax-start.sh" "ptokax-stop.sh" "ptokax-setup
 done
 
 # Configuring PtokaX Aliases
-ALIAS_CONFIGURED=$(grep -q 'source ~/ptokax-alias' ~/.bashrc && echo true || echo false)
+ALIAS_CONFIGURED=$(grep -q 'source ~/MetaHub/ptokax-alias' ~/.bashrc && echo true || echo false)
 if [ "$ALIAS_CONFIGURED" == "false" ]; then
-	echo "source ~/ptokax-alias >> ~/.bashrc"
+	echo "source ~/MetaHub/ptokax-alias >> ~/.bashrc"
 fi
 
 echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
@@ -62,22 +63,22 @@ echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
 sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
 
 # Getting the PtokaX source code
-if [ ! -d ~/PtokaX ]; then  
+if [ ! -d ~/MetaHub/PtokaX ]; then  
 	# Download PtokaX source code
 	echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX source-code${WHITE}"
-	curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/ptokax-0.5.2.2-src.tgz
+	curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/MetaHub/ptokax-0.5.2.2-src.tgz
 	# Extract the archive
 	echo -e "${GREEN}[+] ${BLUE}Extracting PtokaX source-code${WHITE}"
-	tar -xf ~/ptokax-0.5.2.2-src.tgz
-	rm -f ~/ptokax-0.5.2.2-src.tgz
+	tar -xf ~/MetaHub/ptokax-0.5.2.2-src.tgz
+	rm -f ~/MetaHub/ptokax-0.5.2.2-src.tgz
 else
 	echo -e "${YELLOW}[-] ${BLUE}Extracted PtokaX source-code already exist${WHITE}"
 fi
 
 # Compiling PtokaX
-if [ ! -f ~/PtokaX/skein/skein.a ]; then
+if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
 	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
-	cd PtokaX/ || (echo "cd to PtokaX failed" && exit)
+	cd ~/MetaHub/PtokaX/ || (echo "cd to ~/MetaHub/PtokaX failed" && exit)
 	make -f makefile-mysql lua52
 	cd ~ || (echo "cd to ~ failed" && exit)
 else
@@ -87,7 +88,7 @@ fi
 # Installing PtokaX
 if [ ! -f /usr/local/bin/PtokaX ]; then
 	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
-	cd PtokaX/ || (echo "cd to PtokaX failed" && exit)
+	cd ~/MetaHub/PtokaX/ || (echo "cd to PtokaX failed" && exit)
 	sudo make install
 	cd ~ || (echo "cd to ~ failed" && exit)
 else
@@ -96,13 +97,13 @@ fi
 
 # TODO: Do something with next 2 lines to autmate the handling of every case possible
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
-~/PtokaX/PtokaX -m
+~/MetaHub/PtokaX/PtokaX -m
 
 # Getting PtokaX scripts
-if [ ! -d ~/PtokaX/scripts ]; then
+if [ ! -d ~/MetaHub/PtokaX/scripts ]; then
 	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
-	rm -rf ~/PtokaX/scripts/
-	git clone https://github.com/sheharyaar/ptokax-scripts ~/PtokaX/scripts/
+	rm -rf ~/MetaHub/PtokaX/scripts/
+	git clone https://github.com/sheharyaar/ptokax-scripts ~/MetaHub/PtokaX/scripts/
 else
 	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
 fi

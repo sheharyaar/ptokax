@@ -3,7 +3,7 @@ Description=PtokaX server
 After=network.target
 
 [Service]
-ExecStart=/home/pi/PtokaX/PtokaX -c /home/pi/PtokaX/
+ExecStart=/home/pi/MetaHub/PtokaX/PtokaX -c /home/pi/MetaHub/PtokaX/
 User=root
 Group=root
 

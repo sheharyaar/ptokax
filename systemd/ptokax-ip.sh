@@ -21,4 +21,4 @@ for MODULE in "netifaces" "RPi.GPIO"; do
 done
 
 # Start the script
-$PYTHON "/home/pi/ptokax-ip.py"
+$PYTHON "/home/pi/MetaHub/systemd/ptokax-ip.py"

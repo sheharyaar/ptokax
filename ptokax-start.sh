@@ -12,5 +12,5 @@ if [ -n "$ptokaxId" ]; then
 	exit
 fi
 
-setsid sudo ~/PtokaX/PtokaX -d -c ~/PtokaX/
+setsid sudo ~/MetaHub/PtokaX/PtokaX -d -c ~/MetaHub/PtokaX/
 echo -e "${GREEN}[+] ${BLUE}Successfully started PtokaX server!${WHITE}"
