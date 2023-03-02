@@ -20,7 +20,7 @@ spinner() {
 	printf "\b\b\b"
 }
 
-internet_interface=$(ip addr | grep -Ev "lo|scopeid|inet6" | grep "inet" | awk '{print $NF}')
+internet_interface=$(ip addr | grep -Ev "scopeid|inet6" | grep "inet" | awk '{print $NF}')
 if [ -z "$internet_interface" ]; then
 	echo -e "${YELLOW}[-] ${BLUE}Internet interface: ${RED}<EMPTY>${WHITE}"
 	echo -e "${RED}[ERROR]${WHITE}: You are NOT connected to the ${YELLOW}internet${WHITE}"
@@ -37,7 +37,7 @@ echo -e "${GREEN}[+] ${BLUE}Subnet address: ${WHITE}$subnet_address"
 
 sudo nmap -v0 -sS -O -p22 "${subnet_address}" -oG /tmp/dcpp_pi_scan &
 spinner
-IPofPI=$(grep "open" < /tmp/dcpp_pi_scan | grep "OS: Linux 4.15 - 5.6" | awk '{print $2}')
+IPofPI=$(grep "open" < /tmp/dcpp_pi_scan | grep "OS: Linux " | awk '{print $2}')
 if [ -z "$IPofPI" ]; then
 	echo -e "${RED}[ERROR]${WHITE}: Failed to get the IP of pi."
 	echo -e "${PURPLE}[DEBUG]${WHITE}: There cane be multiple reasons for a failure at this stage:
