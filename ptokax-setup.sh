@@ -36,19 +36,22 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}RPi's IP address is already static${WHITE}"
 fi
 
-mkdir ~/MetaHub
 # Downloading other componenets
-for component in "ptokax-alias" "ptokax-start.sh" "ptokax-stop.sh" "ptokax-setup.sh" "systemd"; do
-	if [ ! -f ~/MetaHub/${component} ]; then
-		echo -e "${GREEN}[+] ${BLUE}Downloading ${component}${WHITE}"
-		curl -s https://raw.githubusercontent.com/sheharyaar/ptokax/main/${component} -L -o ~/MetaHub/${component}
-		if [ ${component##*.} == "sh" ] && [ ! -x ~/${component} ]; then
-			chmod +x ~/MetaHub/${component}
-		fi
-	else
-		echo -e "${YELLOW}[-] ${BLUE}${component} already exist${WHITE}"
-	fi
-done
+if [ ! -f ~/MetaHub ]; then
+	echo -e "${GREEN}[+] ${BLUE}Cloning MetaHub repo${WHITE}"
+	git clone --branch automate-hub-setup --single-branch https://github.com/proffapt/ptokax ~/MetaHub
+	# TODO: Update it to the following after testing
+	# git clone https://github.com/sheharyaar/ptokax
+	rm -rf ~/MetaHub/.git ~/MetaHub/ README.md ipofpi.sh
+	# Making the scripts executable
+	for file in *; do 
+		if [ -f "$file" ] && [ "${file##*.}" == "sh" ] && [ ! -x "$file" ]; then 
+			chmod +x "$file"
+		fi 
+	done
+else
+	echo -e "${YELLOW}[-] ${BLUE}MetaHub repo already cloned${WHITE}"
+fi
 
 # Configuring PtokaX Aliases
 ALIAS_CONFIGURED=$(grep -q 'source ~/MetaHub/ptokax-alias' ~/.bashrc && echo true || echo false)
@@ -112,9 +115,9 @@ fi
 IS_BUG_FIXED_1=$(grep -q "${RASPI_IP}" ~/PtokaX/core/SettingDefaults.h && echo true || echo false)
 if [ "$IS_BUG_FIXED_1" == "false" ]; then
 	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/core/SettingDefaults.h${WHITE}"
-	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" ~/PtokaX/core/SettingDefaults.h
-	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP}\", \/\/HUB_ADDRESS/" ~/PtokaX/core/SettingDefaults.h
-	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP}:411\", \/\/REDIRECT_ADDRESS/" ~/PtokaX/core/SettingDefaults.h
+	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" ~/MetaHub/PtokaX/core/SettingDefaults.h
+	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP}\", \/\/HUB_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
+	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP}:411\", \/\/REDIRECT_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
 else
 	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/PtokaX/core/SettingDefaults.h${WHITE}"
 fi
@@ -122,9 +125,9 @@ fi
 IS_BUG_FIXED_2=$(grep -q "${RASPI_IP}" ~/PtokaX/cfg/Settings.pxt && echo true || echo false)
 if [ "$IS_BUG_FIXED_2" == "false" ]; then
 	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/cfg/Settings.pxt${WHITE}"
-	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/PtokaX/cfg/Settings.pxt
-	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP}/" ~/PtokaX/cfg/Settings.pxt
-	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP}:411/" ~/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/MetaHub/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP}/" ~/MetaHub/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP}:411/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 else
 	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
