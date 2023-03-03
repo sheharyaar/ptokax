@@ -107,12 +107,12 @@ fi
 
 # TODO: Do something with next 2 lines to autmate the handling of every case possible
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
-cd ~/MetaHub/ || (echo "cd to PtokaX failed" && exit)
-./PtokaX/PtokaX -m
+cd ~/MetaHub/PtokaX/ || (echo "cd to PtokaX failed" && exit)
+./PtokaX -m
 cd ~ || (echo "cd to ~ failed" && exit)
 
 # Getting PtokaX scripts
-if [ ! -d ~/MetaHub/PtokaX/scripts ]; then
+if [ -z "$(ls -A ~/MetaHub/PtokaX/scripts)" ]; then
 	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
 	git clone https://github.com/sheharyaar/ptokax-scripts ~/MetaHub/PtokaX/scripts/
 else
