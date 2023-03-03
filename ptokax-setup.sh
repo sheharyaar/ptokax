@@ -84,6 +84,7 @@ fi
 if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
 	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
 	cd ~/MetaHub/PtokaX/ || (echo "cd to ~/MetaHub/PtokaX failed" && exit)
+	mkdir obj skein/obj
 	make -f makefile-mysql lua52
 	cd ~ || (echo "cd to ~ failed" && exit)
 else
