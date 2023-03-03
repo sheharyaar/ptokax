@@ -103,7 +103,9 @@ fi
 
 # TODO: Do something with next 2 lines to autmate the handling of every case possible
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
-~/MetaHub/PtokaX/PtokaX -m
+cd ~/MetaHub/PtokaX/ || (echo "cd to PtokaX failed" && exit)
+./PtokaX -m
+cd ~ || (echo "cd to ~ failed" && exit)
 
 # Getting PtokaX scripts
 if [ ! -d ~/MetaHub/PtokaX/scripts ]; then
@@ -114,24 +116,24 @@ else
 fi
 
 # Editing SettingDefaults.h file
-IS_BUG_FIXED_1=$(grep -q "${RASPI_IP}" ~/PtokaX/core/SettingDefaults.h && echo true || echo false)
+IS_BUG_FIXED_1=$(grep -q "${RASPI_IP}" ~/MetaHub/PtokaX/core/SettingDefaults.h && echo true || echo false)
 if [ "$IS_BUG_FIXED_1" == "false" ]; then
-	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/core/SettingDefaults.h${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
 	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" ~/MetaHub/PtokaX/core/SettingDefaults.h
 	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP}\", \/\/HUB_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
 	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP}:411\", \/\/REDIRECT_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
 else
-	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/PtokaX/core/SettingDefaults.h${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
 fi
 # Editing SettingDefaults.h file
-IS_BUG_FIXED_2=$(grep -q "${RASPI_IP}" ~/PtokaX/cfg/Settings.pxt && echo true || echo false)
+IS_BUG_FIXED_2=$(grep -q "${RASPI_IP}" ~/MetaHub/PtokaX/cfg/Settings.pxt && echo true || echo false)
 if [ "$IS_BUG_FIXED_2" == "false" ]; then
-	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/PtokaX/cfg/Settings.pxt${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP}/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP}:411/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 else
-	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/PtokaX/cfg/Settings.pxt${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
 sudo systemctl enable ptokax.service
