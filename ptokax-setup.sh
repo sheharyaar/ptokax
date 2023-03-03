@@ -140,12 +140,24 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
-sudo systemctl enable ptokax.service
-sudo service ptokax.service start
+if [ ! -f /lib/systemd/system/ptokax.service ]; then
+	sudo cp ~/MetaHub/systemd/ptokax.service /lib/systemd/system/
+	sudo chmod 644 /lib/systemd/system/ptokax.service
+	sudo ln -s /lib/systemd/system/ptokax.service /etc/systemd/system/
+	sudo chmod 777 /etc/systemd/system/ptokax.service
+fi
+sudo systemctl enable ptokax
+sudo service ptokax start
 
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX-DHCP service${WHITE}"
-sudo systemctl enable ptokax-dhcp.service
-sudo service ptokax-dhcp.service start
+if [ ! -f /lib/systemd/system/ptokax-dhcp.service ]; then
+	sudo cp ~/MetaHub/systemd/ptokax-dhcp.service /lib/systemd/system/
+	sudo chmod 644 /lib/systemd/system/ptokax-dhcp.service
+	sudo ln -s /lib/systemd/system/ptokax-dhcp.service /etc/systemd/system/
+	sudo chmod 777 /etc/systemd/system/ptokax-dhcp.service
+fi
+sudo systemctl enable ptokax-dhcp
+sudo service ptokax-dhcp start
 
 echo -e "${RED}[*] ${BLUE}Run PtokaX server using ${ORANGE}ptokax.start ${WHITE}"
 
