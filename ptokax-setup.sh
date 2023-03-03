@@ -145,9 +145,7 @@ echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
 if [ ! -f /lib/systemd/system/ptokax.service ]; then
 	chmod 644 ~/MetaHub/systemd/ptokax.service
 	sudo cp ~/MetaHub/systemd/ptokax.service /lib/systemd/system/
-	if [ -f /etc/systemd/system/ptokax.service ]; then
-		rm /etc/systemd/system/ptokax.service
-	fi
+	sudo rm -f /etc/systemd/system/ptokax.service
 	sudo ln -s /lib/systemd/system/ptokax.service /etc/systemd/system/
 	sudo chmod 777 /etc/systemd/system/ptokax.service
 elif [ ! -f /etc/systemd/system/ptokax.service ]; then
@@ -161,9 +159,7 @@ echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX-DHCP service${WHITE}"
 if [ ! -f /lib/systemd/system/ptokax-dhcp.service ]; then
 	chmod 644 ~/MetaHub/systemd/ptokax-dhcp.service
 	sudo cp ~/MetaHub/systemd/ptokax-dhcp.service /lib/systemd/system/
-	if [ -f /etc/systemd/system/ptokax-dhcp.service ]; then
-		rm /etc/systemd/system/ptokax-dhcp.service
-	fi
+	sudo rm -f /etc/systemd/system/ptokax-dhcp.service
 	sudo ln -s /lib/systemd/system/ptokax-dhcp.service /etc/systemd/system/
 	sudo chmod 777 /etc/systemd/system/ptokax-dhcp.service
 elif [ ! -f /etc/systemd/system/ptokax-dhcp.service ]; then
