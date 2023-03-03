@@ -56,7 +56,7 @@ fi
 # Configuring PtokaX Aliases
 ALIAS_CONFIGURED=$(grep -q 'source ~/MetaHub/ptokax-alias' ~/.bashrc && echo true || echo false)
 if [ "$ALIAS_CONFIGURED" == "false" ]; then
-	echo "source ~/MetaHub/ptokax-alias >> ~/.bashrc"
+	echo "source ~/MetaHub/ptokax-alias" >> ~/.bashrc
 fi
 
 echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
