@@ -37,14 +37,14 @@ else
 fi
 
 # Downloading other componenets
-if [ ! -f ~/MetaHub ]; then
+if [ ! -d ~/MetaHub ]; then
 	echo -e "${GREEN}[+] ${BLUE}Cloning MetaHub repo${WHITE}"
 	git clone --branch automate-hub-setup --single-branch https://github.com/proffapt/ptokax ~/MetaHub
 	# TODO: Update it to the following after testing
 	# git clone https://github.com/sheharyaar/ptokax
-	rm -rf ~/MetaHub/.git ~/MetaHub/ README.md ipofpi.sh
+	sudo rm -rf ~/MetaHub/.git ~/MetaHub/README.md ~/MetaHub/ipofpi.sh ~/MetaHub/PtokaX
 	# Making the scripts executable
-	for file in *; do 
+	for file in ~/MetaHub/*; do 
 		if [ -f "$file" ] && [ "${file##*.}" == "sh" ] && [ ! -x "$file" ]; then 
 			chmod +x "$file"
 		fi 
@@ -57,6 +57,7 @@ fi
 ALIAS_CONFIGURED=$(grep -q 'source ~/MetaHub/ptokax-alias' ~/.bashrc && echo true || echo false)
 if [ "$ALIAS_CONFIGURED" == "false" ]; then
 	echo "source ~/MetaHub/ptokax-alias" >> ~/.bashrc
+	source ~/.bashrc
 fi
 
 echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
@@ -64,6 +65,7 @@ echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
 # mysql - required for scripts
 # LUA 5.2.2 - Latest lua not installed as scripts are in lua version 5.2.2
 sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
+sudo apt autoremove -y
 
 # Getting the PtokaX source code
 if [ ! -d ~/MetaHub/PtokaX ]; then  
@@ -72,7 +74,7 @@ if [ ! -d ~/MetaHub/PtokaX ]; then
 	curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/MetaHub/ptokax-0.5.2.2-src.tgz
 	# Extract the archive
 	echo -e "${GREEN}[+] ${BLUE}Extracting PtokaX source-code${WHITE}"
-	tar -xf ~/MetaHub/ptokax-0.5.2.2-src.tgz
+	tar -xf ~/MetaHub/ptokax-0.5.2.2-src.tgz -C ~/MetaHub
 	rm -f ~/MetaHub/ptokax-0.5.2.2-src.tgz
 else
 	echo -e "${YELLOW}[-] ${BLUE}Extracted PtokaX source-code already exist${WHITE}"
@@ -105,7 +107,6 @@ echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
 # Getting PtokaX scripts
 if [ ! -d ~/MetaHub/PtokaX/scripts ]; then
 	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
-	rm -rf ~/MetaHub/PtokaX/scripts/
 	git clone https://github.com/sheharyaar/ptokax-scripts ~/MetaHub/PtokaX/scripts/
 else
 	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
