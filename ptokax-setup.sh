@@ -122,7 +122,7 @@ fi
 # Editing SettingDefaults.h file
 IS_BUG_FIXED_1=$(grep -q "${RASPI_IP}" ~/MetaHub/PtokaX/core/SettingDefaults.h && echo true || echo false)
 if [ "$IS_BUG_FIXED_1" == "false" ]; then
-	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
+	echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
 	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" ~/MetaHub/PtokaX/core/SettingDefaults.h
 	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP}\", \/\/HUB_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
 	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP}:411\", \/\/REDIRECT_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
@@ -132,7 +132,7 @@ fi
 # Editing SettingDefaults.h file
 IS_BUG_FIXED_2=$(grep -q "${RASPI_IP}" ~/MetaHub/PtokaX/cfg/Settings.pxt && echo true || echo false)
 if [ "$IS_BUG_FIXED_2" == "false" ]; then
-	echo -e "${YELLOW}[-] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
+	echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP}/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP}:411/" ~/MetaHub/PtokaX/cfg/Settings.pxt
@@ -147,7 +147,7 @@ echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX-DHCP service${WHITE}"
 sudo systemctl enable ptokax-dhcp.service
 sudo service ptokax-dhcp.service start
 
-echo -e "${RED}[*] ${BLUE}Run PtokaX server using ${ORANGE}sudo ~/ptokax-start.sh${WHITE}"
+echo -e "${RED}[*] ${BLUE}Run PtokaX server using ${ORANGE}ptokax.start ${WHITE}"
 
 echo -e "${GREEN}[+] ${BLUE}Rebooting Pi in 10 seconds ...${WHITE}"
 sleep 10; sudo reboot
