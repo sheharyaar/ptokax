@@ -84,7 +84,11 @@ fi
 if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
 	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
 	cd ~/MetaHub/PtokaX/ || (echo "cd to ~/MetaHub/PtokaX failed" && exit)
-	mkdir obj skein/obj
+	for dir in "obj" "skein/obj"; do
+		if [ ! -d "$dir" ]; then
+			mkdir obj skein/obj
+		fi
+	done
 	make -f makefile-mysql lua52
 	cd ~ || (echo "cd to ~ failed" && exit)
 else
@@ -103,8 +107,8 @@ fi
 
 # TODO: Do something with next 2 lines to autmate the handling of every case possible
 echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
-cd ~/MetaHub/PtokaX/ || (echo "cd to PtokaX failed" && exit)
-./PtokaX -m
+cd ~/MetaHub/ || (echo "cd to PtokaX failed" && exit)
+./PtokaX/PtokaX -m
 cd ~ || (echo "cd to ~ failed" && exit)
 
 # Getting PtokaX scripts
