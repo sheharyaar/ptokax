@@ -140,7 +140,7 @@ else
 fi
 
 # Editing Settings.h file
-IS_BUG_FIXED_2=$(grep -q "${RASPI_IP%%/*}" ~/MetaHub/PtokaX/cfg/Settings.pxt && echo true || echo false)
+IS_BUG_FIXED_2=$(grep -q "${RASPI_IP%%/*}:411" ~/MetaHub/PtokaX/cfg/Settings.pxt && echo true || echo false)
 if [ "$IS_BUG_FIXED_2" == "false" ]; then
 	echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/MetaHub/PtokaX/cfg/Settings.pxt
