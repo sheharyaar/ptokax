@@ -127,7 +127,7 @@ if [ "$IS_BUG_FIXED_1" == "false" ]; then
 	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP%%/*}\", \/\/HUB_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
 	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP%%/*}:411\", \/\/REDIRECT_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
 else
-	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}~/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
 fi
 
 # Editing Settings.h file
