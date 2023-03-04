@@ -98,6 +98,15 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
 
+# Updating MOTD with the IP of PI
+IS_IP_UPDATED=$(grep -q "${RASPI_IP%%/*}" ~/MetaHub/PtokaX/cfg/Motd.txt && echo true || echo false)
+if [ "$IS_IP_UPDATED" == "false" ]; then
+        echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/cfg/Motd.txt${WHITE}"
+        sed -i "s/.*Hub Address.*/          Hub Address        -    ${RASPI_IP%%/*}/" ~/MetaHub/PtokaX/cfg/Motd.txt
+else
+        echo -e "${YELLOW}[-] ${BLUE}IP is already updated in ${YELLOW}~/MetaHub/PtokaX/cfg/Motd.txt${WHITE}"
+fi
+
 # Compiling PtokaX
 if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
 	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
