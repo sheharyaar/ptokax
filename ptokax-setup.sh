@@ -138,7 +138,7 @@ if [ "$IS_BUG_FIXED_2" == "false" ]; then
 	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP%%/*}/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP%%/*}:411/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 else
-	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
 
 echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
