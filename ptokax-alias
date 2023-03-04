@@ -1,4 +1,5 @@
 alias ptokax.start='~/MetaHub/ptokax-start.sh'
 alias ptokax.stop='~/MetaHub/ptokax-stop.sh'
 alias ptokax.setup='~/MetaHub/ptokax-setup.sh'
+alias ptokax.status='~/MetaHub/ptokax-status.sh'
 alias ptokax.config='~/MetaHub/ptokax-config.sh'
