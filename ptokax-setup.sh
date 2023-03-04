@@ -113,11 +113,21 @@ if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
 	sudo make install
 	cd ~ || (echo "cd to ~ failed" && exit)
 else
-	echo -e "${YELLOW}[-] ${BLUE}PtokaX already compiled & installed${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX already compiled${WHITE}"
+fi
+
+# Installing PtokaX
+if [ ! -f /usr/local/bin/PtokaX ]; then
+	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
+	cd ~/MetaHub/PtokaX/ || (echo "cd to PtokaX failed" && exit)
+	sudo make install
+	cd ~ || (echo "cd to ~ failed" && exit)
+else
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX already installed${WHITE}"
 fi
 
 # Getting PtokaX scripts
-if [ -z "$(ls -A ~/MetaHub/PtokaX/scripts)" ]; then
+if [ ! -d ~/MetaHub/PtokaX/scripts ]; then
 	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
 	git clone https://github.com/sheharyaar/ptokax-scripts ~/MetaHub/PtokaX/scripts/
 else
