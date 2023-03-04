@@ -51,7 +51,7 @@ if [ ! -d ~/MetaHub ]; then
 	git clone --branch automate-hub-setup --single-branch https://github.com/proffapt/ptokax ~/MetaHub
 	# TODO: Update it to the following after testing
 	# git clone https://github.com/sheharyaar/ptokax
-	sudo rm -rf ~/MetaHub/.git ~/MetaHub/README.md ~/MetaHub/ipofpi.sh ~/MetaHub/PtokaX
+	sudo rm -rf ~/MetaHub/.git ~/MetaHub/README.md ~/MetaHub/ipofpi.sh
 	# Making the scripts executable
 	for file in ~/MetaHub/*; do 
 		if [ -f "$file" ] && [ "${file##*.}" == "sh" ] && [ ! -x "$file" ]; then 
@@ -76,58 +76,6 @@ echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
 sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
 sudo apt autoremove -y
 
-# Getting the PtokaX source code
-if [ ! -d ~/MetaHub/PtokaX ]; then  
-	# Download PtokaX source code
-	echo -e "${GREEN}[+] ${BLUE}Downloading PtokaX source-code${WHITE}"
-	curl -L -s https://github.com/sheharyaar/ptokax/releases/download/latest/ptokax-0.5.2.2-src.tgz -o ~/MetaHub/ptokax-0.5.2.2-src.tgz
-	# Extract the archive
-	echo -e "${GREEN}[+] ${BLUE}Extracting PtokaX source-code${WHITE}"
-	tar -xf ~/MetaHub/ptokax-0.5.2.2-src.tgz -C ~/MetaHub
-	rm -f ~/MetaHub/ptokax-0.5.2.2-src.tgz
-else
-	echo -e "${YELLOW}[-] ${BLUE}Extracted PtokaX source-code already exist${WHITE}"
-fi
-
-# Compiling PtokaX
-if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
-	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
-	cd ~/MetaHub/PtokaX/ || (echo "cd to ~/MetaHub/PtokaX failed" && exit)
-	for dir in "obj" "skein/obj"; do
-		if [ ! -d "$dir" ]; then
-			mkdir obj skein/obj
-		fi
-	done
-	make -f makefile-mysql lua52
-	cd ~ || (echo "cd to ~ failed" && exit)
-else
-	echo -e "${YELLOW}[-] ${BLUE}PtokaX already compiled${WHITE}"
-fi
-
-# Installing PtokaX
-if [ ! -f /usr/local/bin/PtokaX ]; then
-	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
-	cd ~/MetaHub/PtokaX/ || (echo "cd to PtokaX failed" && exit)
-	sudo make install
-	cd ~ || (echo "cd to ~ failed" && exit)
-else
-	echo -e "${YELLOW}[-] ${BLUE}PtokaX already installed${WHITE}"
-fi
-
-# TODO: Do something with next 2 lines to autmate the handling of every case possible
-echo -e "${GREEN}[+] ${BLUE}Setting up PtokaX${WHITE}"
-cd ~/MetaHub/PtokaX/ || (echo "cd to PtokaX failed" && exit)
-./PtokaX -m
-cd ~ || (echo "cd to ~ failed" && exit)
-
-# Getting PtokaX scripts
-if [ -z "$(ls -A ~/MetaHub/PtokaX/scripts)" ]; then
-	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
-	git clone https://github.com/sheharyaar/ptokax-scripts ~/MetaHub/PtokaX/scripts/
-else
-	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
-fi
-
 # Editing SettingDefaults.h file
 IS_BUG_FIXED_1=$(grep -q "${RASPI_IP%%/*}" ~/MetaHub/PtokaX/core/SettingDefaults.h && echo true || echo false)
 if [ "$IS_BUG_FIXED_1" == "false" ]; then
@@ -143,13 +91,40 @@ fi
 IS_BUG_FIXED_2=$(grep -q "${RASPI_IP%%/*}:411" ~/MetaHub/PtokaX/cfg/Settings.pxt && echo true || echo false)
 if [ "$IS_BUG_FIXED_2" == "false" ]; then
 	echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
-	sed -i "s/.*HubName.*/HubName        =       MetaHub/" ~/MetaHub/PtokaX/cfg/Settings.pxt
-	sed -i "s/.*HubAddress.*/HubAddress     =       ${RASPI_IP%%/*}/" ~/MetaHub/PtokaX/cfg/Settings.pxt
-	sed -i "s/.*RedirectAddress.*/RedirectAddress        =       ${RASPI_IP%%/*}:411/" ~/MetaHub/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/MetaHub/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP%%/*}/" ~/MetaHub/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP%%/*}:411/" ~/MetaHub/PtokaX/cfg/Settings.pxt
 else
 	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
 
+# Compiling PtokaX
+if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
+	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
+	cd ~/MetaHub/PtokaX/ || (echo "cd to ~/MetaHub/PtokaX failed" && exit)
+	for dir in "obj" "skein/obj"; do
+		if [ ! -d "$dir" ]; then
+			mkdir obj skein/obj
+		fi
+	done
+	make -f makefile-mysql lua52
+	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
+	sudo rm -f /usr/local/bin/PtokaX
+	sudo make install
+	cd ~ || (echo "cd to ~ failed" && exit)
+else
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX already compiled & installed${WHITE}"
+fi
+
+# Getting PtokaX scripts
+if [ -z "$(ls -A ~/MetaHub/PtokaX/scripts)" ]; then
+	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
+	git clone https://github.com/sheharyaar/ptokax-scripts ~/MetaHub/PtokaX/scripts/
+else
+	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
+fi
+
+# Handling PtokaX service
 if [ ! -f /etc/systemd/system/ptokax.service ]; then
 	echo -e "${GREEN}[+] ${BLUE}Creating PtokaX service${WHITE}"
 	chmod 644 ~/MetaHub/systemd/ptokax.service
