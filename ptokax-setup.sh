@@ -13,9 +13,18 @@ ORANGE=$(tput setaf 9)
 # IP of Pi
 RASPI_IP=$(ip addr | grep inet | grep eth0 | cut -d' ' -f6)
 
-echo -e "${GREEN}[+] ${BLUE}Enabling and Starting DHCP service${WHITE}"
-sudo service dhcpcd start
-sudo systemctl enable dhcpcd 2>/dev/null
+if [ "$(systemctl is-active dhcpcd)" == "inactive" ]; then
+	echo -e "${GREEN}[+] ${BLUE}Starting DHCP service${WHITE}"
+	sudo service dhcpcd start
+else
+	echo -e "${YELLOW}[-] ${BLUE}DHCP service already running${WHITE}"
+fi
+if [ "$(systemctl is-enabled dhcpcd)" == "disabled" ]; then
+	echo -e "${GREEN}[+] ${BLUE}Enabling DHCP service${WHITE}"
+	sudo systemctl enable dhcpcd 2>/dev/null
+else
+	echo -e "${YELLOW}[-] ${BLUE}DHCP service already enabled${WHITE}"
+fi
 
 # Adding the static ip config only if an entry doesn't already exist
 IS_IP_STATIC=$(grep -q '#Static IP for PtokaX' /etc/dhcpcd.conf && echo true || echo false)
@@ -141,13 +150,20 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
 
-echo -e "${GREEN}[+] ${BLUE}Enabling and starting PtokaX service${WHITE}"
 if [ ! -f /etc/systemd/system/ptokax.service ]; then
+	echo -e "${GREEN}[+] ${BLUE}Creating PtokaX service${WHITE}"
 	chmod 644 ~/MetaHub/systemd/ptokax.service
 	sudo cp ~/MetaHub/systemd/ptokax.service /etc/systemd/system/
 	sudo chmod 777 /etc/systemd/system/ptokax.service
+	sudo systemctl daemon-reload
+else
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX service already created${WHITE}"
 fi
-sudo systemctl daemon-reload
-sudo systemctl enable ptokax
+if [ "$(systemctl is-enabled ptokax)" == "disabled" ]; then
+	echo -e "${GREEN}[+] ${BLUE}Enabling PtokaX service${WHITE}"
+	sudo systemctl enable ptokax
+else
+	echo -e "${YELLOW}[-] ${BLUE}PtokaX service already enabled${WHITE}"
+fi
 
 echo -e "${RED}[*] ${BLUE}Run PtokaX server using ${ORANGE}ptokax.start ${WHITE}"
