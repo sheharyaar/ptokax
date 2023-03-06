@@ -22,4 +22,4 @@ done
 $PYTHON "/home/pi/MetaHub/systemd/ptokax-network-check.py"
 
 # Start ptokax finally
-/home/pi/PtokaX/PtokaX -c /home/pi/PtokaX/
+setsid sudo /home/pi/MetaHub/PtokaX/PtokaX -d -c /home/pi/MetaHub/PtokaX/
