@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -eou pipefail
-
 PYTHON=$(command -v python3 || echo "python3")
 PIP=$(command -v pip3 || echo "pip3")
 
