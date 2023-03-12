@@ -1,6 +1,6 @@
 [Unit]
 Description=PtokaX server
-After=network-online.target
+After=network.target
 
 [Service]
 ExecStart=/home/pi/MetaHub/systemd/ptokax-startup-service.sh
