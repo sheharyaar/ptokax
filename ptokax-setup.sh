@@ -73,8 +73,8 @@ echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
 # Curl for downloading source code
 # mysql - required for scripts
 # LUA 5.2.2 - Latest lua not installed as scripts are in lua version 5.2.2
-sudo apt install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
-sudo apt autoremove -y
+sudo apt-get install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev default-libmysqlclient-dev lua-sql-mysql libcap2-bin
+sudo apt-get autoremove -y
 
 # Editing SettingDefaults.h file
 IS_BUG_FIXED_1=$(grep -q "${RASPI_IP%%/*}" ~/MetaHub/PtokaX/core/SettingDefaults.h && echo true || echo false)
