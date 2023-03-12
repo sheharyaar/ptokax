@@ -117,10 +117,8 @@ if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
 		fi
 	done
 	make -f makefile-mysql lua52
-	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
-	sudo rm -f /usr/local/bin/PtokaX
-	sudo make install
 	cd ~ || (echo "cd to ~ failed" && exit)
+	sudo rm -f /usr/local/bin/PtokaX
 else
 	echo -e "${YELLOW}[-] ${BLUE}PtokaX already compiled${WHITE}"
 fi
@@ -128,7 +126,7 @@ fi
 # Installing PtokaX
 if [ ! -f /usr/local/bin/PtokaX ]; then
 	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
-	cd ~/MetaHub/PtokaX/ || (echo "cd to PtokaX failed" && exit)
+	cd ~/MetaHub/PtokaX/ || (echo "cd to ~/MetaHub/PtokaX failed" && exit)
 	sudo make install
 	cd ~ || (echo "cd to ~ failed" && exit)
 else
