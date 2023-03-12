@@ -47,14 +47,14 @@ else
 fi
 
 # Downloading other componenets
-if [ ! -d ~/MetaHub ]; then
+if [ ! -d /home/pi/MetaHub ]; then
 	echo -e "${GREEN}[+] ${BLUE}Cloning MetaHub repo${WHITE}"
-	git clone --branch automate-hub-setup --single-branch https://github.com/proffapt/ptokax ~/MetaHub
+	git clone --branch automate-hub-setup --single-branch https://github.com/proffapt/ptokax /home/pi/MetaHub
 	# TODO: Update it to the following after testing
 	# git clone https://github.com/sheharyaar/ptokax
-	sudo rm -rf ~/MetaHub/.git ~/MetaHub/README.md ~/MetaHub/ipofpi.sh
+	sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
 	# Making the scripts executable
-	for file in ~/MetaHub/*; do 
+	for file in /home/pi/MetaHub/*; do 
 		if [ -f "$file" ] && [ "${file##*.}" == "sh" ] && [ ! -x "$file" ]; then 
 			chmod +x "$file"
 		fi 
@@ -64,10 +64,10 @@ else
 fi
 
 # Configuring PtokaX Aliases
-ALIAS_CONFIGURED=$(grep -q 'source ~/MetaHub/ptokax-alias' ~/.bashrc && echo true || echo false)
+ALIAS_CONFIGURED=$(grep -q 'source /home/pi/MetaHub/ptokax-alias' /home/pi/.bashrc && echo true || echo false)
 if [ "$ALIAS_CONFIGURED" == "false" ]; then
-	echo "source ~/MetaHub/ptokax-alias" >> ~/.bashrc
-	source ~/.bashrc
+	echo "source /home/pi/MetaHub/ptokax-alias" >> /home/pi/.bashrc
+	source /home/pi/.bashrc
 fi
 
 echo -e "${GREEN}[+] ${BLUE}Installing / Updating required packages${WHITE}"
@@ -79,40 +79,40 @@ sudo apt-get install -y curl liblua5.2-dev make g++ zlib1g-dev libtinyxml-dev de
 sudo apt-get autoremove -y
 
 # Editing SettingDefaults.h file
-IS_BUG_FIXED_1=$(grep -q "${RASPI_IP%%/*}" ~/MetaHub/PtokaX/core/SettingDefaults.h && echo true || echo false)
+IS_BUG_FIXED_1=$(grep -q "${RASPI_IP%%/*}" /home/pi/MetaHub/PtokaX/core/SettingDefaults.h && echo true || echo false)
 if [ "$IS_BUG_FIXED_1" == "false" ]; then
-	echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
-	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" ~/MetaHub/PtokaX/core/SettingDefaults.h
-	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP%%/*}\", \/\/HUB_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
-	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP%%/*}:411\", \/\/REDIRECT_ADDRESS/" ~/MetaHub/PtokaX/core/SettingDefaults.h
+	echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}/home/pi/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
+	sed -i "s/.*HUB_NAME/    \"MetaHub\", \/\/HUB_NAME/" /home/pi/MetaHub/PtokaX/core/SettingDefaults.h
+	sed -i "s/.*HUB_ADDRESS/    \"${RASPI_IP%%/*}\", \/\/HUB_ADDRESS/" /home/pi/MetaHub/PtokaX/core/SettingDefaults.h
+	sed -i "s/.*REDIRECT_ADDRESS/    \"${RASPI_IP%%/*}:411\", \/\/REDIRECT_ADDRESS/" /home/pi/MetaHub/PtokaX/core/SettingDefaults.h
 else
-	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}~/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}/home/pi/MetaHub/PtokaX/core/SettingDefaults.h${WHITE}"
 fi
 
 # Editing Settings.h file
-IS_BUG_FIXED_2=$(grep -q "${RASPI_IP%%/*}:411" ~/MetaHub/PtokaX/cfg/Settings.pxt && echo true || echo false)
+IS_BUG_FIXED_2=$(grep -q "${RASPI_IP%%/*}:411" /home/pi/MetaHub/PtokaX/cfg/Settings.pxt && echo true || echo false)
 if [ "$IS_BUG_FIXED_2" == "false" ]; then
-	echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
-	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" ~/MetaHub/PtokaX/cfg/Settings.pxt
-	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP%%/*}/" ~/MetaHub/PtokaX/cfg/Settings.pxt
-	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP%%/*}:411/" ~/MetaHub/PtokaX/cfg/Settings.pxt
+	echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}/home/pi/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
+	sed -i "s/.*HubName.*/#HubName        =       MetaHub/" /home/pi/MetaHub/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*HubAddress.*/#HubAddress     =       ${RASPI_IP%%/*}/" /home/pi/MetaHub/PtokaX/cfg/Settings.pxt
+	sed -i "s/.*RedirectAddress.*/#RedirectAddress        =       ${RASPI_IP%%/*}:411/" /home/pi/MetaHub/PtokaX/cfg/Settings.pxt
 else
-	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}~/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
+	echo -e "${YELLOW}[-] ${BLUE}BUG is already fixed in ${YELLOW}/home/pi/MetaHub/PtokaX/cfg/Settings.pxt${WHITE}"
 fi
 
 # Updating MOTD with the IP of PI
-IS_IP_UPDATED=$(grep -q "${RASPI_IP%%/*}" ~/MetaHub/PtokaX/cfg/Motd.txt && echo true || echo false)
+IS_IP_UPDATED=$(grep -q "${RASPI_IP%%/*}" /home/pi/MetaHub/PtokaX/cfg/Motd.txt && echo true || echo false)
 if [ "$IS_IP_UPDATED" == "false" ]; then
-        echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}~/MetaHub/PtokaX/cfg/Motd.txt${WHITE}"
-        sed -i "s/.*Hub Address.*/          Hub Address        -    ${RASPI_IP%%/*}/" ~/MetaHub/PtokaX/cfg/Motd.txt
+        echo -e "${GREEN}[+] ${BLUE}Modifying ${YELLOW}/home/pi/MetaHub/PtokaX/cfg/Motd.txt${WHITE}"
+        sed -i "s/.*Hub Address.*/          Hub Address        -    ${RASPI_IP%%/*}/" /home/pi/MetaHub/PtokaX/cfg/Motd.txt
 else
-        echo -e "${YELLOW}[-] ${BLUE}IP is already updated in ${YELLOW}~/MetaHub/PtokaX/cfg/Motd.txt${WHITE}"
+        echo -e "${YELLOW}[-] ${BLUE}IP is already updated in ${YELLOW}/home/pi/MetaHub/PtokaX/cfg/Motd.txt${WHITE}"
 fi
 
 # Compiling PtokaX
-if [ ! -f ~/MetaHub/PtokaX/skein/skein.a ]; then
+if [ ! -f /home/pi/MetaHub/PtokaX/skein/skein.a ]; then
 	echo -e "${GREEN}[+] ${BLUE}Compiling PtokaX${WHITE}"
-	cd ~/MetaHub/PtokaX/ || (echo "cd to ~/MetaHub/PtokaX failed" && exit)
+	cd /home/pi/MetaHub/PtokaX/ || (echo "cd to /home/pi/MetaHub/PtokaX failed" && exit)
 	for dir in "obj" "skein/obj"; do
 		if [ ! -d "$dir" ]; then
 			mkdir obj skein/obj
@@ -128,7 +128,7 @@ fi
 # Installing PtokaX
 if [ ! -f /usr/local/bin/PtokaX ]; then
 	echo -e "${GREEN}[+] ${BLUE}Installing PtokaX${WHITE}"
-	cd ~/MetaHub/PtokaX/ || (echo "cd to ~/MetaHub/PtokaX failed" && exit)
+	cd /home/pi/MetaHub/PtokaX/ || (echo "cd to /home/pi/MetaHub/PtokaX failed" && exit)
 	sudo make install
 	cd ~ || (echo "cd to ~ failed" && exit)
 else
@@ -136,9 +136,9 @@ else
 fi
 
 # Getting PtokaX scripts
-if [ ! -d ~/MetaHub/PtokaX/scripts ]; then
+if [ ! -d /home/pi/MetaHub/PtokaX/scripts ]; then
 	echo -e "${GREEN}[+] ${BLUE}Downloading Hit Hi Fit Hai scripts${WHITE}"
-	git clone https://github.com/sheharyaar/ptokax-scripts ~/MetaHub/PtokaX/scripts/
+	git clone https://github.com/sheharyaar/ptokax-scripts /home/pi/MetaHub/PtokaX/scripts/
 else
 	echo -e "${YELLOW}[-] ${BLUE}Hit Hi Fit Hai scripts already exist${WHITE}"
 fi
@@ -146,8 +146,8 @@ fi
 # Handling PtokaX service
 if [ ! -f /etc/systemd/system/ptokax.service ]; then
 	echo -e "${GREEN}[+] ${BLUE}Creating PtokaX service${WHITE}"
-	chmod 644 ~/MetaHub/systemd/ptokax.service
-	sudo cp ~/MetaHub/systemd/ptokax.service /etc/systemd/system/
+	chmod 644 /home/pi/MetaHub/systemd/ptokax.service
+	sudo cp /home/pi/MetaHub/systemd/ptokax.service /etc/systemd/system/
 	sudo chmod 777 /etc/systemd/system/ptokax.service
 	sudo systemctl daemon-reload
 else
