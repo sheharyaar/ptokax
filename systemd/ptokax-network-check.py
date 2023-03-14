@@ -71,8 +71,8 @@ def main(retry):
             system("/usr/bin/sed -i '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;' /etc/dhcpcd.conf") -> deprecated
             '''
             ## removing static ip config lines and storing output
-            output = execo(["/usr/bin/sed", "-i", '/#Static IP for PtokaX/q;/#Static IP for PtokaX/d;', "/etc/dhcpcd.conf"])
-            output = output.decode("utf-8").strip()
+            execo(['/usr/bin/sed', '-i', '/#Static IP for PtokaX/,$d', '/etc/dhcpcd.conf'])
+            output = f'Removed the incorrect STATIC IP configuration'
             print(output) # TODO: Remove this statement
             # output_on_led(output)
             
