@@ -30,7 +30,7 @@ OS : Rasbian 64 Bit
 
 ### Automatic Searching
 
-1. Run the follwoing set of commands:
+1. Run the follwoing set of commands to get the `ipofpi.sh` script
    ```bash
    git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch MetaHub
    mv MetaHub/ipofpi.sh ./
@@ -50,7 +50,7 @@ OS : Rasbian 64 Bit
    ./ipofpi.sh
    ```
    
-> **Note** All this drama needs to be done because https://raw.githubusercontent.com is blocked on campus network :)
+   > **Note** All this drama needs to be done because https://raw.githubusercontent.com is blocked on campus network :)
   
 ### Manual Searching
 
@@ -91,20 +91,27 @@ Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index:
 
 ## Automatic Installation
 
-- To install PtokaX on raspberry Pi run the following command
-  ```bash
-  git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch /home/pi/MetaHub
-  sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
-  ```
-  <!-- Todo: Change the above with below
-  ```bash
-  git clone https://github.com/sheharyaar/ptokax --depth 1 --branch main --single-branch /home/pi/MetaHub
-  sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
-  ```
-  -->
+1. First __clone__ the repository in a _structured manner_ and _remove unnecessary files_ using the following set of commands
+   ```bash
+   git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch /home/pi/MetaHub
+   sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
+   chmod +x /home/pi/MetaHub/ptokax-setup.sh
+   ```
+   <!-- Todo: Change the above with below
+   ```bash
+   git clone https://github.com/sheharyaar/ptokax --depth 1 --branch main --single-branch /home/pi/MetaHub
+   sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
+   chmod +x /home/pi/MetaHub/ptokax-setup.sh
+   ```
+   -->
+2. Run the `ptokax-setup.sh` script
+   ```bash
+   ./MetaHub/ptokax-setup.sh
+   ```
 
-> **Note** All this drama needs to be done because https://raw.githubusercontent.com is blocked on campus network :)
+   > **Note** All this drama needs to be done because https://raw.githubusercontent.com is blocked on campus network :)
   
+And, after completing the above steps use the below commands to achieve the specified tasks:
 - To start the Ptokax server: `ptokax.start`
 - To stop the PtokaX server: `ptokax.stop`
 - To check the status of PtokaX server: `ptokax.status`
