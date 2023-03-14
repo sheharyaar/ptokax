@@ -94,13 +94,11 @@ Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index:
 - To install PtokaX on raspberry Pi run the following command
   ```bash
   git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch /home/pi/MetaHub
-  cd MetaHub
   sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
   ```
   <!-- Todo: Change the above with below
-    ```bash
+  ```bash
   git clone https://github.com/sheharyaar/ptokax --depth 1 --branch main --single-branch /home/pi/MetaHub
-  cd MetaHub
   sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
   ```
   -->
