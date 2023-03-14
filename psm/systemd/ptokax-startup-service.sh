@@ -19,7 +19,7 @@ for MODULE in "netifaces" "RPi.GPIO"; do
 done
 
 # Summon the python script 
-$PYTHON "/home/pi/MetaHub/systemd/ptokax-network-check.py"
+$PYTHON "/home/pi/MetaHub/psm/systemd/ptokax-network-check.py"
 
 # Start ptokax finally
 /home/pi/MetaHub/PtokaX/PtokaX -c /home/pi/MetaHub/PtokaX/

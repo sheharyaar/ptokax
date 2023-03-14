@@ -82,7 +82,7 @@ def main(retry):
     else:
         print("IP Address : ", addr)
         ## start the setup ptokax script
-        output = execo(["/home/pi/MetaHub/ptokax-setup.sh"])
+        output = execo(['/home/pi/MetaHub/ptokax-setup.sh'])
         output = output.decode("utf-8").strip()
         print(output) # TODO: Remove this statement
         # output_on_led(output)

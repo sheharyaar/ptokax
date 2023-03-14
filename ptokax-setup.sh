@@ -51,7 +51,7 @@ if [ ! -d /home/pi/MetaHub ]; then
 	echo -e "${GREEN}[+] ${BLUE}Cloning MetaHub repo${WHITE}"
 	git clone --branch automate-hub-setup --single-branch https://github.com/proffapt/ptokax /home/pi/MetaHub
 	# TODO: Update it to the following after testing
-	# git clone https://github.com/sheharyaar/ptokax
+	# git clone https://github.com/sheharyaar/ptokax /home/pi/MetaHub
 	sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
 	# Making the scripts executable
 	for file in /home/pi/MetaHub/*; do 
@@ -64,9 +64,9 @@ else
 fi
 
 # Configuring PtokaX Aliases
-ALIAS_CONFIGURED=$(grep -q 'source /home/pi/MetaHub/ptokax-alias' /home/pi/.bashrc && echo true || echo false)
+ALIAS_CONFIGURED=$(grep -q 'source /home/pi/MetaHub/psm/ptokax-alias' /home/pi/.bashrc && echo true || echo false)
 if [ "$ALIAS_CONFIGURED" == "false" ]; then
-	echo "source /home/pi/MetaHub/ptokax-alias" >> /home/pi/.bashrc
+	echo "source /home/pi/MetaHub/psm/ptokax-alias" >> /home/pi/.bashrc
 	source /home/pi/.bashrc
 fi
 
@@ -146,8 +146,8 @@ fi
 # Handling PtokaX service
 if [ ! -f /etc/systemd/system/ptokax.service ]; then
 	echo -e "${GREEN}[+] ${BLUE}Creating PtokaX service${WHITE}"
-	chmod 644 /home/pi/MetaHub/systemd/ptokax.service
-	sudo cp /home/pi/MetaHub/systemd/ptokax.service /etc/systemd/system/
+	chmod 644 /home/pi/MetaHub/psm/systemd/ptokax.service
+	sudo cp /home/pi/MetaHub/psm/systemd/ptokax.service /etc/systemd/system/
 	sudo chmod 777 /etc/systemd/system/ptokax.service
 	sudo systemctl daemon-reload
 else

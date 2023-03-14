@@ -3,7 +3,7 @@ Description=PtokaX server
 After=network.target
 
 [Service]
-ExecStart=/home/pi/MetaHub/systemd/ptokax-startup-service.sh
+ExecStart=/home/pi/MetaHub/psm/systemd/ptokax-startup-service.sh
 User=root
 Group=root
 
