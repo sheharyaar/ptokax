@@ -34,14 +34,14 @@ OS : Rasbian 64 Bit
    ```bash
    git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch MetaHub
    mv MetaHub/ipofpi.sh ./
-   chmod +x ipfopi.sh
+   chmod +x ipofpi.sh
    rm -rf MetaHub
    ```
    <!-- Todo: Change the above with below
    ```bash
    git clone https://github.com/sheharyaar/ptokax --depth 1 --branch main --single-branch MetaHub
    mv MetaHub/ipofpi.sh ./
-   chmod +x ipfopi.sh
+   chmod +x ipofpi.sh
    rm -rf MetaHub
    ```
    -->
