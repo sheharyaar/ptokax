@@ -46,22 +46,13 @@ else
 	echo -e "${YELLOW}[-] ${BLUE}RPi's IP address is already static${WHITE}"
 fi
 
-# Downloading other componenets
-if [ ! -d /home/pi/MetaHub ]; then
-	echo -e "${GREEN}[+] ${BLUE}Cloning MetaHub repo${WHITE}"
-	git clone --branch automate-hub-setup --single-branch https://github.com/proffapt/ptokax /home/pi/MetaHub
-	# TODO: Update it to the following after testing
-	# git clone https://github.com/sheharyaar/ptokax /home/pi/MetaHub
-	sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
-	# Making the scripts executable
-	for file in /home/pi/MetaHub/*; do 
-		if [ -f "$file" ] && [ "${file##*.}" == "sh" ] && [ ! -x "$file" ]; then 
-			chmod +x "$file"
-		fi 
-	done
-else
-	echo -e "${YELLOW}[-] ${BLUE}MetaHub repo already cloned${WHITE}"
-fi
+# Making the all the scripts executable
+for file in /home/pi/MetaHub/*; do 
+	if [ -f "$file" ] && [ "${file##*.}" == "sh" ] && [ ! -x "$file" ]; then 
+		echo -e "${GREEN}[+] ${BLUE}Making $file executable${WHITE}"
+		chmod +x "$file"
+	fi 
+done
 
 # Configuring PtokaX Aliases
 ALIAS_CONFIGURED=$(grep -q 'source /home/pi/MetaHub/psm/ptokax-alias' /home/pi/.bashrc && echo true || echo false)
