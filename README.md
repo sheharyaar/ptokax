@@ -30,25 +30,23 @@ OS : Rasbian 64 Bit
 
 ### Automatic Searching
 
-1. Run the follwoing set of commands to get the `ipofpi.sh` script
-   ```bash
-   git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch MetaHub
-   mv MetaHub/ipofpi.sh ./
-   chmod +x ipofpi.sh
-   rm -rf MetaHub
-   ```
-   <!-- Todo: Change the above with below
-   ```bash
-   git clone https://github.com/sheharyaar/ptokax --depth 1 --branch main --single-branch MetaHub
-   mv MetaHub/ipofpi.sh ./
-   chmod +x ipofpi.sh
-   rm -rf MetaHub
-   ```
-   -->
-2. Then execute the script using
-   ```bash
-   ./ipofpi.sh
-   ```
+Run the follwoing set of commands to get the `ipofpi.sh` script and execute it.
+```bash
+git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch MetaHub
+mv MetaHub/ipofpi.sh ./
+chmod +x ipofpi.sh
+rm -rf MetaHub
+./ipofpi.sh
+```
+<!-- Todo: Change the above with below
+```bash
+git clone https://github.com/sheharyaar/ptokax --depth 1 --branch main --single-branch MetaHub
+mv MetaHub/ipofpi.sh ./
+chmod +x ipofpi.sh
+rm -rf MetaHub
+./ipofpi.sh
+```
+-->
    
    > **Note** All this drama needs to be done because https://raw.githubusercontent.com is blocked on campus network :)
   
@@ -91,23 +89,23 @@ Host: 10.112.5.167 ()	Ports: 22/open/tcp//ssh///	OS: Linux 4.15 - 5.6	Seq Index:
 
 ## Automatic Installation
 
-1. First __clone__ the repository in a _structured manner_ and _remove unnecessary files_ using the following set of commands
-   ```bash
-   git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch /home/pi/MetaHub
-   sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
-   chmod +x /home/pi/MetaHub/ptokax-setup.sh
-   ```
-   <!-- Todo: Change the above with below
-   ```bash
-   git clone https://github.com/sheharyaar/ptokax --depth 1 --branch main --single-branch /home/pi/MetaHub
-   sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
-   chmod +x /home/pi/MetaHub/ptokax-setup.sh
-   ```
-   -->
-2. Run the `ptokax-setup.sh` script
-   ```bash
-   ./MetaHub/ptokax-setup.sh
-   ```
+First __clone__ the repository in a _structured manner_ and _remove unnecessary files_, then execute the setup script using the following set of commands.
+```bash
+git clone https://github.com/proffapt/ptokax --depth 1 --branch automate-hub-setup --single-branch /home/pi/MetaHub
+sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
+chmod +x /home/pi/MetaHub/ptokax-setup.sh
+./MetaHub/ptokax-setup.sh
+source ~/.bashrc
+```
+<!-- Todo: Change the above with below
+```bash
+git clone https://github.com/sheharyaar/ptokax --depth 1 --branch main --single-branch /home/pi/MetaHub
+sudo rm -rf /home/pi/MetaHub/.git /home/pi/MetaHub/README.md /home/pi/MetaHub/ipofpi.sh
+chmod +x /home/pi/MetaHub/ptokax-setup.sh
+./MetaHub/ptokax-setup.sh
+source ~/.bashrc
+```
+-->
 
    > **Note** All this drama needs to be done because https://raw.githubusercontent.com is blocked on campus network :)
   
